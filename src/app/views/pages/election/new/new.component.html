@@ -1,0 +1,91 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">Election</a></li>
+    <li class="breadcrumb-item active" aria-current="page">New</li>
+  </ol>
+</nav>
+<h1 class="page-title">Capture Election Result</h1>
+<p class="lead">These results will be published.</p>
+<hr style="margin-bottom: 50px;">
+<div class="row">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Capture Election Date</h6>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="control-label">Description</label>
+                <input type="text" class="form-control" [(ngModel)]="description" placeholder="Enter description">
+              </div>
+            </div><!-- Col -->
+          </div><!-- Row -->
+          <div class="row">
+            <div class="col-sm-8">
+              <!-- Col -->
+              <div class="form-group">
+                <label class="control-label">Start Date</label>
+                <div class="input-group" (click)="d.toggle()">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" [(ngModel)]="electionScheduleStartDate"
+                    ngbDatepicker #d="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-light btn-icon calendar" type="button">
+                      <i data-feather="calendar" appFeatherIcon class="text-secondary"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <!-- Col -->
+              <div class="form-group">
+                <ngb-timepicker [(ngModel)]="electionScheduleStartTime" name="electionScheduleStartTime" ></ngb-timepicker>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <!-- Col -->
+              <div class="form-group">
+                <label class="control-label">End Date</label>
+                <div class="input-group" (click)="e.toggle()">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="electionScheduleEndDate" [(ngModel)]="electionScheduleEndDate"
+                    ngbDatepicker #e="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-light btn-icon calendar" type="button">
+                      <i data-feather="calendar" appFeatherIcon class="text-secondary"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- Col -->
+            <div class="col-sm-4">
+              <!-- Col -->
+              <div class="form-group">
+                <ngb-timepicker [(ngModel)]="electionScheduleEndTime" name="electionScheduleEndTime"></ngb-timepicker>
+              </div>
+            </div>
+          </div>
+          <label for="editEmisNumber">Quorum</label>
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- Col -->
+              <div class="form-group">
+                <label class="control-label">Total Votes Needed</label>
+                <input type="number" class="form-control" [(ngModel)]="totalVotesNeeded" name="totalvoteneeded">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <!-- Col -->
+              <div class="form-group">
+                <label class="control-label">Total Votes Cast</label>
+                <input type="number" class="form-control" [(ngModel)]="totalVotesCast" name="totalvotescast">
+              </div>
+            </div>
+          </div>
+        <button type="button" class="btn btn-primary submit" (click)="saveElection()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+.container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.card{
+   // background: white;
+    width: 270px;
+    margin: 10px;
+    border-radius: 15px;
+    height: 500px;
+    // width: 6000px;
+}
+
+.card-image{
+   // background-color: blue;
+    height: 170px;
+    margin-bottom: 15px;
+    background-size: cover;
+    border-radius: 15px 15px 0 0;
+}
+
+.car-1{
+    background-image: url(../../../../assets/images/img-homepage-1.jpg) ;
+}
+.car-2{
+    background-image: url(../../../../assets/images/img-homepage-7.jpg) ;
+}
+.car-3{
+    background-image: url(../../../../assets/images/img-homepage-8.jpg) ;
+}
+.card h3{
+    padding: 10px;
+
+}
+.card p{
+    padding: 10px; 
+}
+.card a{
+    background-color: black;
+    color: white;
+    padding: 15px 20px;
+    display: block;
+    text-align: center;
+    margin: 20px 50px;
+}
+/*.card:hover{
+    background-color: #074c7a;
+  //  background-color: rgb(62, 62, 62);
+    color: white;
+    cursor: pointer;
+    transform: scale(1.03);
+    transition: all 1s ease;
+} */
+.read-more-btn{
+    color: #0984e3;
+}
+.read-more-text{
+    display: none;
+}
+.read-more-text--show{
+    display: inline;
+}
+.required-asterisk{
+
+    color: red;
+  
+    font-weight: bold;
+  
+    margin-left: 3px;
+  
+    font-size: 1.2em;
+  
+  }
+
+  .align-btn {
+    position: absolute;
+    margin: 9px;
+    margin-left: 750px;
+    
+    
+    
+    }
+
+    #message{
+        // flex: 1;
+        width: 100%;
+        // overflow-y: auto;
+        height: 100%
+    }
+
+    #my-textarea-remaining-chars{
+        text-align:right;
+        font-weight: bold;
+    }
+

@@ -1,0 +1,130 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="../kpi-list">Action Plan</a></li>
+        <li class="breadcrumb-item"><a routerLink="../intervate-kpi">Intervate KPI</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Intervation</li>
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">Action Plan</h2>
+        <hr>
+    </div>
+</div>
+
+<div _ngcontent-acq-c173="" class="card">
+    <div _ngcontent-acq-c173="" class="card-header bg-primary">
+      <h6 _ngcontent-acq-c173="" class="card-title text-white" style="margin-bottom: 0;">Intervation</h6>
+    </div>
+<div _ngcontent-acq-c173="" class="card-body">
+    <form _ngcontent-acq-c173="" novalidate="" ng-reflect-form="[object Object]" class="ng-untouched ng-pristine ng-invalid" (submit)="saveInstrument()" [formGroup]="validationForm">
+      <div _ngcontent-acq-c173="" class="row">
+
+        <div class="col-lg-12">
+          <div class="form-group">
+            <h6 class="card-title" style="font-weight: 700;">Area of development</h6>
+            <select class="form-control"  [(ngModel)]="areaOfDevelopment"  name="areaOfDevelopment" id="areaOfDevelopment" formControlName="areaOfDevelopment" id="exampleFormControlSelect1" data-width="auto">
+              <option value="Class room">Class room</option>
+              <option value="principal office">principal office</option>
+              <option value="Staff room">Staff room</option>
+              <option value="tuck shop">tuck shop</option>
+              <option value="library">library</option>
+            </select></div>
+      </div>
+        
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group"><br>
+            <h6 class="card-title" style="font-weight: 700;">Description of activities/intervention programmes</h6>
+            
+
+            <div class="form-group shadow-textarea">
+              <textarea class="form-control z-depth-1" rows="3" [(ngModel)]="description"  name="description" id="description" autocomplete="off" formControlName="description"  placeholder="Type here" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.description.errors}" required></textarea>
+            </div>
+
+              <!-- <h6 class="card-title" style="font-weight: 700;">Target group</h6> -->
+              <!-- <input type="text" class="form-control" [(ngModel)]="description"  name="description" id="description" autocomplete="off" formControlName="description"  placeholder="Type here" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.description.errors}" required> -->
+              <p *ngIf="isCreateFormSubmitted && createForm.description.errors?.required"
+                                              class="invalid-feedback">Description is required</p>
+          
+
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="row">
+        <div class="form-group">
+          <br><h6 class="card-title" style="font-weight: 700;">Responsibility</h6>
+          <select class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="responsibility"  name="responsibility" id="responsibility" formControlName="responsibility" id="exampleFormControlSelect1" data-width="auto">
+            <option>dropdown</option>
+            <option value="Principal">Principal</option>
+            <option value="Constructor">Constructor</option>
+          </select></div>
+      </div>
+
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <h6 class="card-title" style="font-weight: 700;">Target group</h6>
+            <input type="text" class="form-control" [(ngModel)]="tagetGroup"  name="tagetGroup" id="tagetGroup" autocomplete="off" formControlName="tagetGroup"  placeholder="Type here" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.tagetGroup.errors}" required>
+            <p *ngIf="isCreateFormSubmitted && createForm.tagetGroup.errors?.required"
+                                            class="invalid-feedback">Target group required</p>
+          </div>
+       </div>
+
+       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group"> 
+            <h6 class="card-title" style="font-weight: 700;">Resources</h6>
+            <input type="text" class="form-control" [(ngModel)]="resources"  name="resources" id="resources" autocomplete="off" formControlName="resources"  placeholder="Type here" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.resources.errors}" required>
+            <p *ngIf="isCreateFormSubmitted && resources.tagetGroup.errors?.required"
+            class="invalid-feedback">Target group required</p>
+        </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 1.3rem;">
+        <div class="col-md-6">
+          <h6 class="card-title" style="font-weight: 700;">Start date</h6>
+
+          <div class="form-group">
+            <input onkeydown="return false" type="date" class="form-control  datetimepicker-input" name="startDate" [(ngModel)]="startDate" 
+            formControlName="startDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.startDate.errors}" required>
+            <p *ngIf="isCreateFormSubmitted && createForm.startDate.errors?.required"
+            class="invalid-feedback">Start date required</p>
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <h6 class="card-title" style="font-weight: 700;">Finish date</h6>
+          <div class="form-group">
+            <input onkeydown="return false" type="date" class="form-control datetimepicker-input" name="endDate" [(ngModel)]="endDate" 
+                formControlName="endDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.endDate.errors}" required>
+            <p *ngIf="isCreateFormSubmitted && createForm.endDate.errors?.required"
+            class="invalid-feedback">End date required</p>
+        </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          
+          <h6 class="card-title" style="font-weight: 700;">Status bar</h6>
+          <br>
+        <div class="progress" style="height: 1px;">
+          <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          
+        </div><label for="nameOf">25% completed</label>
+        <div class="progress" style="height: 20px;">
+          <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+      </div>
+
+    <button _ngcontent-acq-c173="" type="" class="btn btn-primary mr-2" style="margin: 25px;">Submit</button>
+    <button _ngcontent-acq-c173="" class="btn btn-light" routerLink="../intervate-kpi">Back</button>
+
+</form>
+</div>
+</div>
+

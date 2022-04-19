@@ -1,0 +1,41 @@
+<div class="row w-100 mx-0 auth-page">
+  <div class="col-md-8 col-xl-6 mx-auto">
+    <div class="card">
+      <div class="row justify-content-center">
+        <div class="col-md-8 pl-md-0">
+          <div class="auth-form-wrapper px-4 py-5">
+            <img src="../assets/images/DepartmentEducationLogo.png ">
+            <h5 class="text-muted font-weight-normal mb-4 text-center">OTP Verification</h5>
+            <p class="text-center">Please enter your one time password(OTP)</p>
+            <p class="text-center">From your cellphone sms</p>
+            <br>
+            <form class="forms-sample" [formGroup]="OTPform">
+              <div class="form-group">
+                <label for="OTP">One Time Password</label>
+                <input type="text" class="form-control" required (focus)="fieldChange()" formControlName="OTP" id="OTP"
+                  [ngClass]="{'is-invalid': isFormSubmitted && getForm.OTP.errors || isFormSubmitted && error}">
+                <p *ngIf="isFormSubmitted && getForm.OTP.errors?.required && !error" class="invalid-feedback">
+                  OTP required</p>
+                <p *ngIf="isFormSubmitted && error" class="invalid-feedback">
+                  Incorrect one time password, please check again and re-enter the correct one</p>
+              </div>
+              <!-- <div *ngIf="error" class="error_text">
+                <p class="text-danger">Invalid one time password please check again and enter the correct one</p>
+              </div> -->
+              <div class="row justify-content-center">
+                <div class="col-md-4">
+                  <input type="submit" value="Submit" (click)="verifyOTP()" class="btn btn-primary" />
+                </div>
+                <div class="col-4">
+                  <input type="button" class="btn btn-danger" (click)="cancel()" value="Cancel" />
+                </div>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

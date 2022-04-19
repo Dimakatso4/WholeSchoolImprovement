@@ -1,0 +1,584 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">List SIP</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">List SIP</h3>
+        <hr>
+    </div>
+</div>
+<div>
+    <br />
+</div>
+
+<div class="col-md-12 grid-margin stretch-card">
+
+    <button *ngIf="officeLevel == 'District' || officeLevel == 'Head Office'" class="btn btn-primary float-right "
+        routerLink="/sse/school"><i class="mdi mdi-arrow-left"></i> Go Back</button>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="docsTitle">School Name</label>
+                        <input type="text" value="{{schoolName | titlecase}}" placeholder="loading..." name="docNo"
+                            class="form-control" disabled>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="docsTitle">EMIS Number</label>
+                        <input type="text" name="docNo" value="{{emisNumber}}" class="form-control" disabled>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="docName">District Name</label>
+                        <input type="text" name="docName" value="{{districtName | titlecase}}" placeholder="loading..."
+                            class="form-control" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <hr />
+
+            <h4> &nbsp;&nbsp;List SIP</h4>
+
+            <form name="captureSSEForm" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+
+                <ngb-accordion [closeOthers]="true" *ngFor="let aoe of AreaList; let v = index;trackBy: customQuantity">
+
+                    <ngb-panel title="{{aoe.focusArea}}" style="width: 100%;"
+                        *ngIf="aoe.currentAreaOfEvaluation != aoe.previousAreaOfEvaluation && getTotalComponent(aoe.currentComponent) > 0">
+
+                        <ng-template ngbPanelContent>
+
+
+
+
+                            <ngb-accordion
+                                *ngFor="let component of ComponentList; let x = index;trackBy: customQuantity"
+                                [closeOthers]="true">
+
+                                <ngb-panel title="{{component.componentName}}" style="width: 100%;"
+                                    *ngIf="aoe.currentAreaOfEvaluation == component.currentAreaOfEvaluation && getTotalComponent(component.currentComponent) > 0">
+
+
+                                    <ng-template ngbPanelContent>
+                                        <!--                                                  
+                                <span (click)="test()" class="badge badge-primary text-white font-weight-bold float-right">
+                                    {{}}
+                                </span> -->
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="header-label" style="color:black; font-size:12px;">KPI
+                                                    </th>
+
+                                                    <th class="header-label"
+                                                        style="color:black; font-size:12px; white-space: pre-wrap"><span
+                                                            *ngIf="districtReponse.length > 0">Initial Rating
+                                                        </span>
+                                                    </th>
+
+                                                    <th class="header-label"
+                                                        style="color:black; font-size:12px; white-space: pre-wrap">Final
+                                                        Rating
+                                                    </th>
+                                                    <!-- 
+                                                    <th class="header-label" style="color:black; font-size:12px;">Comment
+                                                    </th>
+    
+                                                    <th class="header-label" style="color:black; font-size:12px;">
+                                                        Evidence
+                                                    </th> -->
+
+                                                    <th class="header-label" style="color:black; font-size:12px;">
+                                                        Prioritise
+                                                    </th>
+
+                                                    <th class="header-label" style="color:black; font-size:12px;"><span
+                                                            *ngIf="isLogged">BU Comment
+                                                        </span>
+                                                    </th>
+
+                                                    <th class="header-label" style="color:black; font-size:12px;">
+                                                        <span *ngIf="canAction">
+                                                            Action
+                                                        </span>
+                                                    </th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+
+                                                <tr *ngFor="let kpi of kpiList; let i = index;trackBy: customQuantity"
+                                                    [hidden]="component.currentComponent != kpi.currentComponent">
+
+                                                    <td>
+                                                        <div style="white-space: pre-wrap">{{kpi.kpiName}}</div>
+
+                                                    </td>
+
+                                                    <td>{{kpi.previousRating}}
+                                                        <!--  <input type="text" *ngIf="kpiList[i].status === 'Send for Evidence'"
+                                                            name="kpiComment" #kpiComment="ngModel"
+                                                            [ngClass]="{'invalid': kpiList[i].rating === '1' && kpiList[i].comment.length===0}"
+                                                            [(ngModel)]='kpiList[i].comment' /> -->
+
+                                                    </td>
+
+                                                    <td>{{kpi.response}}
+                                                        <!--  <input type="text" *ngIf="kpiList[i].status === 'Send for Evidence'"
+                                                            name="kpiComment" #kpiComment="ngModel"
+                                                            [ngClass]="{'invalid': kpiList[i].rating === '1' && kpiList[i].comment.length===0}"
+                                                            [(ngModel)]='kpiList[i].comment' /> -->
+
+                                                    </td>
+                                                    <!-- <td>
+    
+                                                        <div style="white-space: pre-wrap">&nbsp;{{kpi.comment}}</div>
+    
+                                                    </td> -->
+
+                                                    <td><input type="checkbox" [disabled]="viewForm"
+                                                            [checked]="kpi.isPrioritise" id="IsPrioritise"
+                                                            name="IsPrioritise"
+                                                            (change)="OnIsPrioritiseSelected($event,i)">
+                                                    </td>
+
+                                                    <td>
+                                                        <textarea name="sipClusterComments" cols="15" rows="10"
+                                                            class="form-control" *ngIf="isLogged" readonly
+                                                            style="background-color: whitesmoke!important; border-color: whitesmoke!important;">{{kpi.sipClusterComments}}</textarea>
+
+                                                    </td>
+
+                                                    <!-- <td *ngIf="kpi.status === 'Approved'"> -->
+                                                    <td *ngIf="kpiList[i].status === 'SIPPublished'">
+
+                                                        <a title="View Plan"
+                                                            (click)="openViewPlanModal(ActionPlanHistoryModal,i)"><i
+                                                                class="mdi mdi-eye text-success"></i></a>
+                                                        &nbsp;
+
+                                                        <a title="Create Plan"
+                                                            (click)="openCreatePlanModal(ActionPlanCreateModal,i)"><i
+                                                                class="mdi mdi-plus text-success"></i></a>
+                                                        &nbsp;
+
+                                                    </td>
+
+
+                                                </tr>
+
+
+                                            </tbody>
+
+                                        </table>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+
+                        </ng-template>
+                    </ngb-panel>
+
+                </ngb-accordion>
+
+
+            </form>
+
+
+        </div>
+
+        <div *ngIf="isPageLoading" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="card-footer">
+
+            <div *ngIf="kpiList.length > 0 && !isLogged && !canAction">
+                <button class="btn btn-primary mt-2 " (click)="SubmitUpdate()" [disabled]="isLoading"><span
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="isLoading"></span>Submit</button>
+                &nbsp;&nbsp;
+
+            </div>
+
+            <div *ngIf="role==='Director' && role==='District'">
+                <button class="btn btn-primary mt-2 " (click)="SendToSchoolUpdate()" [disabled]="isLoading"><span
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="isLoading"></span>Send To School</button>
+                &nbsp;&nbsp;
+                <button class="btn btn-primary mt-2 " (click)="PublishSIP()" [disabled]="isLoading"><span
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="isLoading"></span>Publish</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+
+    </div> <!-- col -->
+</div>
+
+<ng-template #ActionPlanHistoryModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">View Action Plans For {{kpi.kpiName}}</h5>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table role="table" class="table table-hover">
+            <thead class="bg-secondary text-white">
+                <tr>
+
+                    <!--                     <th class="tableheadStyle text-white">Area of Development</th>
+-->
+                    <th class="tableheadStyle text-white">Description</th>
+                    <th class="tableheadStyle text-white">Target Group</th>
+                    <th class="tableheadStyle text-white">Responsibility</th>
+                    <th class="tableheadStyle text-white">Start Date</th>
+                    <th class="tableheadStyle text-white">End Date</th>
+                    <th class="tableheadStyle text-white">Resources</th>
+                    <th class="tableheadStyle text-white">Completed</th>
+                    <th class="tableheadStyle text-white">BU Comment</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let actionPlan of actionPlanList; let i = index">
+
+                    <!--                     <th> {{actionPlan.areaOfDevelopment}}</th>
+
+                    <th> {{actionPlan.descriptionOfActivities}}</th> -->
+
+                    <th> {{actionPlan.descriptionOfActivities}}</th>
+                    <th> {{actionPlan.targetGroup}}</th>
+
+                    <th> {{actionPlan.responsibility}}</th>
+
+                    <th> {{actionPlan.startDate | date:'yyyy-MM-dd'}}</th>
+
+                    <th> {{actionPlan.finishDate | date:'yyyy-MM-dd'}}</th>
+
+                    <th> {{actionPlan.resources}}</th>
+
+                    <th class="text-center" *ngIf="role==='School Principal' "><a
+                            (click)="tickBox(report, actionPlan.isCompleted, i)"><i *ngIf="!allActions[i].isCompleted"
+                                class="mdi {{actionPlan.isCompleted?'mdi-checkbox-marked text-primary':'mdi mdi-checkbox-blank-outline text-dark'}} icon-sm "></i></a>
+
+                        <a><i *ngIf="allActions[i].isCompleted"
+                                class="mdi mdi-checkbox-marked text-primary icon-sm disable-link"></i></a>
+                        &nbsp;
+                        <a *ngIf="actionPlan.progressPerQuarter && actionPlan.isCompleted || allActions[i].isCompleted"
+                            (click)="viewProgressReport(updateReport, i)"><i class="mdi mdi-pencil icon-sm"></i></a>
+
+                        <!-- <input *ngIf="!allActions.isCompleted" type="checkbox" name="IsCompletedCheckBox"
+                            id="IsCompletedCheckBox" (change)="onCheckedCompletedChanged(report,$event,actionPlan,i)" />
+                        <input type="checkbox" disabled *ngIf="allActions.isCompleted" checked />
+ -->
+
+
+                        <!-- <a *ngIf="!allActions[i].isCompleted && !actionPlanList[i].isCompleted" (click)="tickBox(i)"><i
+                                class="mdi mdi-checkbox-blank-outline icon-sm text-dark"></i></a>
+
+                        <a *ngIf="!allActions[i].isCompleted && actionPlanList[i].isCompleted" (click)="untickBox(i)"><i
+                                class="mdi mdi-checkbox-marked icon-sm text-primary"></i></a> -->
+
+
+                        <!-- <a *ngIf="allActions[i].isCompleted"><i
+                                class="mdi mdi-checkbox-markedmdi mdi-checkbox-marked icon-sm text-dark"></i></a> -->
+
+
+
+                    </th>
+
+
+
+                    <th>
+                        {{actionPlan.comment}}
+                    </th>
+
+
+
+                </tr>
+            </tbody>
+
+        </table>
+
+        <div *ngIf="isTableLoading" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <button type="submit" *ngIf="actionPlanList.length > 0 && false" (click)="SubmitIntervention()"
+            class="btn btn-primary mr-2 " [disabled]="isLoading"><span class="spinner-border spinner-border-sm"
+                role="status" aria-hidden="true" *ngIf="isLoading"></span>Submit
+        </button>
+        <button type="button" (click)="resetDropzoneUploads()" class="btn btn-warning mr-2 "
+            [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                *ngIf="isLoading"></span>Cancel
+        </button>
+
+
+        <div class="d-flex justify-content-center ">
+
+            <!-- <div *ngIf="noDocuments">
+                <div class="card-body">
+                    <p class="card-title text-danger text-center">No SIP listed
+                    </p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+
+</ng-template>
+
+<ng-template #ActionPlanCreateModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">Create Action Plan</h5>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dname">Focus Area<span class="required-asterisk">*</span></label>
+                            <input type="text" placeholder="Type here" value="{{kpi.focusArea}}" class="form-control"
+                                readonly>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dname">Area of Development<span class="required-asterisk">*</span></label>
+                            <input type="text" placeholder="Type here" value="{{kpi.kpiName}}" class="form-control"
+                                readonly>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dnum">Description of Activities / Interventions Programmes<span
+                                    class="required-asterisk">*</span></label>
+                            <input type="textarea" placeholder="Type here" class="form-control"
+                                [(ngModel)]="descriptionOfActivities">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="description">Target Group<span class="required-asterisk">*</span></label>
+                            <input type="text" placeholder="Type here" [(ngModel)]="targetGroup" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="savedby">Responsibility<span class="required-asterisk">*</span></label>
+                            <input type="text" placeholder="Type here" class="form-control"
+                                [(ngModel)]="responsibility">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Start Date<span class="required-asterisk">*</span></label>
+                            <input type="date" class="form-control" [(ngModel)]="startDate"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>End Date<span class="required-asterisk">*</span></label>
+                            <input type="date" class="form-control" [(ngModel)]="endDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" id="dapprovedby">
+                            <label id="dapprovedby">Resources<span class="required-asterisk">*</span></label>
+                            <input type="text" placeholder="Type here" id="dapprovedby" class="form-control"
+                                [(ngModel)]="resources">
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" id="dapprovdate">
+                        <div class="form-group" id="dapprovdate">
+                            <label id="dapprovdate">Comments<span class="required-asterisk">*</span></label>
+                            <input type="text" placeholder="Type here" class="form-control" [(ngModel)]="comment">
+                        </div>
+                    </div> -->
+                </div>
+
+                <div class="row float-left">
+                    <button class="btn btn-primary mt-2 " (click)="CreateActionPlan()" [disabled]="isLoading"><span
+                            class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="isLoading"></span>Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-warning mt-2 " (click)="modal.close('by: close icon')"
+                        [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true" *ngIf="isLoading"></span>Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+
+
+<ng-template #report let-modal>
+
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">Quarter {{Quarter}} Progress Report</h5>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <!-- Col -->
+                <div class="form-group">
+                    <label class="control-label">Please provide progress report</label>
+                    <textarea rows="8" cols="36" class="form-control" [(ngModel)]="progressReport"
+                        placeholder="Type here" [ngClass]="{'is-invalid': isFormSubmitted && !comment}"></textarea>
+                    <p *ngIf="isFormSubmitted && !comment" class="invalid">
+                        Reason is required</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- 
+        <div *ngIf="false" class="row justify-content-center">
+            <ngb-alert [dismissible]="true" [type]="'icon-info'">
+                <h6><i class="mdi mdi-information-outline pad-space text-center"></i>To withdraw
+                    {{currentAssigned.fullname}}
+                    from
+                    monitoring elections at this
+                    school click the withdraw button below</h6>
+            </ngb-alert>
+
+        </div> -->
+
+    </div>
+
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary submit" (click)="submitReport(report)"
+            (click)="modal.close('by: close icon');" [disabled]="isLoading"> <span
+                class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+            Submit</button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-primary submit" (click)="saveReport(report)"
+            (click)="modal.close('by: close icon');" [disabled]="isLoading"> <span
+                class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+            Save</button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-warning submit" (click)="modal.close('by: close icon');"
+            [disabled]="isLoading"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                *ngIf="isLoading"></span>
+            Cancel</button>
+    </div>
+
+</ng-template>
+
+
+<ng-template #updateReport let-modal>
+
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">Update Quarter {{getCompleted(selectedPlan)}} Progress
+            Report</h5>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <!-- Col -->
+                <div class="form-group">
+                    <label class="control-label">Please provide progress report</label>
+                    <textarea rows="8" cols="36" class="form-control" [(ngModel)]="progressReport"
+                        [readonly]="isApproved" placeholder="Type here"
+                        [ngClass]="{'is-invalid': isFormSubmitted && !comment}"></textarea>
+                    <p *ngIf="isFormSubmitted && !comment" class="invalid">
+                        Reason is required</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- 
+        <div *ngIf="false" class="row justify-content-center">
+            <ngb-alert [dismissible]="true" [type]="'icon-info'">
+                <h6><i class="mdi mdi-information-outline pad-space text-center"></i>To withdraw
+                    {{currentAssigned.fullname}}
+                    from
+                    monitoring elections at this
+                    school click the withdraw button below</h6>
+            </ngb-alert>
+
+        </div> -->
+
+    </div>
+
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary submit" (click)="saveReport()" *ngIf="!isApproved"
+            (click)="modal.close('by: close icon');" [disabled]="isLoading"> <span
+                class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+            Save</button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-warning submit" (click)="modal.close('by: close icon');"
+            [disabled]="isLoading"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                *ngIf="isLoading"></span>
+            Cancel</button>
+    </div>
+
+</ng-template>

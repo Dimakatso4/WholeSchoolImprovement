@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <!-- <div class="card-header">
+        Election Stats
+      </div> -->
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Votes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let candidate of candidateList">
+                <td>{{candidate.firstName}} {{candidate.lastName}}</td>
+                <td>{{candidate.voteCount}}</td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+        <div *ngIf="noRecords" class="row justify-content-center">
+          <h6 class="text-info ">
+            <i data-feather="info" appFeatherIcon></i> Please capture candidate as per ballot paper.
+          </h6>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-primary mr-2" (click)="openSaveCandidateModal(basicModal)">Add
+          Candidate</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Quorum</h6>
+
+        <apx-chart [series]="pieChartOptions.nonAxisSeries" [chart]="pieChartOptions.chart"
+          [colors]="pieChartOptions.colors" [stroke]="pieChartOptions.stroke" [legend]="pieChartOptions.legend"
+          [dataLabels]="pieChartOptions.dataLabels"></apx-chart>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Upload your Election Document Upload here</h6>
+
+        <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)" (success)="onUploadSuccess($event)">
+        </div>
+        <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Reset</button>
+
+      </div>
+    </div>
+  </div> <!-- col -->
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Uploaded Documents</h6>
+
+        <table class="table table-hover">
+          <tbody>
+            <tr *ngFor="let document of documentList">
+              <td>{{document.title}}</td>
+              <td><a href="{{document.documentPath}}">View document</a></td>
+            </tr>
+            <div *ngIf="noRecordsElection" class="card justify-content-center">
+              <div class="card-body">
+                <h5 class="text-danger">
+                  Please upload any document related to this election.
+                </h5>
+              </div>
+            </div>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div> <!-- col -->
+</div>
+
+<!-- Add candidate button here -->
+
+
+<!-- Modal -->
+<ng-template #basicModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Add Candidate</h5>
+    <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="saveCandidate()" [formGroup]="validationForm">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="firstName" id="firstName"
+          [ngClass]="{'is-invalid': isFormSubmitted && Form.firstName.errors}" formControlName="firstName"
+          placeholder="Enter first name">
+        <p *ngIf="isFormSubmitted && Form.firstName.errors?.required" class="invalid-feedback">First name required</p>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="lastName" id="lastName"
+          [ngClass]="{'is-invalid': isFormSubmitted && Form.lastName.errors}" formControlName="lastName"
+          placeholder="Enter last name">
+        <p *ngIf="isFormSubmitted && Form.lastName.errors?.required" class="invalid-feedback">Last name required</p>
+      </div>
+      <div class="form-group">
+        <label for="idNumber">ID. No</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="idNumber" id="idNumber"
+          [ngClass]="{'is-invalid': isFormSubmitted && Form.idNumber.errors}" formControlName="idNumber"
+          placeholder="Enter id number" pattern="[0-9]{13}" mask="0000000000000" minlength="0" maxlength="13">
+        <p *ngIf="isFormSubmitted && Form.idNumber.errors?.required" class="invalid-feedback">ID number required</p>
+        <p *ngIf="isFormSubmitted && Form.idNumber.errors?.pattern" class="invalid-feedback">Invalid ID number</p>
+      </div>
+      <div class="form-group">
+        <label for="mobileNo">Mobile Number</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="mobileNo" id="mobileNo"
+          [ngClass]="{'is-invalid': isFormSubmitted && Form.mobileNo.errors}" formControlName="mobileNo"
+          placeholder="Enter mobile no" minlength="0" maxlength="12" mask="000 000 0000">
+        <p *ngIf="isFormSubmitted && Form.mobileNo.errors?.required" class="invalid-feedback">Mobile number required</p>
+      </div>
+      <div class="form-group">
+        <label for="emailAddress">Email</label>
+        <input type="email" class="form-control form-control-sm" [(ngModel)]="emailAddress" id="emailAddress"
+          [ngClass]="{'is-invalid': isFormSubmitted && Form.emailAddress.errors}" formControlName="emailAddress"
+          placeholder="Enter email address" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+        <p *ngIf="isFormSubmitted && Form.emailAddress.errors?.required" class="invalid-feedback">Email address required
+        </p>
+        <p *ngIf="isFormSubmitted && Form.emailAddress.errors?.pattern" class="invalid-feedback">Invalid email address
+        </p>
+      </div>
+      <div class="form-group">
+        <label for="voteCount">Vote Count</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="voteCount" id="voteCount"
+          [ngClass]="{'is-invalid': isFormSubmitted && Form.voteCount.errors}" formControlName="voteCount"
+          placeholder="Enter vote count" minlength="0" >
+        <p *ngIf="isFormSubmitted && Form.voteCount.errors?.required" class="invalid-feedback">Vote count Required</p>
+      </div>
+      <div class="form-check form-check-flat form-check-primary">
+        <label class="form-check-label">
+          <input type="checkbox" [(ngModel)]="shortlisted" formControlName="shortlisted" class="form-check-input"
+            id="shortlisted" (change)="isShortlisted($event)">
+          <i class="input-frame"></i>
+          Is short listed?
+        </label>
+      </div>
+      <!-- <div class="form-check">
+          <input type="checkbox" formControlName="candidateShortListed" class="form-control form-check-input" id="candidateShortListed" placeholder="Is candidate shortlisted">
+          <label for="candidateShortListed">Is Short Listed</label>
+        </div> -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save & Add New Candidate</button>
+        <button type="submit" class="btn btn-primary" (click)="closeForm(true)">Save & Close</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('')">Close</button>
+      </div>
+    </div>
+  </form>
+
+
+</ng-template>
+<!-- Close result -->

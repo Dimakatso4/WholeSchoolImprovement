@@ -1,0 +1,50 @@
+.invalid {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    border-color: #dc3545;
+}
+
+.invalid-msg {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.upload-boxa {
+    border: 10px!important;
+}
+
+.selecteds {
+    width: 250px//max-content!important;//250px!important
+}
+
+
+
+.required-asterisk{
+
+
+
+    color: red;
+
+ 
+
+    font-weight: bold;
+
+ 
+
+    margin-left: 3px;
+
+ 
+
+    font-size: 1.2em;
+
+ 
+
+  }
+
+
+.align-checkbox:hover {
+    cursor: pointer;
+}

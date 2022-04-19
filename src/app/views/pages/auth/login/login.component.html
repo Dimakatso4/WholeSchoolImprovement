@@ -1,0 +1,219 @@
+<div class="row w-100 mx-0 auth-page">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="left: 0; top: 0; width: 100%">
+    <div class="container-fluid">
+      <!--<a class="navbar-brand" href="#">
+        <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 160px; height: auto;">
+      </a>-->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">test123</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>-->
+    </div>
+  </nav>
+  <div class="col-md-12 mx-auto">
+    <div class="card">
+      <div class="row">
+        <div class="col-md-5 col-lg-6 pr-md-0">
+          <div class="auth-left-wrapper"
+            style="background-image: url(../../../../assets/images/img-homepage-1.jpg); background-position: -150px 50%; background-repeat: no-repeat;">
+          </div>
+        </div>
+        <div class="col-md-7 col-lg-6">
+          <div class="auth-form-wrapper px-4 py-5">
+            <button *ngIf="multipleRoles" (click)="goBack()" type="button" class="close text-danger" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <a href="#" class="noble-ui-logo d-block m-2">
+              <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 225px; height: auto">
+            </a>
+
+
+            <h5 *ngIf="!multipleRoles" class="text-muted font-weight-normal mb-4 login-text">Please fill in your login
+              details below to login.
+              <br>
+              <marquee width="60%" direction="right">
+                <h5>Development Only </h5>
+              </marquee>
+
+
+
+              <h5 *ngIf="multipleRoles" class="text-muted font-weight-normal mb-4 login-text">Please select the role you
+                would like to login as.
+              </h5>
+              <form class="forms-sample">
+                <!-- <label *ngIf="!multipleRoles" for="optionsRadios">
+                  Account Type:
+                </label>
+                <div *ngIf="!multipleRoles" class="form-group row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]="accountType" name="optionsRadios"
+                          value="employee">
+                        <i class="input-frame"></i>
+                        Persal</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]="accountType" name="optionsRadios"
+                          value="nonemployeeId">
+                        <i class="input-frame"></i>
+                        ID Number
+                      </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]="accountType" name="optionsRadios"
+                          value="sgb">
+                        <i class="input-frame"></i>
+                        Passport
+                      </label>
+                    </div>
+                  </div>
+
+                </div> -->
+
+
+                <!-- <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input"  (click)="fieldChange()" [(ngModel)]="accountType" name="optionsRadios"
+                        value="admin">
+                      <i class="input-frame"></i>
+                      Admin
+                    </label>
+                  </div> 
+                   <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input"  (click)="fieldChange()" [(ngModel)]="accountType" name="optionsRadios"
+                        value="monitor">
+                      <i class="input-frame"></i>
+                      PEM
+                    </label>
+                  </div> -->
+                <!---- </div>
+              </div>-->
+                <!-- <div class="form-group row">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" [(ngModel)]="accountType" name="optionsRadios" checked
+                      value="Employee">
+                    <i class="input-frame"></i>
+                    Employee
+                  </label>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input"  name="optionsRadios"
+                      value="SGB">
+                    <i class="input-frame"></i>
+                    SGB
+                  </label>
+                </div>
+              </div> -->
+                <Br>
+                <div *ngIf="false" class="form-group">
+
+                  <label *ngIf="accountType == 'employee'" for="exampleInputEmail1">Persal Number</label>
+
+                  <input *ngIf="accountType == 'employee'" type="text" [ngModelOptions]="{standalone: true}"
+                    class="form-control" (focus)="fieldChange()" [(ngModel)]="userNumber" id="exampleInputEmail1"
+                    placeholder="Type here" mask="0000000000000"
+                    [ngClass]="{'is-invalid': isFormSubmitted && !userNumber || error}">
+                  <p *ngIf="isFormSubmitted && !userNumber" class="invalid-feedback">Persal Number required</p>
+                </div>
+
+                <div *ngIf="false" class="form-group">
+
+                  <label *ngIf="accountType == 'nonemployeeId'" for="exampleInputEmail1">IDNumber</label>
+
+                  <input *ngIf="accountType == 'nonemployeeId'" type="text" [ngModelOptions]="{standalone: true}"
+                    class="form-control" (focus)="fieldChange()" [(ngModel)]="usernumberID" id="exampleInputEmail1"
+                    placeholder="Type here" mask="0000000000000"
+                    [ngClass]="{'is-invalid': isFormSubmitted && !usernumberID || error}">
+                  <p *ngIf="isFormSubmitted && !usernumberID" class="invalid-feedback">IDNumber required</p>
+                </div>
+
+
+                <div *ngIf="!multipleRoles" class="form-group">
+
+                  <label for="userNumber">Username </label>
+                  <input type="text" [ngModelOptions]="{standalone: true}" class="form-control" (focus)="fieldChange()"
+                    [(ngModel)]="userNumber" id="exampleInputEmail1" placeholder="Type here"
+                    [ngClass]="{'is-invalid': isFormSubmitted && !userNumber || error}">
+                  <p *ngIf="isFormSubmitted && !userNumber" class="invalid-feedback">Username required</p>
+                </div>
+
+
+
+
+                <div *ngIf="!multipleRoles" class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" [ngModelOptions]="{standalone: true}" class="form-control"
+                    (focus)="fieldChange()" [(ngModel)]="password" id="exampleInputPassword1" name="passwordnew"
+                    placeholder="Password" [ngClass]="{'is-invalid': isFormSubmitted && !password || error}">
+                  <p *ngIf="isFormSubmitted && !password" class="invalid-feedback">Password required </p>
+
+                </div>
+
+                <div *ngIf="error" class="error_text">
+                  <p class="text-danger">Invalid login credentials, please try again</p>
+                </div>
+
+                <!----test-->
+
+
+
+
+
+                <!---- <p class="text-danger">Invalid login credentials, please try again</p>->
+              </div>
+              <div *ngIf="validationForm.get('passwordnew').hasError('minlength')" class="error_text">
+                <p class="text-danger">Min length should be 10 characters</p>
+              </div>
+              
+              <div>
+                
+              </div>
+               <div class="form-check form-check-flat form-check-primary">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input">
+                  <i class="input-frame"></i>
+                  Remember me P@ssw0rd123
+                </label>
+              </div> 
+
+                  <div *ngIf="multipleRoles" class="form-group">
+                    <label for="role">Preferred Role</label>
+                    <select *ngIf="multipleRoles" [ngModelOptions]="{standalone: true}" class="form-control"
+                      [ngClass]="{'is-invalid': isRoleSelected && !userRole}" [(ngModel)]="userRole" id="userRole">
+                      <option style="color: lightgray;" value="" hidden disabled selected>Please select one</option>
+                      <option *ngFor="let role of roles; let i = index" value={{i}}>{{role.roleName}}
+                      </option>
+                    </select>
+                    <p class="invalid-feedback">Role required</p>
+                  </div>-->
+                <div class="mt-3">
+                  <button type="submit" class="btn btn-primary mr-2 mb-2 mb-md-0"
+                    (click)="login()" [disabled]="isLoading"><span class="spinner-border spinner-border-sm"
+                      role="status" aria-hidden="true" *ngIf="isLoading"></span>Login</button>
+
+
+                  <button type="button" (click)="signup()" class="btn btn-warning">Self-Registration</button>
+
+                  <a class="d-block mt-3 text-muted" routerLink="/auth/forgot">Forgot your
+                    password? Click here</a>
+                </div>

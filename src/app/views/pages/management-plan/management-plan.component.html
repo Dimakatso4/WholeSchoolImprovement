@@ -1,0 +1,286 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Managment Plan</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">Management Plan</h2>
+        <hr>
+    </div>
+</div>
+
+<!-- 
+  <div style="margin-bottom: 40px;"
+      class="row justify-content-center">
+      <h5>
+          Elections captured logged under the school {{schoolTitle | titlecase}}
+      </h5>
+  </div> -->
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <button *ngIf="userRole == 'HO' && noDocuments || userRole == 'HO' && !isHOUploaded || userRole == 'DEO' && !isDEOUploaded && !noDocuments" 
+            [hidden]="dataLoading" class="btn btn-primary float-right" (click)="openLgModal(lgModal)">
+            Upload Management Plan</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="bg-secondary">
+                    <tr>
+                        <th class="text-white">Document Name</th>
+                        <th class="text-white">Date Uploaded</th>
+                        <th class="text-white">Uploaded By</th>
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let document of documents;let i = index">
+                        <th
+                            *ngIf="userRole == 'DEO' && document.districtCode == districtCode || !document.districtCode || document.districtCode == 'undefined' || document.districtCode == 'null' || headOfficeUsers || document.districtCode && document.districtCode == districtCode">
+                            {{document.title}}</th>
+                        <th
+                            *ngIf="userRole == 'DEO' && document.districtCode == districtCode || !document.districtCode || document.districtCode == 'undefined' || document.districtCode == 'null' || headOfficeUsers || document.districtCode && document.districtCode == districtCode">
+                            {{document.uploadedDate | date: 'YYYY-MM-dd &nbsp;&nbsp; HH:mm'}}</th>
+                        <th
+                            *ngIf="userRole == 'DEO' && document.districtCode == districtCode || !document.districtCode || document.districtCode == 'undefined' || document.districtCode == 'null' || headOfficeUsers || document.districtCode && document.districtCode == districtCode">
+                            <span *ngIf="document.districtName">{{document.districtName
+                                | titlecase}} District</span>
+                            <span *ngIf="!document.districtName">Head
+                                Office</span>
+                        </th>
+                        <th
+                            *ngIf="userRole == 'DEO' && document.districtCode == districtCode || !document.districtCode || document.districtCode == 'undefined' || document.districtCode == 'null' || headOfficeUsers || document.districtCode && document.districtCode == districtCode">
+                            <a
+                                *ngIf="userRole == 'DEO' && document.districtCode == districtCode || !document.districtCode && userRole == 'HO' || document.districtCode == 'undefined' && userRole == 'HO' || document.districtCode == 'null' && userRole == 'HO'"><i
+                                    class="mdi mdi-pencil text-dark"
+                                    (click)="viewDocument(editDocument, i)"></i></a>
+                            &nbsp;&nbsp;
+                            <a target="_blank" href="{{document.documentPath}}"><i
+                                    class="mdi mdi-download text-dark"></i></a>
+                            <!-- <a><i class="mdi mdi-pencil text-dark"
+                                    (click)="viewDocument(editDocument, i)"></i></a> -->
+                            <!-- <button type="button" class="btn btn-primary mr-2"
+                                (click)="viewDocument(lgModal, i)">View</button> -->
+                            <!-- &nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary mr-2">Edit</button> -->
+                        </th>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div class="d-flex justify-content-center ">
+
+                <div *ngIf="noDocuments">
+                    <div class="card-body">
+                        <p class="card-title text-danger text-center">No approved management plan uploaded <span *ngIf="userRole != 'HO'">by head office</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #lgModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Upload Approved Management Plan</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="false" class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userName">Name and Surname</label>
+                                <input [(ngModel)]="userName" disabled name="userName" class="form-control">
+                                <!-- <select [(ngModel)]="emisNumber" [disabled]="schoolCount == 0"
+                                    (change)="getschoolName()"
+                                    [ngClass]="{'is-invalid': isFormSubmitted && emisNumber == ''}">
+                                    <option value="" hidden disabled selected>Please select one</option>
+                                    <option *ngFor="let school of schools; let i = index" value={{school.emisCode}}>
+                                        {{school.institutionName}}</option>
+                                </select>
+                                <p *ngIf="isFormSubmitted && emisNumber == '' " class="invalid-feedback">School required
+                                </p> -->
+                            </div>
+                        </div>
+                        <div *ngIf="userRole != 'HO' && userRole != 'PEO' && userRole != 'PEM'" class="col-md-6">
+                            <div class="form-group">
+                                <label for="districtName">District</label>
+                                <input [(ngModel)]="districtName" disabled name="districtName" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="docsTitle">Title</label>
+                        <input type="text" [(ngModel)]="docsTitle" name="docsTitle"
+                            placeholder="Enter here to change the title of your document" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Document</label>
+                        <input (change)="handleFileInput($event)" type="file" name="fileUploadInputExample"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FileName == ''}" class="file-upload-default"
+                            id="fileUploadInputExample">
+                        <div class="input-group col-xs-12" (click)="openFileBrowser($event)">
+                            <input type="text" class="form-control file-upload-info" disabled="" [(ngModel)]="FileName"
+                                [ngClass]="{'is-invalid': isFormSubmitted && FileName == ''}" name="FileName"
+                                placeholder="No file uploaded">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                            </span>
+                        </div>
+                        <p *ngIf="isFormSubmitted && FileName == '' " class="invalid-feedback">Please upload document
+                        </p>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <button class="btn btn-primary mt-2 " (click)="UploadNewDocument()">Submit</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-danger mt-2 " (click)="resetDropzoneUploads()">Cancel</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div> <!-- col -->
+    </div>
+
+
+
+</ng-template>
+
+<ng-template #editDocument let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Edit Approved Management Plan</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="NameSurname">Uploaded By</label>
+                                <input [(ngModel)]="NameSurname" class="form-control"
+                                    placeholder="Name and surname not Found" disabled />
+
+                                <!-- <select [(ngModel)]="emisNumber"
+                                    [disabled]="userRole == 'PRINCIPAL' || userRole == 'SEO' || userRole == 'SGB'"
+                                    [ngClass]="{'is-invalid': isFormSubmitted && emisNumber == ''}">
+                                    <option value="" hidden disabled selected>Please select one</option>
+                                    <option *ngFor="let school of schools" value={{school.emisCode}}>
+                                        {{school.institutionName}}</option>
+                                </select>
+                                <p *ngIf="isFormSubmitted && emisNumber == '' " class="invalid-feedback">School required
+                                </p> -->
+                            </div>
+                        </div>
+                        <div *ngIf="district" class="col-md-6">
+                            <div class="form-group">
+                                <label for="district">District</label>
+                                <input [(ngModel)]="district" class="form-control" placeholder="District not Found"
+                                    disabled />
+
+                                <!-- <select [(ngModel)]="districtCode" (change)="getSchools(districtCode)"
+                                    [disabled]="userRole == 'DEO' || userRole == 'MONITOR' || userRole == 'OBSERVER' || userRole == 'PRINCIPAL' || userRole == 'SEO' || userRole == 'SGB'"
+                                    [ngClass]="{'is-invalid': isFormSubmitted && districtCode == '' }">
+                                    <option value="" hidden disabled selected>Please select one</option>
+                                    <option *ngFor="let district of districts" value={{district.code}}>
+                                        {{district.districtName}}
+                                    </option>
+                                </select>
+                                <p *ngIf="isFormSubmitted && districtCode == '' " class="invalid-feedback">District
+                                    required</p> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!documentRemoved" class="row table-responsive">
+
+                        <table class="table table-hover ">
+                            <tbody>
+                                <tr>
+                                    <td>{{docsTitle}}</td>
+                                    <td><a target="_blank" href="{{docPath}}">View document</a></td>
+                                    <td>
+                                        <a><i class="mdi mdi-delete text-dark" (click)="removeDocument()"></i></a>
+                                    </td>
+                                </tr>
+                                <div *ngIf="docsTitle == null || docPath == null " class="card justify-content-center">
+                                    <div class="card-body">
+                                        <h5 class="text-danger">
+                                            No document uploaded for this school
+                                        </h5>
+                                    </div>
+                                </div>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- <h6 *ngIf="documentRemoved" class="card-title">Upload Document</h6>
+
+                    <div *ngIf="documentRemoved" class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+                        [ngClass]="{'is-invalid': isFormSubmitted && docPath == ''}"
+                        (success)="onUploadSuccess($event)"></div>
+                    <p *ngIf="isFormSubmitted && docPath == '' " class="invalid">Please upload document
+                    </p> -->
+
+                    <div *ngIf="documentRemoved" class="form-group">
+                        <label for="docsTitle">Title</label>
+                        <input type="text" [(ngModel)]="docsTitle" name="docsTitle"
+                            placeholder="Enter here to change the title of your document" class="form-control">
+                    </div>
+
+                    <div *ngIf="documentRemoved" class="form-group">
+                        <label>Upload Document</label>
+                        <input (change)="handleFileInput($event)" type="file" name="fileUploadInputExample"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FileName == ''}" class="file-upload-default"
+                            id="fileUploadInputExample">
+                        <div class="input-group col-xs-12" (click)="openFileBrowser($event)">
+                            <input type="text" class="form-control file-upload-info" disabled="" [(ngModel)]="FileName"
+                                [ngClass]="{'is-invalid': isFormSubmitted && FileName == ''}" name="FileName"
+                                placeholder="No file uploaded">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                            </span>
+                        </div>
+                        <p *ngIf="isFormSubmitted && FileName == '' " class="invalid-feedback">Please upload document
+                        </p>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <button class="btn btn-primary mt-2" (click)="updateDocument()">Save</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-danger mt-2" (click)="resetDropzoneUploads()">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div> <!-- col -->
+    </div>
+
+
+
+</ng-template>

@@ -1,0 +1,1698 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Management Plan</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">WSI Management Plan</h2>
+        <hr>
+    </div>
+</div>
+<!--button-->
+<div *ngIf="this.currentRole =='CES' &&  this.userOffice=='Head Office' &&  this.userDirectorate=='Public Ordinary Schools'"
+    class="row">
+    <div class="col-md-12">
+        <button [disabled]="isPageLoading" class="btn btn-primary float-right" (click)="openEditModel(editModel)">Add
+            New Activity</button>
+    </div>
+
+</div>
+<!--table-->
+
+<div *ngIf="this.currentRole =='CES' &&  this.userOffice=='Head Office' &&  this.userDirectorate=='Public Ordinary Schools'"
+    class="row mt-4">
+
+    <div class="col-md-12">
+        <div class="table-responsive table-wrap">
+            <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" id="datatable" class="table table-hover ">
+                <thead class="bg-secondary">
+                    <tr>
+                        <!--<th class="text-white">plan Number</th>-->
+                        <th class="text-white">Activity Name</th>
+                        <th class="text-white">Responsibility</th>
+                        <th class="text-white">Start Date</th>
+                        <th class="text-white">End Date</th>
+                        <th class="text-white">Status</th>
+
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let plan of li;">
+
+                        <td>{{ plan.activityName }}</td>
+                        <td>
+                    <tr *ngFor="let manrole of plan.responsibility;">
+                        <td>{{ manrole.rolename }}</td>
+                    </tr>
+                    </td>
+                    <td>{{ plan.startDate | date:'YYYY-MM-dd '}}</td>
+                    <td>{{ plan.endDate | date:'YYYY-MM-dd '}}</td>
+
+                    <td>
+                        <span *ngIf="plan.status=='Approved Selected'" class="badge badge-success mr-2">Approved
+                            selected</span>
+                        <span *ngIf="plan.status=='Item logged'" class="badge badge-primary mr-2">Item logged</span>
+                        <span *ngIf="plan.status=='Item Flagged'" class="badge badge-warning mr-2">Item Flagged</span>
+                        <span *ngIf="plan.status=='Item Selected'" class="badge badge-primary mr-2">Item Selected</span>
+                        <span *ngIf="plan.status=='Update Request '" class="badge badge-danger mr-2">Request
+                            Update</span>
+                        <span *ngIf="plan.status=='Change Request'" class="badge badge-danger mr-2">Change
+                            Request</span>
+                        <span *ngIf="plan.status =='Activity Approved'" class="badge badge-success mr-2">Item
+                            Approved</span>
+                        <span *ngIf="plan.status=='Published '" class="badge badge-success mr-2">Published </span>
+                        <span *ngIf="plan.status=='Request Selected'" class="badge badge-danger mr-2">Change
+                            Request</span>
+
+
+                    </td>
+
+
+
+                    <td>
+                        &nbsp;&nbsp;
+                        <a *ngIf="plan.statusID !='4'" (click)="openEditModel4(editModel4,plan.planID,plan.comment)"
+                            title="View Comments"><i class="mdi mdi-chat text-primary"></i></a>
+                        &nbsp;&nbsp;
+                        <a *ngIf="plan.statusID !='4'"
+                            (click)="openEditModel2(editModel2,plan.planID,plan.activityName,plan.responsibility,plan.startDate,plan.endDate,plan.managementPeriod,plan.periodID,plan.statusID)"
+                            title="Edit Activity"><i class="mdi mdi-pencil text-primary"></i></a>
+                        <a *ngIf="plan.statusID =='4'"
+                            (click)="openEditModel2(editModel2,plan.planID,plan.activityName,plan.responsibility,plan.startDate,plan.endDate,plan.managementPeriod,plan.periodID,plan.statusID)"
+                            title="Edit Published Activity"><i class="mdi mdi-pencil text-primary"></i></a>
+                        &nbsp;&nbsp;
+                        <a *ngIf="plan.status =='Item logged'" type="checkbox"
+                            (click)="UpdateSubmitCheck(plan.planID,plan.status)" title="Select Activity"><i
+                                class="mdi-checkbox-blank-outline  text-primary"></i></a>
+                        <a *ngIf="plan.status =='Item Flagged'" type="checkbox"
+                            (click)="UpdateSubmitCheck(plan.planID,plan.status)" title="Select Activity"><i
+                                class="mdi-checkbox-blank-outline  text-primary"></i></a>
+                        <a *ngIf="plan.statusID =='11'" type="checkbox"
+                            (click)="checkedApproved(plan.planID,plan.status)" title="Select Activity"><i
+                                class="mdi-checkbox-blank-outline  text-primary"></i></a>
+
+                        <a *ngIf="plan.status =='Item Selected'" type="checkbox"
+                            (click)="UpdateSubmitUnCheck(plan.planID,plan.status)" title="UnSelect Activity"><i
+                                class="mdi mdi-checkbox-marked text-primary"></i></a>
+                        <a *ngIf="plan.statusID =='15'" type="checkbox"
+                            (click)="UncheckedApproved(plan.planID,plan.status)" title="UnSelect Activity"><i
+                                class="mdi mdi-checkbox-marked text-primary"></i></a>
+                        <input *ngIf="plan.status =='Change Request'" type="checkbox"
+                            (click)="UpdateSubmitCheck(plan.planID,plan.status)">
+                        <input *ngIf="plan.status =='Request Selected'" type="checkbox"
+                            (click)="UpdateSubmitUnCheck(plan.planID,plan.status)" checked>
+                        &nbsp;&nbsp;
+
+                        <a *ngIf="plan.statusID =='4'" (click)="ModelHeadSub(editModelsub,plan.planID,plan.periodID)"
+                            title="View Head-Office Sub-Activies"><i class="mdi mdi-eye text-primary"></i></a>
+                        &nbsp;&nbsp;
+                        <a *ngIf="plan.statusID =='4'" type="submit"
+                            (click)="openEditdistrictList(districtList,plan.planID,plan.activityName)"
+                            title="View District Sub-Activies"><i class="mdi  mdi-comment-eye text-primary"></i></a>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--Spinner code-->
+            <div *ngIf="isPageLoading" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div *ngIf="this.currentRole =='CES' &&  this.userOffice=='Head Office' &&  this.userDirectorate=='Public Ordinary Schools' "
+                class="card-footer">
+
+                <div class="row float-right">
+                    <button [disabled]="isPageLoading" *ngIf="this.buttons1 !=''" type="submit" (click)="SubmitReviewAll()"
+                        class="btn btn-primary mr-2 ">Submit All
+                    </button>
+                    <button [disabled]="isPageLoading" *ngIf="this.buttons1 !=''" (click)="checkedAll()" class="btn btn-primary mr-2 ">Select
+                        All</button>
+                    <button [disabled]="isPageLoading" *ngIf=" this.buttons2 !=''" (click)="UncheckedAll()" class="btn btn-primary mr-2 ">UnSelect
+                        All</button>
+                    <button [disabled]="isPageLoading" *ngIf=" this.buttons2 !=''" (click)="Submitchecked()" class="btn btn-primary mr-2 ">Submit
+                        Selected</button>
+                    <button [disabled]="isPageLoading" *ngIf=" this.buttons3 !=''" type="submit" (click)="publish()"
+                        class="btn btn-primary mr-2 ">Publish All</button>
+                    <button [disabled]="isPageLoading"  *ngIf=" this.buttons4 !=''" type="submit" (click)="publishSelected()"
+                        class="btn btn-primary mr-2 ">Publish Selected</button>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--create model-->
+<ng-template #editModel let-modal>
+    <div class="card-header bg-primary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Create Activity</h6>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="userForm" (ngSubmit)="Submit()">
+            <div class="row" style="margin-top: 1.3rem">
+                <div class="col-md-12">
+                    <h6 class="card-title" style="font-weight: 700">Activity Plan
+                    </h6>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="managementPeriod">Management Plan Period
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <select class="form-control" [(ngModel)]="managementPeriod" formControlName="managementPeriod"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.managementPeriod.errors}">
+                            <option value="" hidden disabled selected>Please select one</option>
+                            <option *ngFor="let e of periodList" [value]=e> {{e}}</option>
+
+                        </select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.managementPeriod.errors?.required" class="invalid">Plan Period
+                            Required
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!----->
+            <!---position-->
+
+            <div class="row">
+
+                <!---drop down-->
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="activityName">Activity Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <select class="form-control" formControlName="activityName" (change)="selectInput($event)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.activityName.errors}" required>
+                            <option value="" hidden disabled selected>Please select one</option>
+                            <option *ngFor="let e of ActivityList" [value]=e.activityName> {{e.activityName}}</option>
+                            <option value="Other" selected>Other</option>
+                        </select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.activityName.errors?.required" class="invalid">Activity Name
+                            Required
+                        </p>
+                    </div>
+                </div>
+                <!--if statement-->
+                <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="newActityName">New Activity Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="text" class="form-control" [(ngModel)]="newActityName"
+                            formControlName="newActityName" placeholder="Please Type "
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.newActityName.errors}" required>
+
+                        <p *ngIf="isFormSubmitted && Form.newActityName.errors?.required" class="invalid">Activity Name
+                            Required
+                        </p>
+                    </div>
+                </div>
+
+                <!---office level drop down-->
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="officelevel">Office Level <span class="required-asterisk">*</span></label>
+
+                        <select [(ngModel)]="officelevel" formControlName="officelevel"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.officelevel.errors}" class="form-control"
+                            (change)="AdminRole(responsibilityType)">
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option *ngFor="let office of OfficeLevelList" (click)="getPostionByBranch(office)"
+                                [hidden]="isLevelInvalid(office.officeLevel)" [value]=office.officeLevel>
+                                {{office.officeLevel}}
+                            </option>
+                        </select>
+
+
+
+                        <p *ngIf="isFormSubmitted && Form.officelevel.errors?.required" class="invalid-feedback">Office
+                            level required</p>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+            <!--row end-->
+
+            <div *ngIf="officelevel =='Head Office' || officelevel =='District' " class="row">
+
+                <div class="col-md-6">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" [(ngModel)]="responsibilityType"
+                                formControlName="responsibilityType" value="All" (click)="AdminRole('All')"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.responsibilityType.errors }" required>
+                            <i class="input-frame"></i>
+                            All GDE Employees<span class="required-asterisk">*</span>
+                        </label>
+
+                    </div>
+                    <!-- <small *ngIf="isCreateFormSubmitted && createForm.userType.errors?.required"
+                        class="text-danger justify-content-center">Please Choose One Option For User
+                        Type </small> -->
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" [(ngModel)]="responsibilityType"
+                                formControlName="responsibilityType" value="Other" (click)="AdminRole('Other')"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.responsibilityType.errors }" required>
+                            <i class="input-frame"></i>
+                            Selected Employees<span class="required-asterisk">*</span>
+                        </label>
+
+                    </div>
+
+                </div>
+                <small *ngIf="isFormSubmitted && Form.responsibilityType.errors?.required"
+                    class="text-danger justify-content-center">Please select option above </small>
+
+            </div>
+            <!--position for All Employees-->
+
+
+            <div *ngIf="officelevel =='Head Office' && responsibilityType=='All' " class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+
+                        <ng-select [items]="Headposition" [multiple]=true [closeOnSelect]="true" bindLabel="position"
+                            [(ngModel)]="id" formControlName="id" placeholder="Please select"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Form.id.errors}" required>
+
+
+                        </ng-select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.id.errors?.required" class="invalid">Responsibility
+                            Required</p>
+
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="officelevel =='District' && responsibilityType=='All' " class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+
+                        <ng-select [items]="Districtposition" [multiple]=true [closeOnSelect]="true"
+                            bindLabel="position" [(ngModel)]="id" formControlName="id" placeholder="Please select"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Form.id.errors}" required>
+
+
+                        </ng-select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.id.errors?.required" class="invalid">Responsibility
+                            Required</p>
+
+                    </div>
+
+                </div>
+            </div>
+            <!---end for All Employees-->
+            <!---head office fileld for other user-->
+
+            <div *ngIf="officelevel=='Head Office' && responsibilityType=='Other'" class="row">
+                <div style="margin-bottom: 1rem; margin-top: 1rem;" class="row" class="col-md-12">
+
+                    <h6>Head Office Information</h6>
+                </div>
+                <!--branch Head Office-->
+                <div *ngIf="officelevel=='Head Office' && responsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="Branch">Branch <span class="required-asterisk">*</span> </label>
+                        <select [(ngModel)]="Branch" formControlName="Branch" name="Branch" class="form-control"
+                            (change)="selectBranch(Branch,'create')"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.Branch.errors}" required>
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option *ngFor="let branch of allBranches; let i = index" (click)="setId(branch, 'branch')"
+                                value="{{branch.branchId}}#;{{branch.branchName}}#;{{branch.id}}">
+                                {{branch.branchName}}
+                            </option>
+
+                            <!-- <option *ngFor="let branch of allBranches" value="{{branch}}">
+                                    {{branch}}
+                                </option> -->
+
+                        </select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.Branch.errors?.required" class="invalid-feedback"> Branch
+                            required</p>
+                    </div>
+                </div>
+                <!---chied directorate -->
+                <div *ngIf="officelevel =='Head Office' && responsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+                        <label for="ChiefDirectorate">Chief Directorate <span class="required-asterisk">*</span></label>
+
+                        <select [(ngModel)]="ChiefDirectorate" formControlName="ChiefDirectorate"
+                            name="ChiefDirectorate" class="form-control"
+                            (change)="selectChiefDirectorate(ChiefDirectorate)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.ChiefDirectorate.errors}" required>
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option value="" [hidden]="Branch" disabled>Please select branch first</option>
+                            <option *ngFor="let cd of chiefDirectorates" [hidden]="!cd || !Branch"
+                                value="{{cd.id}}#;{{cd.chiefDirectorateName}}">
+                                {{cd.chiefDirectorateName}} </option>
+
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Form.ChiefDirectorate.errors?.required" class="invalid-feedback">
+                            Chief Directorate Required</p>
+
+                    </div>
+                </div>
+                <!----directorate-->
+                <div *ngIf="officelevel =='Head Office' && responsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+                        <label for="Directorate">Directorate <span class="required-asterisk">*</span>
+                        </label>
+
+                        <select class="form-control" [(ngModel)]="Directorate" formControlName="Directorate"
+                            name="Directorate" class="form-control" (change)="selectDirectorate(Directorate)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.Directorate.errors}" required>
+                            <option [value]="selectedType" disabled selected hidden>Please select</option>
+                            <option value="" [hidden]="ChiefDirectorate" disabled>Please select chief
+                                directorate first</option>
+                            <option *ngFor="let dir of directorates" [hidden]="!ChiefDirectorate"
+                                value="{{dir.id}}#;{{dir.directorateName}}">
+                                {{dir.directorateName}} </option>
+                            <!-- <option *ngFor="let dir of directorates" [hidden]="!dir || !ChiefDirectorate"
+                                    [value]="dir">{{dir}}</option> -->
+                        </select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.Directorate.errors?.required" class="invalid-feedback">
+                            Directorate required</p>
+                    </div>
+                </div>
+                <!--sub directorate-->
+
+                <div *ngIf="officelevel =='Head Office' && responsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+                        <label for="SubDirectorate">Sub-Directorate <span
+                                *ngIf="subDirectorates.length == 0 && !Directorate || subDirectorates.length > 0"
+                                class="required-asterisk">*</span></label>
+                        <select class="form-control" [(ngModel)]="SubDirectorate"
+                            *ngIf="subDirectorates.length == 0 && !Directorate || subDirectorates.length > 0"
+                            formControlName="SubDirectorate" name="SubDirectorate" class="form-control"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Form.SubDirectorate.errors}" required>
+                            <option [value]="selectedType" style="color: lightgrey;" hidden disabled selected>
+                                Please select</option>
+                            <option value="" [hidden]="Directorate" disabled>Please select directorate
+                                first</option>
+                            <option *ngFor="let sub of subDirectorates" [hidden]="!Directorate"
+                                value="{{sub.subDirectorateName}}">
+                                {{sub.subDirectorateName}} </option>
+                            <!-- <option *ngFor="let sub of subDirectorates" [hidden]="!sub || !Directorate"
+                                    [value]="sub">{{sub}}
+                                </option> -->
+                        </select>
+
+                        <!-- <input *ngIf="!isAdmin" class="form-control" value="{{Directorate}}" readonly> -->
+                        <p *ngIf="isFormSubmitted && Form.SubDirectorate.errors?.required" class="invalid-feedback">
+                            Sub-Directorate required</p>
+                    </div>
+
+                </div>
+                <!--position-->
+                <div *ngIf="officelevel =='Head Office' && responsibilityType=='Other' " class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+                        <ng-select [items]="positions" [multiple]=true [closeOnSelect]="true" bindLabel="rolename"
+                            [(ngModel)]="id" [searchable]="true" formControlName="id" placeholder="Please select"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Form.id.errors}" required>
+                        </ng-select>
+
+                        <p *ngIf="isFormSubmitted && Form.id.errors?.required" class="invalid-feedback">Responsibility
+                            Required</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!--end of head office user--->
+
+
+            <!---district information office level-->
+
+            <div *ngIf="officelevel =='District'  && responsibilityType=='Other' " class="row">
+
+                <div *ngIf="officelevel =='District'  " style="margin-bottom: 1rem; margin-top: 1rem;" class="row"
+                    class="col-md-12">
+
+                    <h6>District Information</h6>
+                </div>
+
+                <div *ngIf="officelevel =='District' && responsibilityType=='Other'" class="col-md-6">
+                    <div class="form-group">
+                        <label for="region">Region<span class="required-asterisk">*</span></label>
+                        <select [(ngModel)]="region" formControlName="region" name="region"
+                            (change)="onselectedregion(region)" class="form-control"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.region.errors}" required>
+
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option *ngFor="let reg of regionsData" value="{{reg}}">{{reg}}</option>
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Form.region.errors?.required" class="invalid-feedback">
+                            Region Required</p>
+
+
+                    </div>
+                </div>
+
+                <div *ngIf="officelevel =='District' && responsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+                        <label for="districtName">District<span class="required-asterisk">*</span></label>
+                        <select [(ngModel)]="districtName"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.districtName.errors}"
+                            formControlName="districtName" class="form-control" name="districtName" required>
+                            <!-- <option [value]="selectedType" hidden disabled selected>Please select</option>
+                                <option *ngFor="let dis of districtsData" [ngValue]="dis">{{dis}}</option> -->
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option value="" [hidden]="region" disabled>Please select region</option>
+                            <option *ngFor="let dis of districtsData" [hidden]="!region" [value]="dis">{{dis |
+                                titlecase}}</option>
+
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Form.districtName.errors?.required" class="invalid-feedback">
+                            District Required</p>
+
+                    </div>
+
+                </div>
+
+                <div *ngIf="officelevel =='District' && responsibilityType=='Other'" class="col-md-6">
+                    <div class="form-group">
+                        <label for="SubDirectorate">Sub-Directorate <span class="required-asterisk">*</span></label>
+                        <select class="form-control" formControlName="SubDirectorate" [(ngModel)]="SubDirectorate"
+                            name="SubDirectorate" class="form-control" (change)="Subdirectorate($event)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.SubDirectorate.errors}" required>
+                            <option [value]="selectedType" hidden disabled selected>Please select</option>
+                            <option *ngFor="let c of dispositionsdatasub" [hidden]="!c" value="{{c}}">{{c}}
+                            </option>
+                        </select>
+                        <p *ngIf="isFormSubmitted && Form.SubDirectorate.errors?.required" class="invalid-feedback">
+                            Sub-Directorate Required</p>
+                    </div>
+                </div>
+                <div *ngIf="officelevel =='District' && responsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+                        <ng-select [items]="dispositionsdataposition" [multiple]=true [closeOnSelect]="true"
+                            bindLabel="position" formControlName="id" [(ngModel)]="id" placeholder="Please select"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Form.id.errors}" required>
+
+                        </ng-select>
+                        <p *ngIf="isFormSubmitted  && Form.id.errors?.required" class="invalid-feedback">Responsibility
+                            Required</p>
+                    </div>
+                    <!------>
+
+
+                </div>
+
+            </div>
+            <!---END OF District office-->
+
+
+            <div *ngIf="officelevel =='School' " class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+
+                        <ng-select [items]="responsibilities" [multiple]=true [closeOnSelect]="true"
+                            bindLabel="position" [(ngModel)]="id" formControlName="id" placeholder="Please select"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Form.id.errors}" required>
+
+
+                        </ng-select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.id.errors?.required" class="invalid">Responsibility
+                            Required</p>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--date-->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="startDate">Start Date
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="date" class="form-control" [min]="getToday()" [(ngModel)]="startDate"
+                            formControlName="startDate" (change)="clearEndDate()"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Form.startDate.errors?.required" class="invalid">Date Required</p>
+                        <p class="text-danger mt-1" *ngIf="min?.errors?.min">maxDate error</p>
+                    </div>
+
+
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="endDate">End Date
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="date" class="form-control" [min]="getday()" [(ngModel)]="endDate"
+                            formControlName="endDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Form.endDate.errors?.required" class="invalid">Date Required</p>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!--row end-->
+            <!--radio button-->
+
+            <!--button-->
+            <div class="card-footer">
+
+                <div class="row float-right">
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-warning mr-2" (click)="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div><!-- row end -->
+</ng-template>
+
+<!--editModal With Offilevel-->
+<ng-template #editModel2 let-modal>
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h6 class="modal-title text-white">Update Activity</h6>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="editForm">
+            <div class="row" style="margin-top: 1.3rem">
+                <div class="col-md-12">
+                    <h6 class="card-title" style="font-weight: 700">Activity Plan
+                    </h6>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="managementPeriod">Management Plan Period
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <select class="form-control" [(ngModel)]="managementPeriod" formControlName="managementPeriod"
+                            (change)="selectInput($event)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.managementPeriod.errors}">
+                            <option value="" hidden disabled selected>Please select one</option>
+                            <option *ngFor="let e of periodList"> {{e}}</option>
+
+                        </select>
+
+
+                        <p *ngIf="isFormSubmitted && Forms.managementPeriod.errors?.required" class="invalid">Plan
+                            Period Required
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!----->
+            <!---position-->
+
+            <div class="row">
+
+                <!---drop down-->
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="activityName">Activity Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <select class="form-control" [(ngModel)]="activityName" formControlName="activityName"
+                            (change)="selectInput($event)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.activityName.errors}" required>
+                            <option value="" hidden disabled selected>Please select one</option>
+                            <option *ngFor="let e of ActivityList" [value]=e.activityName> {{e.activityName}}</option>
+                            <option value="Other" selected>Other</option>
+                        </select>
+
+
+                        <p *ngIf="isFormSubmitted && Forms.activityName.errors?.required" class="invalid">Activity Name
+                            Required
+                        </p>
+                    </div>
+                </div>
+                <!--if statement-->
+                <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="newActityName">New Activity Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="text" class="form-control" [(ngModel)]="newActityName"
+                            formControlName="newActityName" placeholder="Please Type "
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.newActityName.errors}" required>
+
+                        <p *ngIf="isFormSubmitted && Form.newActityName.errors?.required" class="invalid">Activity Name
+                            Required
+                        </p>
+                    </div>
+                </div>
+
+                <!---office level drop down-->
+
+                <div class="col-md-6">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="updateOfficelevel">Office Level <span class="required-asterisk">*</span></label>
+
+                            <select [(ngModel)]="updateOfficelevel" formControlName="updateOfficelevel"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateOfficelevel.errors}"
+                                formControlName="updateOfficelevel" class="form-control"
+                                (change)="ClearUpdate(updateResponsibilityType)">
+                                <option value="" hidden disabled selected>Please select</option>
+                                <option *ngFor="let e of OfficeLevelList" [value]=e.officeLevel> {{e.officeLevel}}
+                                </option>
+                            </select>
+
+
+                            <p *ngIf="isFormSubmitted && Forms.updateOfficelevel.errors?.required"
+                                class="invalid-feedback">Office level required</p>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+            <!--row end-->
+            <!---radio buttons-->
+            <div *ngIf="updateOfficelevel =='Head Office' || updateOfficelevel =='District' " class="row">
+
+                <div class="col-md-6">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" [(ngModel)]="updateResponsibilityType"
+                                formControlName="updateResponsibilityType" value="All" (click)="ClearUpdate('All')"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateResponsibilityType.errors }"
+                                required>
+                            <i class="input-frame"></i>
+                            All GDE Employees<span class="required-asterisk">*</span>
+                        </label>
+
+                    </div>
+                    <!-- <small *ngIf="isCreateFormSubmitted && createForm.userType.errors?.required"
+                        class="text-danger justify-content-center">Please Choose One Option For User
+                        Type </small> -->
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" [(ngModel)]="updateResponsibilityType"
+                                formControlName="updateResponsibilityType" value="Other" (click)="ClearUpdate('Other')"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateResponsibilityType.errors }"
+                                required>
+                            <i class="input-frame"></i>
+                            Selected Employees<span class="required-asterisk">*</span>
+                        </label>
+
+                    </div>
+
+                </div>
+                <small *ngIf="isFormSubmitted && Forms.updateResponsibilityType.errors?.required"
+                    class="text-danger justify-content-center">Please select option above </small>
+
+            </div>
+            <!--position for All Employees-->
+
+
+            <div *ngIf="updateOfficelevel =='Head Office' && updateResponsibilityType=='All' " class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+
+                        <ng-select [items]="Headposition" [multiple]=true [closeOnSelect]="true" bindLabel="rolename"
+                            [(ngModel)]="position" [searchable]="true" formControlName="id" placeholder="Please select"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Form.id.errors}" required>
+
+
+                        </ng-select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.id.errors?.required" class="invalid">Responsibility
+                            Required</p>
+
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="updateOfficelevel =='District' && updateResponsibilityType=='All' " class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+
+                        <ng-select [items]="Districtposition" [multiple]=true [closeOnSelect]="true"
+                            bindLabel="rolename" [(ngModel)]="position" [searchable]="true" formControlName="id"
+                            placeholder="Please select" [ngClass]="{'is-invalid':isFormSubmitted && Form.id.errors}"
+                            required>
+
+
+                        </ng-select>
+
+
+                        <p *ngIf="isFormSubmitted && Form.id.errors?.required" class="invalid">Responsibility
+                            Required</p>
+
+                    </div>
+
+                </div>
+            </div>
+            <!----end of radio buttons-->
+            <!---head office fileld for other user-->
+            <div *ngIf="updateOfficelevel=='Head Office' && updateResponsibilityType=='Other'  " class="row">
+                <div style="margin-bottom: 1rem; margin-top: 1rem;" class="row" class="col-md-12">
+
+                    <h6>Head Office Information</h6>
+                </div>
+                <!--branch Head Office-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="updateBranch">Branch <span class="required-asterisk">*</span> </label>
+                        <select (change)="selectBranch(updateBranch,'update')" [(ngModel)]="updateBranch"
+                            formControlName="updateBranch" name="updateBranch"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateBranch.errors}" required>
+                            <option value="" hidden disabled selected>Please select</option>
+                            <!-- <option *ngFor="let branch of allBranches; let i = index"
+                                    (click)="setId(branch, 'branch')" value="{{branch.branchName}}">
+                                    {{branch.branchName}}
+                                </option> -->
+                            <option *ngFor="let branch of allBranches"
+                                value="{{branch.branchId}}#;{{branch.branchName}}#;{{branch.id}}">
+                                {{branch.branchName}}
+                            </option>
+                            <!-- <option *ngFor="let c of Branches" [ngValue]="c">{{c}}</option> -->
+
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Forms.updateBranch.errors?.required" class="invalid-feedback">
+                            Branch Required</p>
+                    </div>
+                </div>
+                <!---chied directorate -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="updateChiefDirectorate">Chief Directorate <span
+                                class="required-asterisk">*</span></label>
+                        <select [(ngModel)]="updateChiefDirectorate" formControlName="updateChiefDirectorate"
+                            name="updateChiefDirectorate" (change)="selectChiefDirectorate(updateChiefDirectorate)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateChiefDirectorate.errors}" required>
+                            <option value="" hidden selected disabled>Please select</option>
+                            <!-- <option *ngFor="let c of BranchCD" [hidden]="!c" [ngValue]="c">{{c}}
+                                </option> -->
+                            <option *ngFor="let chief of chiefDirectorates"
+                                value="{{chief.id}}#;{{chief.chiefDirectorateName}}">
+                                {{chief.chiefDirectorateName}}
+                            </option>
+
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Forms.updateChiefDirectorate.errors?.required"
+                            class="invalid-feedback">Chief Directorate Required</p>
+
+                    </div>
+                </div>
+                <!----directorate-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="updateDirectorate">Directorate <span class="required-asterisk">*</span>
+                        </label>
+                        <select class="form-control" [(ngModel)]="updateDirectorate" formControlName="updateDirectorate"
+                            name="updateDirectorate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateDirectorate.errors}" required
+                            (change)="selectUpdateDirectorate(updateDirectorate)">
+                            <option value="" hidden selected disabled>Please select</option>
+                            <!-- <option *ngFor="let c of HODData" [hidden]="!c" [ngValue]="c">{{c}}</option> -->
+                            <option *ngFor="let dir of directorates" value="{{dir.id}}#;{{dir.directorateName}}">
+                                {{dir.directorateName}}
+                            </option>
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Forms.updateDirectorate.errors?.required" class="invalid-feedback">
+                            Directorate Required</p>
+                    </div>
+                </div>
+                <!--sub directorate-->
+
+                <div *ngIf="updateOfficelevel =='Head Office' && updateResponsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+                        <label for="updateSubDirectorate">Sub-Directorate <span
+                                class="required-asterisk">*</span></label>
+                        <select class="form-control" [(ngModel)]="updateSubDirectorate"
+                            formControlName="updateSubDirectorate" name="updateSubDirectorate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateSubDirectorate.errors}" required>
+                            <option value="" hidden selected disabled>Please select</option>
+                            <!-- <option *ngFor="let c of HOSDData" [hidden]="!c" [ngValue]="c">{{c}}
+                                </option> -->
+                            <option *ngFor="let sub of subDirectorates" value="{{sub.id}}#;{{sub.subDirectorateName}}">
+                                {{sub.subDirectorateName}}
+                            </option>
+                        </select>
+                        <p *ngIf="isFormSubmitted && Forms.updateSubDirectorate.errors?.required"
+                            class="invalid-feedback">Sub-Directorate Required</p>
+                    </div>
+                </div>
+                <!--position-->
+                <div *ngIf="updateOfficelevel =='Head Office' && updateResponsibilityType=='Other' " class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="id">Responsibility<span class="required-asterisk">*</span></label>
+                        <ng-select [items]="positions" [multiple]=true [closeOnSelect]="true" bindLabel="rolename"
+                            [(ngModel)]="position" [searchable]="true" formControlName="id" placeholder="Please select"
+                            [ngClass]="{'is-invalid':isFormSubmitted && Forms.id.errors}" required>
+                        </ng-select>
+                        <p *ngIf="isFormSubmitted && Forms.id.errors?.required" class="invalid-feedback">Position
+                            Required</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!--end of head office user--->
+            <!---district information office level-->
+            <!----->
+
+            <div class="row">
+
+                <div *ngIf="updateOfficelevel =='District' && updateResponsibilityType=='Other'  "
+                    style="margin-bottom: 1rem; margin-top: 1rem;" class="row" class="col-md-12">
+
+                    <h6>District Information</h6>
+                </div>
+
+                <div *ngIf="updateOfficelevel =='District' && updateResponsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+                        <label for="updateRegion">Region <span class="required-asterisk">*</span></label>
+                        <select [(ngModel)]="updateRegion" formControlName="updateRegion" name="updateRegion"
+                            (change)="onupdateSelectedregion(updateRegion)" (click)="setValidationFlag(true)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateRegion.errors}" required>
+
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option *ngFor="let reg of regionsData" value="{{reg}}">{{reg}}</option>
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Forms.updateRegion.errors?.required" class="invalid-feedback">
+                            Region Required</p>
+
+
+                    </div>
+                </div>
+
+                <div *ngIf="updateOfficelevel =='District' && updateResponsibilityType=='Other' " class="col-md-6">
+                    <div class="form-group">
+                        <label for="updateDistrictName">District<span class="required-asterisk">*</span></label>
+                        <select [(ngModel)]="updateDistrictName"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateDistrictName.errors}"
+                            formControlName="updateDistrictName" name="updateDistrictName" required>
+                            <!-- <option value="" hidden disabled selected>Please select</option>
+                                <option *ngFor="let dis of districtsData" [value]="dis">{{dis | titlecase}}</option> -->
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option value="" [hidden]="updateRegion" disabled>Please select region</option>
+                            <option *ngFor="let dis of districtsData" [hidden]="!updateRegion" [value]="dis">{{dis |
+                                titlecase}}</option>
+                        </select>
+
+                        <p *ngIf="isFormSubmitted && Forms.updateDistrictName.errors?.required"
+                            class="invalid-feedback">District required</p>
+
+                    </div>
+
+                </div>
+                <!-- <div *ngIf="updateRoletype == 'otherRole' && updateOfficelevel =='District' " class="col-md-6">
+                        <div class="form-group">
+                            <label for="updateDirectorate">Directorate </label>
+
+                            <select class="form-control" formControlName="updateDirectorate"
+                                [(ngModel)]="updateDirectorate" name="updateDirectorate"
+                                [ngClass]="{'is-invalid': isEditFormSubmitted && createForm.updateDirectorate.errors}"
+                                required>
+                                <option value="" hidden disabled selected>Please select</option>
+                                <option *ngFor="let c of dispositiondatadir" value="{{c}}">{{c}}</option>
+                            </select>
+                            <p *ngIf="isEditFormSubmitted && createForm.updateDirectorate.errors?.required"
+                                class="invalid-feedback">Directorate required</p>
+                        </div>
+                    </div> -->
+                <div *ngIf="updateOfficelevel =='District' && updateResponsibilityType=='Other'  " class="col-md-6">
+                    <div class="form-group">
+                        <label for="updateSubDirectorate">Sub-Directorate <span
+                                class="required-asterisk">*</span></label>
+                        <select (change)="updateSubdirectorate(updateSubDirectorate)"
+                            formControlName="updateSubDirectorate" [(ngModel)]="updateSubDirectorate"
+                            name="updateSubDirectorate" (click)="setValidationFlag(true)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.updateSubDirectorate.errors}" required>
+                            <option value="" hidden disabled selected>Please select</option>
+                            <option *ngFor="let c of dispositionsdatasub" value="{{c}}">{{c}}</option>
+                        </select>
+                        <p *ngIf="isFormSubmitted && Forms.updateSubDirectorate.errors?.required"
+                            class="invalid-feedback">Sub-Directorate Required</p>
+                    </div>
+                </div>
+                <div *ngIf="updateOfficelevel =='District' && updateResponsibilityType=='Other'" class="col-md-6">
+                    <div class="form-group">
+                        <label for="updatePosition">Position <span class="required-asterisk">*</span>
+                        </label>
+                        <ng-select (change)="getPosition(position)" [items]="dispositionsdataposition" [multiple]=true
+                            [closeOnSelect]="true" bindLabel="rolename" [(ngModel)]="position" [searchable]="true"
+                            formControlName="id">
+                        </ng-select>
+
+                        <p *ngIf="isFormSubmitted && Forms.id.errors?.required" class="invalid-feedback">Position
+                            required</p>
+                    </div>
+
+                </div>
+
+            </div>
+            <!---END OF District office-->
+
+
+            <div *ngIf="updateOfficelevel =='School' " class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="id">Responsibility School<span class="required-asterisk">*</span></label>
+
+                        <ng-select [items]="responsibilities" [multiple]=true [closeOnSelect]="true"
+                            bindLabel="rolename" [(ngModel)]="position" [searchable]="true" formControlName="id">
+
+
+
+
+                        </ng-select>
+
+
+                        <p *ngIf="isFormSubmitted && Forms.id.errors?.required" class="invalid">Responsible Person
+                            Required</p>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--date-->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="startDate">Start Date
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="date" class="form-control" [min]="getToday()" [(ngModel)]="startDate"
+                            formControlName="startDate" (change)="clearEndDate()"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.startDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Forms.startDate.errors?.required" class="invalid">Date Required</p>
+                    </div>
+
+
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="endDate">End Date
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="date" class="form-control" [min]="getday()" [(ngModel)]="endDate"
+                            formControlName="endDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Forms.endDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Forms.endDate.errors?.required" class="invalid">Date Required</p>
+                    </div>
+                </div>
+            </div>
+            <!--row end-->
+            <!--radio button-->
+
+            <!--button-->
+            <div class="card-footer">
+
+                <div class="row float-right">
+                    <button type="submit" (click)="UpdateSubmit()" class="btn btn-primary mr-2">Update</button>
+                    <button class="btn btn-warning mr-2" (click)="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div><!-- row end -->
+
+</ng-template>
+
+<!---comment modal-->
+<ng-template #editModel4 let-modal>
+
+    <div class="card-header bg-primary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Review Comment</h6>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="userFormCommet">
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="comment">Comment</label>
+                    <textarea class="form-control" [(ngModel)]="comment" formControlName="comment" rows="8"
+                        placeholder="No Comment" readonly></textarea>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+                <div class="row float-right">
+
+                    <button class="btn btn-warning mr-2" (click)="modal.close('by: close icon');">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div><!-- row end -->
+
+</ng-template>
+<!---Modal View Sub-Acticity Head Office-->
+
+<ng-template #editModelsub let-modal>
+
+    <div class="card-header bg-primary ">
+        <h6 class="card-title text-white" style="margin-bottom: 0;"> Head-Office Sub-Activies Plan</h6>
+    </div>
+
+
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="noDisputes" class="row justify-content-center">
+                    <div class="row">
+                        <h4 class="text-danger">There are no sse logged in your Province</h4>
+                    </div>
+                </div>
+
+
+                <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-secondary">
+                            <tr>
+
+                                <th class="text-white">Sub-Activity Name</th>
+                                <th class="text-white">Responsibility</th>
+                                <th class="text-white">Start Date</th>
+                                <th class="text-white">End Date</th>
+                                <th class="text-white">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let e of HeadList;">
+
+                                <td>{{ e.subActivity }}</td>
+                                <td>{{ e.responsibility }}</td>
+                                <td>{{ e.startDate | date:'YYYY-MM-dd '}}</td>
+                                <td>{{ e.endDate | date:'YYYY-MM-dd '}}</td>
+                                <td>
+
+                                    &nbsp;&nbsp;
+
+                                    <a *ngIf="e.statusID !='4'"
+                                        (click)="openListHO(editHodSub,e.id,e.subActivity,e.responsibility,e.startDate,e.endDate,e.periodID,managementPlanActivityId,e.statusID)"
+                                        title="Edit Activity"><i class="mdi mdi-pencil text-primary"></i></a>
+                                    <a *ngIf="e.statusID =='4'"
+                                        (click)="openListHO(editHodSub,e.id,e.subActivity,e.responsibility,e.startDate,e.endDate,e.periodID,managementPlanActivityId,e.statusID)"
+                                        title="Edit Published Activity"><i class="mdi mdi-pencil text-primary"></i></a>
+                                    &nbsp;&nbsp;
+                                    &nbsp;&nbsp;
+
+                                    <a *ngIf="e.statusID == 7" type="checkbox" (click)="CheckBoxHead(e.id,e.statusID)"
+                                        title="Select Activity"><i
+                                            class="mdi-checkbox-blank-outline  text-primary"></i></a>
+                                    <a *ngIf="e.statusID == 6" type="checkbox" (click)="UnCheckBoxHead(e.id,e.statusID)"
+                                        title="UnSelect Activity"><i
+                                            class="mdi mdi-checkbox-marked text-primary"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-footer">
+
+                        <div class="row float-right">
+                            <button *ngIf=" this.button1 !=''" type="submit" (click)="PublishAll()"
+                                class="btn btn-primary mr-2">Publish All</button>
+                            <button *ngIf=" this.button2 !=''" type="submit" (click)="Publishchecked()"
+                                class="btn btn-primary mr-2">Publish Selected</button>
+
+                            <button class="btn btn-warning mr-2 float-right "
+                                (click)="modal.close('by: close icon');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</ng-template>
+
+<!--Modal Edit Sub-Activity list Per District-->
+<ng-template #editModel let-modal>
+    <div class="card-header bg-primary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;"> Edit Sub-Activity Plan</h6>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="DistrictForm">
+
+
+
+
+
+            <div class="row">
+
+
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="subActivity"> Sub-Activity Name</label>
+                        <input class="form-control" [(ngModel)]="subActivity" formControlName="subActivity"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.subActivity.errors}">
+
+
+
+                    </div>
+                    <p *ngIf="isFormSubmitted && Form.subActivity.errors?.required" class="invalid">Field required</p>
+                </div>
+                <!--if statement-->
+
+
+
+                <!--responsible person-->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="responsibility">Responsible Person:</label>
+                        <div class="input-group ">
+                            <input type="text" class="form-control" [(ngModel)]="responsibility"
+                                formControlName="responsibility"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.responsibility.errors}">
+
+                        </div>
+                        <p *ngIf="isFormSubmitted && Form.responsibility.errors?.required" class="invalid">Field
+                            required</p>
+                    </div>
+
+                </div>
+            </div>
+            <!--row end-->
+            <!--date-->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="startDate">Start Date </label>
+                        <input type="date" class="form-control" [min]="getToday()" [max]="getday()"
+                            [(ngModel)]="startDate" formControlName="startDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+
+
+
+                    </div>
+                    <p *ngIf="isFormSubmitted && Form.startDate.errors?.required" class="invalid">Date required</p>
+                </div>
+                <!---->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="endDate">End Date </label>
+                        <input type="date" class="form-control" [min]="getToday()" [max]="getday()"
+                            [(ngModel)]="endDate" formControlName="endDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}">
+
+
+
+                    </div>
+                    <p *ngIf="isFormSubmitted && Form.endDate.errors?.required" class="invalid">Date required</p>
+                </div>
+            </div>
+            <!--row end-->
+            <div class="card-footer">
+
+                <div class="row float-right">
+                    <button type="submit" (click)="update()" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-warning mr-2" (click)="modal.close('by: close icon');">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div><!-- row end -->
+</ng-template>
+<!--Modal Add Sub-Activity list For Ho-->
+<ng-template #editModelHoSub let-modal>
+    <div class="card-header bg-primary ">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Add Sub-Activity Plan</h6>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="HeadSubForm">
+
+            <div class="row" style="margin-top: 1.3rem">
+                <div class="col-md-12">
+                    <h6 class="card-title" style="font-weight: 700">Sub-Activity Plan
+                    </h6>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="PeriodID">Management Plan Period <span class="required-asterisk">*</span> </label>
+                        <input class="form-control" [(ngModel)]="managementPeriod" formControlName="PeriodID"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormS.PeriodID.errors}" readonly>
+
+
+                    </div>
+
+                    <p *ngIf="isFormSubmitted && FormS.PeriodID.errors?.required" class="invalid">Field Required</p>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="managementPlanActivityId">Activity Name <span class="required-asterisk">*</span>
+                        </label>
+                        <input class="form-control" [(ngModel)]="activityName"
+                            formControlName="managementPlanActivityId"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormS.managementPlanActivityId.errors}"
+                            readonly>
+
+
+
+                    </div>
+                    <p *ngIf="isFormSubmitted && FormS.managementPlanActivityId.errors?.required" class="invalid">Field
+                        Required</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="subActivity"> Sub-Activity Name <span class="required-asterisk">*</span> </label>
+                        <input type="text" class="form-control" [(ngModel)]="subActivity" formControlName="subActivity"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormS.subActivity.errors}">
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormS.subActivity.errors?.required" class="text-danger">Field
+                        Required</small>
+                </div>
+                <!--responsible person-->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="responsibility">Responsible Person <span class="required-asterisk">*</span> </label>
+
+                        <input type="text" class="form-control" [(ngModel)]="responsibility"
+                            formControlName="responsibility"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormS.responsibility.errors}">
+
+
+
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormS.responsibility.errors?.required" class="text-danger">Field
+                        Required</small>
+
+                </div>
+            </div>
+            <!--row end-->
+            <br>
+            <!--date-->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="startDate">Start Date <span class="required-asterisk">*</span> </label>
+                        <input type="date" class="form-control" [min]="getToday()" [(ngModel)]="startDate"
+                            formControlName="startDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormS.startDate.errors}" required
+                            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"
+                            placeholder="YYYY-MM-DD">
+
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormS.startDate.errors?.required" class="text-danger">Date
+                        Required</small>
+                </div>
+                <!---->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="endDate">End Date <span class="required-asterisk">*</span> </label>
+                        <input type="date" class="form-control" [min]="getday()" [(ngModel)]="endDate"
+                            formControlName="endDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormS.endDate.errors}">
+
+
+
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormS.endDate.errors?.required" class="text-danger">Date
+                        Required</small>
+                </div>
+            </div>
+            <!--row end-->
+            <div class="card-footer">
+
+                <div class="row float-right">
+                    <button type="submit" (click)="logDispute()" class="btn btn-primary mr-2 ">Submit</button>
+                    <button class="btn btn-warning mr-2 " (click)="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div><!-- row end -->
+
+</ng-template>
+<!--Modal Edit Sub-Activity list For Ho-->
+<ng-template #editHodSub let-modal>
+    <div class="card-header bg-primary ">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Edit Sub-Activity Plan</h6>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="HeadSubFormEdit">
+
+            <div class="row" style="margin-top: 1.3rem">
+                <div class="col-md-12">
+                    <h6 class="card-title" style="font-weight: 700">Sub-Activity Plan
+                    </h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="subActivity"> Sub-Activity Name <span class="required-asterisk">*</span> </label>
+                        <input type="text" class="form-control" [(ngModel)]="subActivity" formControlName="subActivity"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormHo.subActivity.errors}">
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormHo.subActivity.errors?.required" class="text-danger">Field
+                        Required</small>
+                </div>
+                <!--responsible person-->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="responsibility">Responsible Person <span class="required-asterisk">*</span> </label>
+
+                        <input type="text" class="form-control" [(ngModel)]="responsibility"
+                            formControlName="responsibility"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormHo.responsibility.errors}">
+
+
+
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormHo.responsibility.errors?.required" class="text-danger">Field
+                        Required</small>
+
+                </div>
+            </div>
+            <!--row end-->
+            <br>
+            <!--date-->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="startDate">Start Date <span class="required-asterisk">*</span> </label>
+                        <input type="date" class="form-control" [min]="getToday()" [(ngModel)]="startDate"
+                            formControlName="startDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormHo.startDate.errors}" required
+                            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"
+                            placeholder="YYYY-MM-DD">
+
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormHo.startDate.errors?.required" class="text-danger">Date
+                        Required</small>
+                </div>
+                <!---->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="endDate">End Date <span class="required-asterisk">*</span> </label>
+                        <input type="date" class="form-control" [min]="getToday()" [max]="getday()"
+                            [(ngModel)]="endDate" formControlName="endDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FormHo.endDate.errors}">
+
+
+
+                    </div>
+                    <small *ngIf="isFormSubmitted && FormHo.endDate.errors?.required" class="text-danger">Date
+                        Required</small>
+                </div>
+            </div>
+            <!--row end-->
+            <div class="card-footer">
+
+                <div class="row float-right">
+                    <button type="submit" (click)="UpdateHoSub()" class="btn btn-primary mr-2 ">Submit</button>
+                    <button class="btn btn-warning mr-2 " (click)="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div><!-- row end -->
+
+</ng-template>
+<!--Modal View Sub-Activity list For All District-->
+<ng-template #districtList let-modal>
+    <div class="card-header bg-primary">
+        <h6 class="col-md-12  card-title text-white" style="margin-bottom: 0;">District-Management Plan</h6>
+    </div>
+
+
+
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="noDisputes" class="row justify-content-center">
+                    <div class="row">
+                        <h4 class="text-danger">There are no sse logged in your Province</h4>
+                    </div>
+                </div>
+
+
+                <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-secondary">
+                            <tr>
+                                <th class="text-white">District Code</th>
+                                <th class="text-white">District Name</th>
+                                <th class="text-white">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let district of districts; let i = index">
+                                <td>{{district.districtCode}}</td>
+                                <td>{{district.districtName}}</td>
+                                <td>
+                                    <a (click)="openEditModelSubListPerDistrict(editModelsubPerDistrict,district.districtCode)"
+                                        title="View Sub-Activies  "><i class="mdi mdi-eye text-primary"></i></a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-footer">
+
+                        <div class="row float-right">
+
+                            <button class="btn btn-warning mr-2 float-right "
+                                (click)="modal.close('by: close icon');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!--Modal View Sub-Activity list For Per District-->
+<ng-template #editModelsubPerDistrict let-modal>
+
+    <div class="card-header bg-primary ">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">District Sub-Activies Plan</h6>
+    </div>
+
+
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="noDisputes" class="row justify-content-center">
+                    <div class="row">
+                        <h4 class="text-danger">There are no sse logged in your Province</h4>
+                    </div>
+                </div>
+
+
+                <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-secondary">
+                            <tr>
+
+                                <th class="text-white">Sub-Activity Name</th>
+                                <th class="text-white">Responsibility</th>
+                                <th class="text-white">Start Date</th>
+                                <th class="text-white">End Date</th>
+                                <!----<th class="text-white">Action</th>--->
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let e of lisSub;">
+
+                                <td>{{ e.subActivity }}</td>
+                                <td>{{ e.responsibility }}</td>
+                                <td>{{ e.startDate | date:'YYYY-MM-dd '}}</td>
+                                <td>{{ e.endDate | date:'YYYY-MM-dd '}}</td>
+                                <!----<td>
+                              
+                                &nbsp;&nbsp;
+                          
+                                <a (click)="openEditModelSubList(editModelsub,e.id,e.subActivity,e.responsibility,e.startDate,e.endDate,managementPlanActivityId)"><i class="mdi mdi-pencil text-primary"></i></a>
+                                &nbsp;&nbsp;
+                              </td> --->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-footer">
+
+                        <div class="row float-right">
+
+                            <button class="btn btn-warning mr-2 float-right "
+                                (click)="modal.close('by: close icon');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!--table view for all other CES AT HEAD OFFICE-->
+
+
+
+<div *ngIf="this.currentRole =='CES' &&  this.userOffice=='Head Office' &&  this.userDirectorate !='Public Ordinary Schools'"
+    class="row mt-4">
+
+    <div class="col-md-12">
+        <div class="table-responsive table-wrap">
+            <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" id="datatable" class="table table-hover ">
+                <thead class="bg-secondary">
+                    <tr>
+                        <!--<th class="text-white">plan Number</th>-->
+                        <th class="text-white">Activity Name</th>
+                        <th class="text-white">Responsibility</th>
+                        <th class="text-white">Start Date</th>
+                        <th class="text-white">End Date</th>
+                        <th class="text-white">Status</th>
+
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let plan of view;">
+
+                        <td>{{ plan.activityName }}</td>
+                        <td>
+                    <tr *ngFor="let manrole of plan.responsibility;">
+                        <td>{{ manrole.rolename }}</td>
+                    </tr>
+                    </td>
+                    <td>{{ plan.startDate | date:'YYYY-MM-dd '}}</td>
+                    <td>{{ plan.endDate | date:'YYYY-MM-dd '}}</td>
+
+                    <td>
+
+                        <span *ngIf="plan.status=='Published '" class="badge badge-success mr-2">Published </span>
+
+
+
+                    </td>
+
+
+
+                    <td>
+
+                        <a *ngIf="plan.statusID =='4'" (click)="ModelHeadSub(editModelsub,plan.planID,plan.periodID)"
+                            title="View Head-Office Sub-Activies"><i class="mdi mdi-eye text-primary"></i></a>
+                        &nbsp;&nbsp;
+                        <a *ngIf="plan.statusID =='4'" type="submit"
+                            (click)="openEditdistrictList(districtList,plan.planID,plan.activityName)"
+                            title="View District Sub-Activies"><i class="mdi  mdi-comment-eye text-primary"></i></a>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>

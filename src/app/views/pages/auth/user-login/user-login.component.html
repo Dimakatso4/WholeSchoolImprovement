@@ -1,0 +1,1031 @@
+<!--master page code-->
+<nav *ngIf="false" class="navbar navbar-expand-lg navbar-light " style="left: 0; top: 0; width: 100%">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 160px; height: auto;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--Master page code-->
+<br>
+
+<!--master page code-->
+<nav class="navbar navbar-expand-lg navbar-light custom-navbar " >
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 160px; height: auto;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--Master page code-->
+<br>
+<div *ngIf="!showForm" class="row w-100 max-0 auth-page">
+    <div class="col-md-6 col-xl-4 col-lg-5 mx-auto">
+        <div class="card">
+            <div class="auth-form-wrapper px-4 py-5">
+                <a href="#" class="noble-ui-logo d-block mb-2" style="margin-bottom: 2.5rem; text-align: center;">
+                    <img src="../../../../../assets/images/DepartmentEducationLogo.png"
+                        style="width: 225px; height: auto;">
+                </a>
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center; margin-bottom: 1.5rem;">
+                        <h5 class="text-muted font-weight-normal mb-4 text-center">Self Registration</h5>
+
+                        <p class="text-center">If you have already submitted your registration form please provide your
+                            information below and click on Resum , please click on the New Registration button to create
+                        </p>
+                    </div>
+                </div>
+                <form class="forms-sample">
+
+                    <div class="form-group row">
+                        <label for="optionsRadios"
+                            class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-form-label">Account
+                            Type:</label>
+                        <div class="justify-content-center col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" (click)="fieldChange()"
+                                        [(ngModel)]="accountType" name="optionsRadios" value="persal">
+                                    <i class="input-frame"></i>
+                                    Persal Number
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" (click)="fieldChange()"
+                                        [(ngModel)]="accountType" name="optionsRadios" value="other">
+                                    <i class="input-frame"></i>
+                                    ID/Passport Number
+                                </label>
+                            </div>
+                            <!-- <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" (click)="fieldChange()"
+                                        [(ngModel)]="accountType" name="optionsRadios" value="passport">
+                                    <i class="input-frame"></i>
+                                    Passport
+                                </label>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- <label *ngIf="accountType == 'sgb'" for="userNumber">ID/Passport Number</label>
+              <label *ngIf="accountType == 'employee' " for="userNumber">Persal Number</label> -->
+                        <label *ngIf="accountType == 'persal'" for="userNumber">Persal Number</label>
+                        <label *ngIf="accountType == 'other'" for="userNumber">ID/Passport Number</label>
+
+                        <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="userNumber"
+                            (focus)="fieldChange()"
+                            [ngClass]="{'is-invalid': isLoginFormSubmitted && !userNumber || isLoginFormSubmitted && isError && userNumber}"
+                            required class="form-control" id="userNumber">
+                        <div *ngIf="isLoginFormSubmitted && !userNumber" style="margin-bottom: 1.5rem;" class="invalid">
+                            <p class="invalid" *ngIf="accountType == 'persal'">Please provde your persal number to
+                                continue</p>
+                            <p class="invalid" *ngIf="accountType == 'other'">Please provde your ID or passport number
+                                to continue</p>
+                        </div>
+                        <div *ngIf="isLoginFormSubmitted && isError && userNumber" style="margin-bottom: 1.5rem;"
+                            class="invalid">
+                            <p class="invalid" *ngIf="accountType == 'persal'">The persal number provided is not
+                                registered in the system</p>
+                            <p class="invalid" *ngIf="accountType == 'other'">The ID or passport number is not
+                                registered in the system</p>
+                        </div>
+                        <div *ngIf="isLoginFormSubmitted && isRegistered && userNumber" style="margin-bottom: 1.5rem;"
+                            class="invalid">
+                            <p class="invalid" *ngIf="accountType == 'persal'">The persal number provided is already
+                                registered into the system</p>
+                            <p class="invalid" *ngIf="accountType == 'other'">The ID or passport number is already
+                                registered into the system</p>
+                        </div>
+
+                        <div class="mt-3" style="text-align: center;">
+                            <div class="row justify-content-center">
+                                <button type="button" class="btn btn-primary mr-2 mb-2" [disabled]="isLoading"
+                                    (click)="resumeRegistration()"><span class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true" *ngIf="isLoading"></span>Resume
+                                    Registration</button>
+                                <button type="button" class="btn btn-primary mr-2 mb-2" [disabled]="isLoading"
+                                    (click)="newRegistration()"><span class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true" *ngIf="isLoading"></span>New
+                                    Registration</button>
+
+                            </div>
+                            <br />
+                            <div class="row justify-content-center">
+                                <button type="button" class="btn btn-warning mr-2 mb-2 mb-md-0" [disabled]="isLoading"
+                                    (click)="Cancel()"><span class="spinner-border spinner-border-sm" role="status"
+                                        aria-hidden="true" *ngIf="isLoading"></span> Cancel</button>
+                            </div>
+                            <!-- <input type="button" (click)="Cancel()" class="btn btn-warning" value="Cancel" /> -->
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showForm == 'create'" class="row w-100 ">
+    <div class="col-md-8 col-xl-6 mx-auto">
+
+        <div class="card">
+
+            <!-- <div style="margin-top:0px ;" class="modal-header bg-primary text-white headingStyle2">
+                <h4 class="modal-title text-white" id="exampleModalLabel">Create new user</h4>
+                <button type="button" class="close text-white" (click)="modal.close('by: close icon')"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> -->
+
+            <div class="card-body">
+
+                <div class="row justify-content-center">
+                    <div class="col-md-8 pl-md-0">
+                        <div class="auth-form-wrapper px-4 py-5">
+                            <img src="../assets/images/DepartmentEducationLogo.png ">
+                            <h5 class="text-muted font-weight-normal mb-4 text-center">Self-User Registration</h5>
+
+                            <br>
+
+                            <!-- <form> -->
+                            <!--top haeder-->
+                            <div class="row label-align">
+                                <h6>Personal Information</h6>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-check form-check-flat form-check-primary">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="userType"
+                                                value="GDE" (change)="changeUserType('GDE')"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && !userType }" required>
+                                            <i class="input-frame"></i>
+                                            GDE Employee<span class="required-asterisk">*</span>
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-check form-check-flat form-check-primary">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="userType"
+                                                name="userType" value="NonGDE" (change)="changeUserType('NonGDE')"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && !userType }" required>
+                                            <i class="input-frame"></i>
+                                            Non GDE Employee<span class="required-asterisk">*</span>
+                                        </label>
+
+                                    </div>
+
+                                </div>
+                                <small *ngIf="isFormSubmitted && !userType"
+                                    class="invalid justify-content-center">Please select one option above </small>
+
+                            </div>
+
+                            <!--persal number  field-->
+                            <div class="row">
+                                <!--persan number filed-->
+                                <div *ngIf="userType =='GDE'" class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="persal" class="required">Persal Number <span
+                                                class="required-asterisk">*</span></label>
+                                        <input type="text" class="form-control" mask="00000000" (input)="setUsername()"
+                                            (blur)="checkPersalDuplcate(persal)"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !persal}" [(ngModel)]="persal"
+                                            id="persal" placeholder="Type here" name="persal">
+                                        <p *ngIf="isFormSubmitted && !persal" class="invalid-feedback">
+                                            Persal Number Required </p>
+                                        <p *ngIf="false" class="invalid-feedback">Persal Number Must Have Atleast 8
+                                            digits Only
+                                        </p>
+                                        <small class="text-danger" *ngIf="isDuplicate"> Persal number already
+                                            registered</small>
+
+
+                                        <div *ngIf="false">
+                                            <small class="text-danger" *ngIf="createForm.persal.hasError('minlength')">
+                                                The minimum length for this field is
+                                                {{createForm.persal.errors.minlength.requiredLength}} characters.
+                                            </small>
+                                            <small class="text-danger" *ngIf="createForm.persal.hasError('maxlength')">
+                                                The maximum length for this field is
+                                                {{createForm.persal.errors.maxlength.requiredLength}} characters.
+                                            </small>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <!--citizen row-->
+                            <div class="row">
+                                <!---nationality filed-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nationality">Nationality<span
+                                                class="required-asterisk">*</span></label>
+                                        <select [(ngModel)]="nationality" name="nationality"
+                                            (change)="changeNationality(nationality)" class="form-control"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !nationality}">
+                                            <option value="" disabled selected hidden>Please select </option>
+                                            <option *ngFor="let nation of Nationalities" value="{{nation.citizenship}}">
+                                                {{nation.citizenship}} </option>
+
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !nationality" class="invalid-feedback">
+                                            Nationality required</p>
+
+                                    </div>
+
+                                </div>
+                                <!--ID NUMBER FIELD-->
+                                <div class="col-md-6">
+                                    <div class="form-group" *ngIf="nationality == 'South African' || !nationality">
+                                        <label for="idnumber" *ngIf="nationality">ID Number<span
+                                                class="required-asterisk">*</span></label>
+                                        <label for="idnumber" *ngIf="!nationality">ID/Passport Number </label>
+                                        <input type="text" [disabled]="!nationality" class="form-control"
+                                            name="idnumber" (change)="UserName('create')" [(ngModel)]="idnumber"
+                                            mask="0000000000000" (keyup)="validateIDnumber()" (input)="setUsername()"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !idnumber || invalidIdNumber }"
+                                            placeholder="Type here" pattern="[0-9]{13}" ngModel name="idnumber"
+                                            required />
+
+
+                                        <small class="text-danger" *ngIf="false">
+
+                                            Id number already exist
+
+                                        </small>
+                                        <p *ngIf="isFormSubmitted && !idnumber" class="invalid-feedback">ID Number
+                                            Required</p>
+
+
+                                        <div *ngIf="false">
+                                            <small class="text-danger"
+                                                *ngIf="createForm.idnumber.hasError('minlength')">
+
+                                                The minimum length for this field is
+                                                {{createForm.idnumber.errors.minlength.requiredLength}} characters.
+
+                                            </small>
+
+                                            <small class="text-danger"
+                                                *ngIf="createForm.idnumber.hasError('maxlength')">
+
+                                                The maximum length for this field is
+                                                {{createForm.idnumber.errors.maxlength.requiredLength}} characters.
+
+                                            </small>
+
+
+                                            <small *ngIf="invalidIdNumber" class="text-danger">Invalid south african ID
+                                                number</small>
+
+                                        </div>
+                                    </div>
+
+                                    <!--passport filed-->
+
+                                    <div class="form-group" *ngIf="nationality == 'Non South African'">
+                                        <label for="passport">Passport Number<span
+                                                class="required-asterisk">*</span></label>
+                                        <input type="text" class="form-control" name="passport" [(ngModel)]="passport"
+                                            id="passport" (input)="setUsername()"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !passport }"
+                                            placeholder="Type here" name="passport" required />
+                                        <p *ngIf="isFormSubmitted && !passport" class="invalid-feedback">Passport
+                                            Required</p>
+
+                                        <small class="text-danger" *ngIf="false">
+
+                                            Passport already exist
+
+                                        </small>
+
+                                        <div *ngIf="false"> 
+
+                                        </div>
+                                        <!--passport filed End
+                                    [ngClass]="{'is-invalid': createForm.passport.invalid &&
+                                 (createForm.passport.dirty || createForm.passport.touched)}" -->
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <!--- end citizen row-->
+                            <!--gender start-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gender">Gender <span class="required-asterisk">*</span></label>
+                                        <select [(ngModel)]="gender" name="gender"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !gender}" class="form-control">
+
+
+                                            <option value="" selected hidden disabled>Please select
+                                            </option>
+                                            <option *ngFor="let Gend of Genders" value="{{Gend.gender}}"> {{Gend.gender}}</option>
+
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !gender" class="invalid-feedback">
+                                            Gender Required</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="userName">UserName
+                                        </label>
+                                        <input class="form-control" [(ngModel)]="userName" name="userName"
+                                            name="userName" placeholder="Username here" disabled>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--gender end-->
+
+                            <!---end of persal -->
+
+                            <!---User Name And Surname Start-->
+
+                            <div class="row">
+                                <!--first name filed-->
+                                <div class="col-md-6">
+                                    <label for="firstname">Name <span class="required-asterisk">*</span></label>
+                                    <input type="text" class="form-control" name="firstname" [(ngModel)]="firstname"
+                                        minlength="3" placeholder="Type here"
+                                        [ngClass]="{'is-invalid': isFormSubmitted && !firstname}">
+                                    <p *ngIf="isFormSubmitted && !firstname" class="invalid">
+                                        Name required</p>
+                                    <p *ngIf="isFormSubmitted && isLenthInvalid(firstname) && firstname"
+                                        class="invalid-feedback">
+                                        Name Must Atleast Have 3 Characters
+                                    </p>
+
+                                    <p *ngIf="false" class="invalid-feedback">Name Must start With A Start Captial
+                                        Letter</p>
+
+                                </div>
+                                <!--last name filed start-->
+
+                                <div class="col-md-6">
+                                    <label for="Surname">Surname <span class="required-asterisk">*</span></label>
+                                    <input type="text" class="form-control" name="surname" minlength="3"
+                                        [(ngModel)]="surname" name="surname" id="surname" autocomplete="off"
+                                        placeholder="Type here" [ngClass]="{'is-invalid': isFormSubmitted && !surname}">
+                                    <p *ngIf="isFormSubmitted && !surname" class="invalid-feedback">
+                                        Surname Required</p>
+                                    <!-- <p class="text-danger mt-1" *ngIf="requried?.errors?.required">required error</p> -->
+                                    <p *ngIf="isFormSubmitted && isLenthInvalid(surname) && surname"
+                                        class="invalid-feedback">
+                                        Surname Must Atleast Have 3 Characters
+                                    </p>
+
+                                    <p *ngIf="false" class="invalid-feedback">Surname Must start With A Start Captial
+                                        Letter</p>
+
+                                </div>
+                                <!--end of Last Name-->
+                            </div>
+                            <!--User Name And Surname End-->
+                            <br>
+
+
+                            <!---office level drop down-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="officelevel">Office Level <span
+                                                class="required-asterisk">*</span></label>
+
+                                        <select [(ngModel)]="officelevel" name="officelevel"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !officelevel}"
+                                            class="form-control" (change)="changeOfficeType(officelevel)">
+                                            <option value="" hidden disabled selected>Please select</option>
+                                            <option *ngFor="let level of OfficeLevels"
+                                                    (click)="getPositionByOfficeLevel(office)"
+                                                    value="{{level.officeLevel}}">
+                                                    {{level.officeLevel}}
+                                                </option>
+                                        </select>
+                                        <!-- <input *ngIf="!isAdmin" class="form-control" value="{{officelevel}}" readonly> -->
+
+
+                                        <p *ngIf="isFormSubmitted && !officelevel" class="invalid-feedback">Office level
+                                            required</p>
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div *ngIf="officelevel == 'District' || officelevel == 'Head Office' "
+                                    class="col-md-3 inline-radio">
+                                    <div class="form-check form-check-flat form-check-primary">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="roletype"
+                                                name="roletype" value="admin" (click)="changeRoleType('admin')">
+                                            <i class="input-frame"></i>
+                                            System Administrator<span class="required-asterisk">*</span>
+                                        </label>
+                                        <!-- <small *ngIf="isFormSubmitted && createForm.roletype.errors?.required"
+                                  class="text-danger">Required</small> -->
+                                    </div>
+                                </div>
+                                <!-- NON GDE filed start-->
+
+                                <div *ngIf="officelevel == 'District' || officelevel == 'Head Office'"
+                                    class="col-md-3 inline-radio">
+                                    <div class="form-check form-check-flat form-check-primary">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="roletype"
+                                                name="roletype" value="otherRole" (click)="changeRoleType('otherRole')">
+                                            <i class="input-frame"></i>
+                                            Other Roles<span class="required-asterisk">*</span>
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!--end pf radio buttons-->
+                            <div class="row">
+                                <div *ngIf="roletype == 'admin' && officelevel =='District' "
+                                    style="margin-bottom: 1rem; margin-top: 1rem;" class="row" class="col-md-12">
+
+                                    <h6>District Information</h6>
+                                </div>
+                                <div *ngIf="roletype=='admin' && officelevel=='District' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="region">Region <span class="required-asterisk">*</span></label>
+                                        <select [(ngModel)]="region" name="region" name="region"
+                                            (change)="onselectedregion(region)"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !region}"
+                                            required>
+
+                                            <option value="" hidden disabled selected>Please select</option>
+                                            <option *ngFor="let reg of regionsData" value="{{reg}}">{{reg}}</option>
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !region" class="invalid-feedback">
+                                            Region required</p>
+
+
+                                    </div>
+                                </div>
+                                <!----re-->
+                                <div *ngIf="roletype=='admin' && officelevel=='District' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="districtName">District<span
+                                                class="required-asterisk">*</span></label>
+                                        <select [(ngModel)]="districtName" (change)="getDistrict(districtName)"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && createForm.districtName.errors}"
+                                            name="districtName" name="districtName" required>
+                                            <option value="" hidden disabled selected>Please select</option>
+                                            <option value="" [hidden]="region" disabled>Please select region</option>
+                                            <!-- <option *ngFor="let dis of districtsData" [hidden]="!region" [value]="dis">
+                                                    {{dis |
+                                                    titlecase}}</option> -->
+
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !districtName" class="invalid-feedback">District
+                                            required</p>
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                            <!---position filed fo admini both Head and District-->
+                            <div class="row">
+                                <div *ngIf="roletype=='admin' && officelevel =='Head Office' || roletype=='admin' && officelevel =='District' "
+                                    class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="position">Position <span class="required-asterisk">*</span></label>
+                                        <input class="form-control" value="System Administrator" readonly>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!---head office fileld for other user-->
+
+                            <div class="row">
+                                <div *ngIf="roletype=='otherRole' && officelevel=='Head Office'"
+                                    style="margin-bottom: 1rem; margin-top: 1rem;" class="row" class="col-md-12">
+
+                                    <h6>Head Office Information</h6>
+                                </div>
+                                <!--branch Head Office-->
+                                <div *ngIf="roletype=='otherRole' && officelevel=='Head Office' " class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="Branch">Branch <span class="required-asterisk">*</span> </label>
+                                        <select *ngIf="isAdmin" [(ngModel)]="Branch" name="Branch" name="Branch"
+                                            class="form-control" (change)="selectBranch(Branch,'create')"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !Branch}" required>
+                                            <option value="" hidden disabled selected>Please select</option>
+
+                                        </select>
+                                        <!-- <input *ngIf="!isAdmin" class="form-control" value="{{Branch}}" readonly> -->
+
+                                        <p *ngIf="isFormSubmitted && !Branch" class="invalid-feedback"> Branch required
+                                        </p>
+                                    </div>
+                                </div>
+                                <!---chied directorate -->
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='Head Office' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ChiefDirectorate">Chief Directorate <span
+                                                class="required-asterisk">*</span></label>
+
+                                        <select *ngIf="isAdmin" [(ngModel)]="ChiefDirectorate" name="ChiefDirectorate"
+                                            name="ChiefDirectorate" class="form-control"
+                                            (change)="selectChiefDirectorate(ChiefDirectorate)"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && createForm.ChiefDirectorate.errors}"
+                                            required>
+                                            <option value="" hidden disabled selected>Please select</option>
+                                            <option value="" [hidden]="Branch" disabled>Please select branch first
+                                            </option>
+                                            <!-- <option *ngFor="let cd of chiefDirectorates" [hidden]="!cd || !Branch"
+                                                    value="{{cd.id}}#;{{cd.chiefDirectorateName}}}">
+                                                    {{cd.chiefDirectorateName}} </option> -->
+
+                                        </select>
+                                        <!-- <input *ngIf="!isAdmin" class="form-control" value="{{ChiefDirectorate}}"
+                                                readonly> -->
+
+                                        <p *ngIf="isFormSubmitted && !ChiefDirectorate" class="invalid-feedback">Chief
+                                            directorate required</p>
+
+                                    </div>
+                                </div>
+                                <!----directorate-->
+                                <div *ngIf="roletype == 'otherRole'&& officelevel =='Head Office' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Directorate">Directorate <span class="required-asterisk">*</span>
+                                        </label>
+
+                                        <select *ngIf="isAdmin" class="form-control" [(ngModel)]="Directorate"
+                                            name="Directorate" name="Directorate" class="form-control"
+                                            (change)="selectDirectorate(Directorate)"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !Directorate}" required>
+                                            <option value="" disabled selected hidden>Please select
+                                            </option>
+                                            <option value="" [hidden]="ChiefDirectorate" disabled>Please select chief
+                                                directorate first</option>
+                                            <!-- <option *ngFor="let dir of directorates" [hidden]="!ChiefDirectorate"
+                                                    value="{{dir.id}}#;{{dir.directorateName}}}">
+                                                    {{dir.directorateName}} </option> -->
+                                            <!-- <option *ngFor="let dir of directorates" [hidden]="!dir || !ChiefDirectorate"
+                                          [value]="dir">{{dir}}</option> -->
+                                        </select>
+                                        <!-- <input *ngIf="!isAdmin" class="form-control" value="{{Directorate}}" readonly> -->
+
+                                        <p *ngIf="isFormSubmitted && !Directorate" class="invalid-feedback">Directorate
+                                            required</p>
+                                    </div>
+                                </div>
+                                <!--sub directorate-->
+
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='Head Office' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="SubDirectorate">Sub-Directorate <span
+                                                *ngIf="subDirectorates.length == 0 && !Directorate || subDirectorates.length > 0"
+                                                class="required-asterisk">*</span></label>
+                                        <select class="form-control" [(ngModel)]="SubDirectorate"
+                                            *ngIf="subDirectorates.length == 0 && !Directorate || subDirectorates.length > 0"
+                                            name="SubDirectorate" name="SubDirectorate" class="form-control"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && createForm.SubDirectorate.errors}"
+                                            required>
+                                            <option value="" hidden disabled selected> Please select</option>
+                                            <option value="" [hidden]="Directorate" disabled>Please select directorate
+                                                first</option>
+                                            <!-- <option *ngFor="let sub of subDirectorates" [hidden]="!Directorate"
+                                                    value="{{sub.id}}#;{{sub.subDirectorateName}}}">
+                                                    {{sub.subDirectorateName}} </option> -->
+                                            <!-- <option *ngFor="let sub of subDirectorates" [hidden]="!sub || !Directorate"
+                                          [value]="sub">{{sub}}
+                                      </option> -->
+                                        </select>
+                                        <input *ngIf="subDirectorates.length == 0 && Directorate" class="form-control"
+                                            placeholder="No Sub-Directorates" readonly>
+                                        <!-- <input *ngIf="!isAdmin" class="form-control" value="{{Directorate}}" readonly> -->
+                                        <p *ngIf="isFormSubmitted && !subDirectorates" class="invalid-feedback">
+                                            Sub-Directorate required</p>
+                                    </div>
+
+                                </div>
+                                <!--position-->
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='Head Office' " class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="position">Position<span class="required-asterisk">*</span></label>
+                                        <select class="form-control" [(ngModel)]="position" name="position"
+                                            name="position" class="form-control"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && createForm.position.errors}"
+                                            required>
+                                            <option value="" hidden disabled selected>Please select</option>
+                                            <option value="" [hidden]="Branch" disabled>Please select branch
+                                                first</option>
+                                            <!-- <option *ngFor="let position of positions"
+                                                    [hidden]="!Branch || isFromBranch(position.id, Branch) || !position.position"
+                                                    value="{{position.position}}">
+                                                    {{position.position}}
+                                                </option> -->
+                                            <!-- <option *ngFor="let position of positions" [hidden]="!Branch || !position"
+                                          value="{{position}}">{{position}}
+                                      </option> -->
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !position" class="invalid-feedback">Position
+                                            required</p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!--end of head office user--->
+
+
+                            <!---district information office level-->
+
+                            <div class="row">
+
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='District' "
+                                    style="margin-bottom: 1rem; margin-top: 1rem;" class="row" class="col-md-12">
+
+                                    <h6>District Information</h6>
+                                </div>
+
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='District' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="region">Region<span class="required-asterisk">*</span></label>
+                                        <select [(ngModel)]="region" name="region" name="region"
+                                            (change)="onselectedregion(region)" class="form-control" *ngIf="isAdmin"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !region}" required>
+
+                                            <option value="" hidden disabled selected>Please select</option>
+                                            <option *ngFor="let reg of regionsData" value="{{reg}}">{{reg}}</option>
+                                        </select>
+                                        <input *ngIf="!isAdmin" class="form-control" value="{{region}}" readonly>
+                                        <p *ngIf="isFormSubmitted && !region" class="invalid-feedback">
+                                            Region Required</p>
+
+
+                                    </div>
+                                </div>
+
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='District' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="districtName">District<span
+                                                class="required-asterisk">*</span></label>
+                                        <select [(ngModel)]="districtName" *ngIf="isAdmin"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !districtName}"
+                                            name="districtName" class="form-control" name="districtName" required>
+                                            <!-- <option [value]="selectedType" hidden disabled selected>Please select</option>
+                                      <option *ngFor="let dis of districtsData" [ngValue]="dis">{{dis}}</option> -->
+                                            <option value="" hidden disabled selected>Please select</option>
+                                            <option value="" [hidden]="region" disabled>Please select region</option>
+                                            <!-- <option *ngFor="let dis of districtsData" [hidden]="!region" [value]="dis">
+                                                    {{dis |
+                                                    titlecase}}</option> -->
+
+                                        </select>
+                                        <!-- <input *ngIf="!isAdmin" class="form-control"
+                                                value="{{districtName | titlecase}}" readonly> -->
+                                        <p *ngIf="isFormSubmitted && !districtName" class="invalid-feedback">District
+                                            required</p>
+
+                                    </div>
+
+                                </div>
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='District' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Directorate">Directorate </label>
+
+                                        <select class="form-control" name="Directorate" [(ngModel)]="Directorate"
+                                            name="Directorate" class="form-control"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !Directorate}" required>
+                                            <option value="" hidden disabled selected>Please select
+                                            </option>
+                                            <!-- <option *ngFor="let c of dispositiondatadir" [hidden]="!c" value="{{c}}">
+                                                    {{c}}
+                                                </option> -->
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !Directorate" class="invalid-feedback">Directorate
+                                            required</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='District'" class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="SubDirectorate">Sub-Directorate <span
+                                                class="required-asterisk">*</span></label>
+                                        <select class="form-control" name="SubDirectorate" [(ngModel)]="SubDirectorate"
+                                            name="SubDirectorate" class="form-control" (change)="Subdirectorate($event)"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !SubDirectorate}" required>
+                                            <option value="" hidden disabled selected>Please select
+                                            </option>
+                                            <!-- <option *ngFor="let c of dispositionsdatasub" [hidden]="!c" value="{{c}}">
+                                                    {{c}}
+                                                </option> -->
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !SubDirectorate" class="invalid-feedback">
+                                            Sub-Directorate required</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="roletype == 'otherRole' && officelevel =='District' " class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="position">Position <span class="required-asterisk">*</span>
+                                        </label>
+                                        <select class="form-control" [(ngModel)]="position" name="position"
+                                            name="position" class="form-control"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !position}"
+                                            (change)="Position($event)" required>
+                                            <option value="" hidden disabled selected>Please select
+                                            </option>
+                                            <!-- <option *ngFor="let c of dispositionsdataposition" [hidden]="!c"
+                                                    value="{{c}}">{{c}}
+                                                </option> -->
+
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !position" class="invalid-feedback">Position
+                                            Required</p>
+                                    </div>
+                                    <!------>
+
+
+                                </div>
+
+                            </div>
+                            <!---END OF District office-->
+
+                            <!----School Office level-->
+                            <div class="row">
+                                <div *ngIf="officelevel =='School'" style="margin-bottom: 1rem; margin-top: 1rem;"
+                                    class="row" class="col-md-12">
+
+                                    <h6>School Information</h6>
+                                </div>
+
+                                <div *ngIf="showregions == true" class="col-md-6">
+                                    <div class="form-group" readonly>
+                                        <label for="region">Region</label>
+                                        <input class="form-control" style="background-color:#D3D3D3;"
+                                            [(ngModel)]="region" name="region" name="region">
+
+
+
+                                    </div>
+                                </div>
+
+                                <div *ngIf="showdistricts == true" class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="districtName">District </label>
+
+
+                                        <input class="form-control" style="background-color:#D3D3D3 ;"
+                                            [(ngModel)]="districtName" name="districtName" name="districtName">
+
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <!--done validation-->
+                                    <div *ngIf="showschools == true" class="form-group">
+                                        <label for="selectedSchool">School <span
+                                                class="required-asterisk">*</span></label>
+                                        <ng-select [items]="schoolsMain" bindLabel="institutionName"
+                                            bindValue="institutionName" [(ngModel)]="selectedSchool" [searchable]="true"
+                                            placeholder="Please select" [multiple]=false name="selectedSchool"
+                                            (change)="getSchoolInfo(selectedSchool)" [closeOnSelect]="true"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !selectedSchool}" required
+                                            (change)="onschoolchanges(selectedSchool)">
+
+                                        </ng-select>
+                                        <p *ngIf="isFormSubmitted && !selectedSchool" class="invalid-feedback">School is
+                                            required</p>
+
+
+                                    </div>
+                                </div>
+
+                                <div *ngIf="ShowSchoolinfo == true" class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="position">Position <span class="required-asterisk">*</span></label>
+
+                                        <select class="form-control" [(ngModel)]="position" name="position"
+                                            name="position" class="form-control"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !position}" required>
+                                            <option value="" hidden disabled selected>Please select
+                                            </option>
+
+                                            <!-- <option *ngFor="let e of schoolPositionList" [value]=e.schoolPosition>
+                                                    {{e.schoolPosition}}
+                                                </option> -->
+                                            <!--<option value="ADMIN">ADMIN</option>-->
+                                        </select>
+                                        <p *ngIf="isFormSubmitted && !position" class="invalid-feedback">Position
+                                            Required</p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!--contact details-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cellNumber">Contact Number
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input class="form-control" name="cellNumber" [(ngModel)]="cellNumber"
+                                            id="cellNumber" mask="000 000 0000" placeholder="Type here" minlength="0"
+                                            maxlength="12" (keyup)="fieldChange()"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !cellNumber || isNumberInvalid && isFormSubmitted || isCellnumberDuplicate}">
+                                        <!---- <p *ngIf="isFormSubmitted && createForm.cellNumber.errors?.required"
+                          class="invalid-feedback">Contact number required</p>
+                      <p *ngIf="isFormSubmitted && isNumberInvalid && !isCellnumberDuplicate && !createForm.cellNumber.errors?.required || isFormSubmitted && !isCellnumberDuplicate && !createForm.cellNumber.errors?.maxlength && !createForm.cellNumber.errors?.required"
+                          class="invalid-feedback">Invalid contact number</p>
+                      <p *ngIf="uniqueCellNumber" class="asterisk" > This Contact number Exist
+                         </p>
+                          
+                      <p *ngIf="isFormSubmitted && !createForm.cellNumber.errors?.maxlength && !createForm.cellNumber.errors?.required"
+                          class="invalid-feedback">Contact number must have 10 digits</p> -->
+                                        <p *ngIf="isFormSubmitted && !cellNumber" class="invalid-feedback">Contact
+                                            Number Required</p>
+                                        <!-- <p *ngIf="isFormSubmitted && isNumberInvalid && !isCellnumberDuplicate && !createForm.cellNumber.errors?.required || isFormSubmitted && !isCellnumberDuplicate && !createForm.cellNumber.errors?.maxlength && !createForm.cellNumber.errors?.required"
+                                                class="invalid-feedback">Contact Number Must Start With 0 </p> -->
+                                        <div *ngIf="false">
+
+                                            <!----  <small class="text-danger"
+          
+                                  *ngIf="createForm.cellNumber.hasError('required')">
+          
+                                  This field is required.
+          
+                              </small> -->
+
+                                            <small class="text-danger"
+                                                *ngIf="createForm.cellNumber.hasError('minlength')">
+
+                                                The minimum length for this field is
+                                                {{createForm.cellNumber.errors.minlength.requiredLength}} characters.
+
+                                            </small>
+
+                                            <small class="text-danger"
+                                                *ngIf="createForm.cellNumber.hasError('maxlength')">
+
+                                                The maximum length for this field is
+                                                {{createForm.cellNumber.errors.maxlength.requiredLength}} characters.
+
+                                            </small>
+
+                                            <small class="text-danger" *ngIf="false">
+
+                                                Cell number already exist
+
+                                            </small>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <!--email details-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="emailAddress">Email Address
+                                            <span class="required-asterisk">*</span>
+                                        </label>
+                                        <input type="email" class="form-control" name="emailAddress"
+                                            [(ngModel)]="emailAddress" id="emailAddress" placeholder="Type here"
+                                            inputmode="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !emailAddress}">
+                                        <!----<p *ngIf="isFormSubmitted && createForm.emailAddress.errors?.required"
+                      class="invalid-feedback">Email address required</p>
+                      <p *ngIf="uniqueMailAdress" class="asterisk">This Email address Exist</p>
+                  <p *ngIf="isFormSubmitted && createForm.emailAddress.errors?.pattern"
+                      class="invalid-feedback">Invalid email address</p>---->
+                                        <p *ngIf="isFormSubmitted && !emailAddress" class="invalid-feedback">Email
+                                            Address Required</p>
+                                        <p *ngIf="false" class="invalid-feedback">Invalid Email address</p>
+                                        <div *ngIf="false">
+
+                                            <!---  <small class="text-danger"
+          
+                              *ngIf="createForm.emailAddress.hasError('required')">
+          
+                              This field is required.
+          
+                          </small> -->
+
+                                            <small class="text-danger" *ngIf="false">
+
+                                                Email address already exist
+
+                                            </small>
+
+                                            <!---- <span class="text-danger"
+          
+                          *ngIf="createForm.emailAddress.errors?.email">
+          
+                          Enter a valid email address
+          
+                      </span>-->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--email details-->
+                            </div>
+
+
+
+
+
+                            <!-- </form> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+
+                <div class="row">
+                    <button type="button" (click)="submitForm()" class="btn btn-primary mr-2"
+                        [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true" *ngIf="isLoading"></span>Submit</button>
+                    <button class="btn btn-warning mr-2" (click)="Cancel()" [disabled]="isLoading"><span
+                            class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="isLoading"></span>Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

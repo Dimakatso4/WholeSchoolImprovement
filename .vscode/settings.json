@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/1e988c77-22a4-4cf8-89df-8a6f6b8aea64/resourceGroups/AppFactoryWholeSchoolImprovement/providers/Microsoft.Web/sites/appfactorywholeschoolimprovementweb",
+    "appService.deploySubpath": "dist"
+}

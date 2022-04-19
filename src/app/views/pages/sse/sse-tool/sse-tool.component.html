@@ -1,0 +1,543 @@
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">Manage SSE Instrument</h3>
+        <hr>
+    </div>
+</div>
+
+<!--table-->
+<div>
+    <!--modal button-->
+    <div class="row d-flex justify-content-end" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+        <button class="btn btn-primary float-right"  (click)="openModal(Modal)">Add SSE Instrument
+        </button>
+    </div>
+    <br />
+    <!--modal button-->
+    <!--table-->
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+                <div class="table-responsive">
+                    <table role="table"  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+                        <thead class="bg-secondary text-white">
+                            <tr>
+                                <th hidden class="tableheadStyle text-white">unitId</th>
+                                <th class="tableheadStyle text-white">Sse Instrument Name</th>
+                                <th class="tableheadStyle text-white">Year</th>
+                                <th class="tableheadStyle text-white">Status</th>
+                                <th hidden class="tableheadStyle text-white">kpiArrayId</th>
+                                <th hidden class="tableheadStyle text-white">kpiJson</th>
+                                <th hidden class="tableheadStyle text-white">sseAuditTrail</th>
+                                <th  class="tableheadStyle text-white">Action</th>
+                               
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let val of instrumentTool">
+                                <td hidden>{{val.id}}</td>
+                                <td>{{val.sseInstrumentName}}</td>
+                                <td>{{val.year}}</td>
+                                <td>{{val.status}}</td>
+                                <td hidden>{{val.kpiArrayId}}</td>
+                                <td hidden>{{val.kpiJson}}</td>
+                                <td hidden>{{val.sseAuditTrail}}</td>
+                                
+                                
+                                <td>
+                                    <a title="View KPI" style="margin-left: 30px;" (click)="openModal(questionsModal)" (click)="seeToolQuestion(val.kpiJson)"><i class="mdi mdi-eye text-success"></i></a>
+                                    <a title="View KPI" style="margin-left: 30px;"  (click)="openModal(auditsModal)" (click)="auditInstrumentValues(val.sseAuditTrail)" ><i class="mdi mdi-archive text-warning"></i></a>
+                                    <a title="Edit KPI" style="margin-left: 30px;" (click)="openModal(editModal)" (click)="editInstrumentValues(val)"><i class="mdi mdi-pencil text-dark"></i></a>
+                                    <a title="Delete KPI" style="margin-left: 30px;"><i class="mdi mdi-delete text-danger"></i></a>
+                                </td>
+                               
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            
+        </div>
+        <!--table-->
+    </div>
+</div>
+<br>
+<!--table-->
+
+<!--modal-->
+<ng-template #Modal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Add Instrument Tool</h5>
+        <button type="button" class="close text-white"   (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+            <form (submit)="addInstrumentTool()" [formGroup]="validationForm">
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>SSE Tool Name<span class="required-asterisk text-danger" >*</span></label>
+                            <input type="text" class="form-control"
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.sseInstrumentName.errors}" 
+                            [(ngModel)]="sseInstrumentName" 
+                            formControlName="sseInstrumentName"
+                            required>
+                            <p *ngIf="isCreateFormSubmitted && createForm.sseInstrumentName.errors?.required" class="invalid-feedback">KPI name required</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="form-group">
+                            <label>SSE Tool Year<span class="required-asterisk  text-danger">*</span></label>
+                            <input type="number" min="1" max="9999"class="form-control" 
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.year.errors}"
+                            [(ngModel)]="year"
+                            formControlName="year"
+                            >
+                            <p *ngIf="isCreateFormSubmitted && createForm.year.errors?.required"
+                                class="invalid-feedback">Area Of Evaluation required</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-weight: bold;">
+                            <label>Areas Of Evaluation</label>
+                        </div>
+                       <div class="col-md-12">
+                        <ngb-accordion  *ngFor="let val of areaOfevaluationdata; let g = index" [closeOthers]="true">
+                          
+                            <ngb-panel  title="{{val.focusArea}}" style="width: 100%;">
+                                <p></p>
+                              <ng-template ngbPanelContent>
+                                <p>Components</p>
+                                <ngb-accordion  *ngFor="let com of val.sseComponents | slice:1; let x = index" [closeOthers]="true">
+                                    <ngb-panel title="{{com.componentName}}" style="width: 100%;">
+                                        <ng-template ngbPanelContent>
+                                            <p>KPIs</p>
+                                            <ngb-accordion  *ngFor="let areaData of com.manageKPIs; let y = index" [closeOthers]="true">
+                                                <ngb-panel title="{{areaData.kpiName}}">
+                                                    <ng-template >
+
+
+                                                    </ng-template>
+
+                                                </ngb-panel>
+                                            </ngb-accordion>
+
+                                     
+                                        </ng-template>
+                                    </ngb-panel>
+                                </ngb-accordion>
+                         
+                              </ng-template>
+                            </ngb-panel>
+                          <br>
+                          </ngb-accordion>
+                     
+                       </div>
+                     
+
+                </div>
+             
+               
+                <div class="row">
+                    <button type="submit"  class="btn btn-primary mt-2 " >Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-danger mt-2" (click)="modal.close('by: close icon')">Cancel</button>
+                </div>
+            </form>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+<!--modal-->
+
+<!--modal-->
+<ng-template #editModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Update Instrument Tool</h5>
+        <button type="button" class="close text-white"   (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+            <form (submit)="updateInstrumentTool()" [formGroup]="editvalidationForm">
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>SSE Tool Name<span class="required-asterisk">*</span></label>
+                            <input type="text" class="form-control"
+                            [ngClass]="{'is-invalid': editisCreateFormSubmitted && editcreateForm.editsseInstrumentName.errors}" 
+                            [(ngModel)]="editsseInstrumentName" 
+                            formControlName="editsseInstrumentName"
+                            required>
+                            <p *ngIf="editisCreateFormSubmitted && editcreateForm.editsseInstrumentName.errors?.required" class="invalid-feedback">KPI name required</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="form-group">
+                            <label>SSE Tool Year<span class="required-asterisk">*</span></label>
+                            <input type="number" min="1" max="9999"class="form-control" 
+                            [ngClass]="{'is-invalid': editisCreateFormSubmitted && editcreateForm.edityear.errors}"
+                            [(ngModel)]="edityear"
+                            formControlName="edityear"
+                            >
+                            <p *ngIf="editisCreateFormSubmitted && editcreateForm.edityear.errors?.required"
+                                class="invalid-feedback">Area Of Evaluation required</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="required">KPI Selection<span class="required-asterisk">*</span></label>
+                            <ng-select [items]="kpiInfo" [multiple]=true [closeOnSelect]="false" [searchable]="false"
+                                bindLabel="KPIInformation" placeholder="Select Business Unit" 
+                                [ngClass]="{'is-invalid': editisCreateFormSubmitted && editcreateForm.editselectedKpi.errors, 'border border-danger': editisCreateFormSubmitted && editcreateForm.editselectedKpi.errors }"
+                                [(ngModel)]="editselectedKpi"
+                                formControlName="editselectedKpi" 
+                                >
+                            </ng-select>
+                            <p *ngIf="editisCreateFormSubmitted && editcreateForm.editselectedKpi.errors?.required"
+                                class="invalid-feedback">Area Of Evaluation required</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <ngb-accordion [closeOthers]="true" *ngFor="let kpi of editselectedKpi; let i = index">
+                    <ngb-panel class="text-warning" title={{areaOfEvaulation(kpi.areaOfEvaulation)}}.{{kpi.component}}.{{insertQuestionMark(kpi.kpi)}}>
+                        <ng-template class="bg-light" ngbPanelContent>
+                            <div class="col-md-12 grid-margin stretch-card" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        
+                                        <div class="modal-header bg-white">
+                                            <h3><span class=" text-primary" >{{areaOfEvaulation(kpi.areaOfEvaulation)}}</span></h3>
+                                            
+                                        </div> 
+                                        <div class="modal-body bg-white">
+                                            <h5><b class="text-primary">{{kpi.component}}</b></h5>
+                                            <br>
+                                            <h4><span class="label label-warning text-dark">{{insertQuestionMark(kpi.kpi)}}</span></h4>
+                                            <br>
+                                            <h5> <b class="text-primary">Rating: {{kpi.rating}}</b> </h5>
+                                            <p><b class="text-primary">Optional or Compulsory: {{kpi.optionalCompulsory}}</b></p>
+                                            <p><b class="text-primary">Legislation: {{kpi.legislation}}</b></p>
+                                            <p><b class="text-primary">Resource: {{kpi.resource}}</b></p>
+                                            <div *ngFor="let unit of kpi.businessUnit">
+                                                <p><b class="text-primary">Business Unit: {{unit.unitName}}</b></p>
+                                            </div>
+                                            <br>
+                                            <div *ngIf="kpi.rating == '(1-5)'">
+                                                <label class="mr-2"> <input type="radio" disabled> {{"1" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"2" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"3" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"4" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"5" | titlecase}}</label>
+                                            </div>
+                        
+                                            <div *ngIf="kpi.rating == 'YES/NO'">
+                                                <label  class="mr-2"> <input type="radio" disabled>{{"Yes" | titlecase}}</label>
+                                            
+                                                <label  class="mr-2"> <input type="radio" disabled>{{"No" | titlecase}}</label>
+                                            </div>
+                        
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea disabled placeholder="Please Type Content" class=" bg-primary text-white border border-primary" rows="10" cols="5" type="text" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                                
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                            </div> <!-- col -->
+                        </ng-template>
+                    </ngb-panel>
+                </ngb-accordion>
+               
+                <div class="row">
+                    <button type="submit"  class="btn btn-primary mt-2 " >Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-danger mt-2" (click)="modal.close('by: close icon')">Cancel</button>
+                </div>
+            </form>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+<!--modal-->
+
+
+<!--modal-->
+<ng-template #questionsModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Add KPI</h5>
+        <button type="button" class="close text-white"   (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+            <form (submit)="addInstrumentTool()" [formGroup]="editvalidationForm">
+
+               <!-- <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>SSE Tool Name<span class="required-asterisk">*</span></label>
+                            <input type="text" class="form-control"
+                            [ngClass]="{'is-invalid': editisCreateFormSubmitted && editcreateForm.editsseInstrumentName.errors}" 
+                            [(ngModel)]="editsseInstrumentName" 
+                            formControlName="editsseInstrumentName"
+                            required>
+                            <p *ngIf="editisCreateFormSubmitted && editcreateForm.editsseInstrumentName.errors?.required" class="invalid-feedback">KPI name required</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="form-group">
+                            <label>SSE Tool Year</label>
+                            <input type="number" min="1" max="9999"class="form-control" 
+                            [ngClass]="{'is-invalid': editisCreateFormSubmitted && editcreateForm.edityear.errors}"
+                            [(ngModel)]="edityear"
+                            formControlName="edityear"
+                            >
+                            <p *ngIf="editisCreateFormSubmitted && editcreateForm.edityear.errors?.required"
+                                class="invalid-feedback">Area Of Evaluation required</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="required">Business Unit<span class="required-asterisk">*</span></label>
+                            <ng-select [items]="kpiInfo" [multiple]=true [closeOnSelect]="false" [searchable]="false"
+                                bindLabel="KPIInformation" placeholder="Select Business Unit" 
+                                [ngClass]="{'is-invalid': editisCreateFormSubmitted && editcreateForm.editselectedKpi.errors, 'border border-danger': isCreateFormSubmitted && createForm.selectedKpi.errors }"
+                                [(ngModel)]="editselectedKpi"
+                                formControlName="editselectedKpi" 
+                                >
+                            </ng-select>
+                            <p *ngIf="editisCreateFormSubmitted && editcreateForm.editselectedKpi.errors?.required"
+                                class="invalid-feedback">Area Of Evaluation required</p>
+                        </div>
+                    </div>
+                    
+                </div>-->
+                <ngb-accordion [closeOthers]="true" *ngFor="let kpi of kpiQuestions; let i = index">
+                    <ngb-panel class="text-warning" title={{this.areaOfEvaulation(kpi.areaOfEvaulation)}}.{{kpi.component}}.{{insertQuestionMark(kpi.kpi)}}>
+                        <ng-template class="bg-light" ngbPanelContent>
+                            <div class="col-md-12 grid-margin stretch-card" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        
+                                        <div class="modal-header bg-white">
+                                            <h3><span class=" text-primary" >{{this.areaOfEvaulation(kpi.areaOfEvaulation)}}</span></h3>
+                                            
+                                        </div> 
+                                        <div class="modal-body bg-white">
+                                            <h5><b class="text-primary">{{kpi.component}}</b></h5>
+                                            <br>
+                                            <h4><span class="label label-warning text-dark">{{insertQuestionMark(kpi.kpi)}}</span></h4>
+                                            <br>
+                                            <h5> <b class="text-primary">Rating: {{kpi.rating}}</b> </h5>
+                                            <p><b class="text-primary">Optional or Compulsory: {{kpi.optionalCompulsory}}</b></p>
+                                            <p><b class="text-primary">Legislation: {{kpi.legislation}}</b></p>
+                                            <p><b class="text-primary">Resource: {{kpi.resource}}</b></p>
+                                            <div *ngFor="let unit of kpi.businessUnit">
+                                                <p><b class="text-primary">Business Unit: {{unit.unitName}}</b></p>
+                                            </div>
+                                            <br>
+                                            <div *ngIf="kpi.rating == '(1-5)'">
+                                                <label class="mr-2"> <input type="radio" disabled> {{"1" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"2" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"3" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"4" | titlecase}}</label>
+                                            
+                                                <label class="mr-2"> <input type="radio" disabled> {{"5" | titlecase}}</label>
+                                            </div>
+                        
+                                            <div *ngIf="kpi.rating == 'YES/NO'">
+                                                <label  class="mr-2"> <input type="radio" disabled>{{"Yes" | titlecase}}</label>
+                                            
+                                                <label  class="mr-2"> <input type="radio" disabled>{{"No" | titlecase}}</label>
+                                            </div>
+                        
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea disabled placeholder="Please Type Content" class=" bg-primary text-white border border-primary" rows="10" cols="5" type="text" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                                
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                            </div> <!-- col -->
+                        </ng-template>
+                    </ngb-panel>
+                </ngb-accordion>
+               
+                <div class="row">
+                    <button type="submit"  class="btn btn-primary mt-2 " >Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-danger mt-2" (click)="modal.close('by: close icon')">Cancel</button>
+                </div>
+            </form>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+<!--modal-->
+
+
+<!--modal-->
+<ng-template #auditsModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Add KPI</h5>
+        <button type="button" class="close text-white"   (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="table-responsive">
+                  <div class="row" style="margin-top: 1.6rem;">
+                    <div class="col-md-12">
+                      <h6 class="text-center" style="margin-bottom: 0.5rem;">Query Timeline</h6>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top: 2rem;" *ngFor="let val of auditTrail">
+                    <div class="col-md-12">
+                      <ul class="timeline" style="margin-bottom: 2rem; max-width: 90%;">
+                        <li class="event start-point"><small class="text-primary">{{val.meetingTimeCreated}}</small>
+                          <h3 style="margin-bottom: 0.8rem;" class="text-dark">{{val.ResponsibleUserDetails}} ({{val.meetingAuditStatus}})</h3>
+                          <h4 style="margin-bottom: 0.8rem;white-space: pre" class="text-danger">
+                            Instrument Name: {{val.ContentAfter.sseInstrumentName}}</h4>
+                          <h6 style="margin-bottom: 0.8rem;white-space: pre" class="text-secondary">
+                            Year: {{val.ContentAfter.year}}</h6>
+
+                            <ngb-accordion [closeOthers]="true" *ngFor="let kpi of val.ContentAfter.kpiJson; let i = index">
+                                <ngb-panel class="text-warning" title={{this.areaOfEvaulation(kpi.areaOfEvaulation)}}.{{kpi.component}}.{{insertQuestionMark(kpi.kpi)}}>
+                                    <ng-template class="bg-light" ngbPanelContent>
+                                        <div class="col-md-12 grid-margin stretch-card" >
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    
+                                                    <div class="modal-header bg-white">
+                                                        <h3><span class=" text-primary" >{{this.areaOfEvaulation(kpi.areaOfEvaulation)}}</span></h3>
+                                                        
+                                                    </div> 
+                                                    <div class="modal-body bg-white">
+                                                        <h5><b class="text-primary">{{kpi.component}}</b></h5>
+                                                        <br>
+                                                        <h4><span class="label label-warning text-dark">{{insertQuestionMark(kpi.kpi)}}</span></h4>
+                                                        <br>
+                                                        <h5> <b class="text-primary">Rating: {{kpi.rating}}</b> </h5>
+                                                        <p><b class="text-primary">Optional or Compulsory: {{kpi.optionalCompulsory}}</b></p>
+                                                        <p><b class="text-primary">Legislation: {{kpi.legislation}}</b></p>
+                                                        <p><b class="text-primary">Resource: {{kpi.resource}}</b></p>
+                                                        <div *ngFor="let unit of kpi.businessUnit">
+                                                            <p><b class="text-primary">Business Unit: {{unit.unitName}}</b></p>
+                                                        </div>
+                                                        <br>
+                                                        <div *ngIf="kpi.rating == '(1-5)'">
+                                                            <label class="mr-2"> <input type="radio" disabled> {{"1" | titlecase}}</label>
+                                                        
+                                                            <label class="mr-2"> <input type="radio" disabled> {{"2" | titlecase}}</label>
+                                                        
+                                                            <label class="mr-2"> <input type="radio" disabled> {{"3" | titlecase}}</label>
+                                                        
+                                                            <label class="mr-2"> <input type="radio" disabled> {{"4" | titlecase}}</label>
+                                                        
+                                                            <label class="mr-2"> <input type="radio" disabled> {{"5" | titlecase}}</label>
+                                                        </div>
+                                    
+                                                        <div *ngIf="kpi.rating == 'YES/NO'">
+                                                            <label  class="mr-2"> <input type="radio" disabled>{{"Yes" | titlecase}}</label>
+                                                        
+                                                            <label  class="mr-2"> <input type="radio" disabled>{{"No" | titlecase}}</label>
+                                                        </div>
+                                    
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <textarea disabled placeholder="Please Type Content" class=" bg-primary text-white border border-primary" rows="10" cols="5" type="text" class="form-control"></textarea>
+                                                            </div>
+                                                        </div>
+                                                            
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>
+                                        </div> <!-- col -->
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+                          
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" (click)="modal.close('by: close icon')"
+                        class="btn btn-warning ">close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- </div> -->
+</ng-template>
+<!--modal-->

@@ -1,0 +1,45 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Districts</a></li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</nav>
+<h1 class="page-title">Districts</h1>
+<hr style="margin-bottom: 40px;">
+
+<p>  </p>
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div *ngIf="noDisputes" class="row justify-content-center">
+                <div class="row">
+                    <h4 class="text-danger">There are no elections logged in your Province</h4>
+                </div>
+            </div>
+
+
+            <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="pt-0">District Code</th>
+                            <th class="pt-0">District Name</th>
+                            <th class="pt-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let district of districts; let i = index">
+                            <td>{{district.code}}</td>
+                            <td>{{district.districtName}}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="view(i)">View</button>
+                                &nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-info" (click)="DailyReport(i)">Daily Report</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

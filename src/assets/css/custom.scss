@@ -1,0 +1,12 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../scss/style.scss";
+
+$theme-colors: (
+  "primary": #004b98,
+  "secondary": #ac965e
+);
+
+.clear-top-space {
+  margin-top: 0rem;
+}
+  

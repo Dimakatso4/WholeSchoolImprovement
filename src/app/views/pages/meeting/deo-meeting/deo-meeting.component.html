@@ -1,0 +1,370 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">District Electoral Officer Meeting</a></li>
+
+    </ol>
+</nav>
+
+<div class="row headingStyle1">
+    <div class="col-md-12 bg-primary text-white headingStyle2" >
+        <h2>District Electoral Officer Meeting</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary float-right" *ngIf="userRole == 'DEO' || userRole== 'DO' || userRole=='PEO' || userRole=='HO'" (click)="openXlModal(xlModal)">Create DEO Meeting</button>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div  class="table-responsive">
+            <table role="table" datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-hover">
+                <thead  class="bg-secondary text-white">
+                    <tr>
+                        <th class="tableheadStyle text-white">District Code</th>
+                        <th class="tableheadStyle text-white">Title</th>
+                        <th class="tableheadStyle text-white">venue</th>
+                        <th class="tableheadStyle text-white">Description</th>
+                        <th class="tableheadStyle text-white">Start Date</th>
+                        <th class="tableheadStyle text-white">Start Time</th>
+                        <th class="tableheadStyle text-white">End Date</th>
+                        <th class="tableheadStyle text-white">End Time</th>
+                        <th class="tableheadStyle text-white">Scheduled By:</th>
+                        <th class="tableheadStyle text-white">minutes</th>
+                        <th class="tableheadStyle text-white">documents</th>
+                        <th class="tableheadStyle text-white" *ngIf="userRole == 'DEO' || userRole== 'DO' || userRole=='PEO' || userRole=='HO'">Action</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let training of data">
+                        <td>{{training.districtCode}}</td>
+                        <td>{{training.title}}</td>
+                        <td>{{training.venue}}</td>
+                        <td><div class="box green">{{training.description}}</div></td>
+                        <td>{{training.startDate | date: 'YYYY-MM-dd'}}</td>
+                        <td>{{training.startDate | date: 'HH:mm'}}</td>
+                        <td>{{training.endDate | date: 'YYYY-MM-dd'}}</td>
+                        <td>{{training.endDate | date: 'HH:mm'}}</td>
+                        <td>{{training.scheduledBy}}</td>
+                        <td>{{training.minutes}}</td>
+                        <td>
+                            <a><i class="mdi mdi-book-open"  (click)="getDocuments(training)" (click)="openXlModal(xlModal3)"></i></a>
+                        </td>
+                        <td *ngIf="userRole == 'DEO' || userRole== 'DO' || userRole=='PEO' || userRole=='HO'">
+                            <a><i class="mdi mdi-pencil text-dark" (click)="updateData(training)" (click)="openXlModal(xlModal2)"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create Handover  -->
+<ng-template #xlModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="exampleModalLabel">Create District Electoral Officer Meeting</h4>
+      <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>  
+    </div>
+    <div class="modal-body">
+    
+        <form (submit)="saveMeeting()" [formGroup]="validationForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Invite Type</label>
+                        <ng-select
+                            [items]="trainingTypes"
+                            [multiple]=false
+                            [closeOnSelect]="true"
+                            [searchable]="true"
+                            bindLabel="title"
+                            placeholder="Select Invite Type"
+                            [(ngModel)]="inviteType"
+                            formControlName="inviteType" 
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.inviteType.errors}" required>
+                        </ng-select>
+                        <p *ngIf="isCreateFormSubmitted && createForm.inviteType.errors?.required"
+                                class="invalid-feedback">Invite Type required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Title</label>
+                        <input type="text" class="form-control" [(ngModel)]="title"  name="title" id="title" autocomplete="off"  placeholder="Type here" formControlName="title" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.title.errors}" required >
+                        <p *ngIf="isCreateFormSubmitted && createForm.title.errors?.required"
+                                class="invalid-feedback">Meeting Title required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">Start Date</label>
+                        <input onkeydown="return false" type="datetime-local" class="form-control  datetimepicker-input" name="startDate" [(ngModel)]="startDate" 
+                        formControlName="startDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.startDate.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.startDate.errors?.required"
+                        class="invalid-feedback">Start date required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">End Date</label>
+                        <input onkeydown="return false" type="datetime-local" class="form-control datetimepicker-input" name="endDate" [(ngModel)]="endDate" 
+                            formControlName="endDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.endDate.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.endDate.errors?.required"
+                        class="invalid-feedback">End date required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Venue</label>
+                        <input type="text" class="form-control" [(ngModel)]="venue" name="venue" id="venue"
+                            autocomplete="off" placeholder="Type here"formControlName="venue" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.venue.errors}" required>
+                            <p *ngIf="isCreateFormSubmitted && createForm.venue.errors?.required"
+                            class="invalid-feedback">Venue required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Agenda</label>
+                        <textarea rows="10" cols="30" class="form-control" [(ngModel)]="description" name="description"
+                            id="description" autocomplete="off" placeholder="Type here" formControlName="description" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.description.errors}" required>
+                        </textarea>     
+                        <p *ngIf="isCreateFormSubmitted && createForm.description.errors?.required"
+                        class="invalid-feedback">Description time required</p>
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="names">Attendants</label>
+                        <ng-select
+                            [items]="atendents"
+                            [multiple]=true
+                            [closeOnSelect]="true"
+                            [searchable]="true"
+                            bindLabel="fullName"
+                            placeholder="Select people"
+                            [(ngModel)]="selectedPeople"
+                            formControlName="selectedPeople" 
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.selectedPeople.errors}" required>
+                        </ng-select>
+                        <p *ngIf="isCreateFormSubmitted && createForm.selectedPeople.errors?.required"
+                        class="invalid-feedback">Attendants required</p>
+                        <div class="mt-2">
+                            <p class="text-muted">Attendants:</p>
+                            <ul>
+                            <li  class="text-danger" data-feather="user-plus" *ngFor="let item of selectedPeople">{{item.fullName}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Attachment(s)</label>
+                        <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+                        <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Clear Documents</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button  class="btn btn-primary mr-2">Submit</button>
+                <!-- <button type="button" class="btn btn-danger mr2">Cancel</button> -->
+            </div>
+        </form>
+    </div>
+  </ng-template>
+
+  <!-- Modal -->
+<ng-template #xlModal2 let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Update District Electoral Officer Meeting</h4>
+        <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--- Logo -->
+      <div class="sidebar-header float-right">
+          <a routerLink="/dashboard" class="sidebar-brand">
+              <img src="../assets/images/DepartmentEducationLogo_alt.png">
+          </a>  
+      </div>
+    <div class="modal-body">
+        <form (submit)="editsaveMeeting()" [formGroup]="editvalidationForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="edittitle">Title</label>
+                        <input type="text" class="form-control" [(ngModel)]="edittitle"  name="edittitle" id="edittitle" autocomplete="off"  placeholder="Type here" formControlName="edittitle" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.edittitle.errors}" required >
+                        <p *ngIf="editisCreateFormSubmitted && editForm.edittitle.errors?.required"
+                                class="invalid-feedback">Meeting Title required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">Start Date</label>
+                        <input onkeydown="return false" type="datetime-local" class="form-control  datetimepicker-input" name="editstartDate" [(ngModel)]="editstartDate" 
+                        formControlName="editstartDate" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.editstartDate.errors}" required >
+                        <p *ngIf="editisCreateFormSubmitted && editForm.editstartDate.errors?.required"
+                        class="invalid-feedback">Start date required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">End Date</label>
+                        <input onkeydown="return false" type="datetime-local" class="form-control datetimepicker-input" name="editendDate" [(ngModel)]="editendDate" 
+                            formControlName="editendDate" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.editendDate.errors}" required >
+                        <p *ngIf="editisCreateFormSubmitted && editForm.editendDate.errors?.required"
+                        class="invalid-feedback">End date required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Venue</label>
+                        <input type="text" class="form-control" [(ngModel)]="editvenue" name="editvenue"
+                            autocomplete="off" placeholder="Type here"formControlName="editvenue" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.editvenue.errors}" required>
+                            <p *ngIf="editisCreateFormSubmitted && editForm.editvenue.errors?.required"
+                            class="invalid-feedback">Venue required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Agenda</label>
+                        <textarea type="text" rows="10" cols="30" class="form-control" [(ngModel)]="editdescription" name="editdescription"
+                            id="editdescription" autocomplete="off" placeholder="Type here" formControlName="editdescription" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.editdescription.errors}" required>
+                        </textarea>
+                        <p *ngIf="editisCreateFormSubmitted && editForm.editdescription.errors?.required"
+                        class="invalid-feedback">Description time required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                       <label for="names">Attendants</label>
+                        <ng-select
+                            [items]="editatendents"
+                            class="disable-arrow disable-dropdown disable-clear-all"
+                            [multiple]=true
+                            [closeOnSelect]="false"                           
+                            [searchable]="true"
+                            bindLabel="fullName"
+                            placeholder="Select people"
+                            [(ngModel)]="editselectedPeople"
+                            formControlName="editselectedPeople" 
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.editselectedPeople.errors}" required >
+                        </ng-select >
+                        <p *ngIf="isCreateFormSubmitted && createForm.editselectedPeople.errors?.required"
+                        class="invalid-feedback">Attendants required</p>
+                        <div class="mt-2">
+                            <p class="text-muted">Attendants:</p>
+                            <ul>
+                            <li  class="text-danger" data-feather="user-plus" *ngFor="let item of editselectedPeople">{{item.fullName}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="minutes">Minutes</label>
+                        <textarea  name="w3review" rows="4" cols="50" type="text" class="form-control" [(ngModel)]="minutes" name="minutes" id="minutes"
+                            autocomplete="off" placeholder="Type here"formControlName="minutes" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.minutes.errors}" required>
+                        </textarea>
+                            <p *ngIf="editisCreateFormSubmitted && editForm.minutes.errors?.required"
+                            class="invalid-feedback">Minutes required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Attachment(s)</label>
+                        <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+                        <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Clear Documents</button>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <p class="text-muted">Documents:</p>
+                    <ul>
+                    <li  class="text-danger" data-feather="user-plus" *ngFor="let item of editmeetingDocuments">{{item}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button  class="btn btn-primary mr-2">Submit</button>
+                <!-- <button type="button" class="btn btn-danger mr2">Cancel</button> -->
+            </div>
+        </form>
+    </div>
+  </ng-template>
+   <!-- Modal Create Handover  -->
+<ng-template #xlModal3 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="exampleModalLabel">School Governing Body Election Training Documents</h4>
+      <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>  
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div  class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Documents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let docs of trainingDocuments">
+                            <td><a href={{docs}}>{{docs}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+  </ng-template>

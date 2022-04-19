@@ -1,0 +1,262 @@
+
+ 
+   <nav class="navbar fixed-top navbar-expand-lg navbar-dark w-100 h-20">
+    
+        <div class="container">
+            <!--- Logo -->
+            <a routerLink="/" class="sidebar-brand">
+              <img src="../assets/images/DepartmentEducationLogo.png ">
+            </a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa fa-bars mfa-white"></span>
+            </button>
+
+            <div id="main">
+                <a href="javascript:void(0)" class="openNav"><span class="fa fa-bars" onclick="openNav()"></span></a>
+            </div>
+
+
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
+               <!-- <form class="form-inline my-2 my-lg-0 col-md-7">
+                    <input class="myform-control mr-sm-2" type="search" placeholder="find peoples, instruments, bands and more..." aria-label="Search">
+                    <button class="btn btn-light"><i class="fa fa-search"></i></button>
+                </form>-->
+                <ul class="nav float-right ">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Contact Us</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="btn btn-primary btn-join ml-2"(click)=" login()">Login / Registration</a>
+                  </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    
+  <header class="masthead text-white ">
+        <div class="overlay"></div>
+        <div class="container slider-top-text">
+            <div class="row">
+                <div class="col-md-12 ">
+                   <h4 class="">Gauteng Education</h4>
+                   <h3 class="">SGB Management System</h3>
+                </div>
+            </div>
+            <div class="row">
+              <!-- <div class="col-md-4">
+                <a class="btn  btn-primary text-dark btn-join ml-2 bg-white"(click)="principallogin()">Principal Login</a>
+              </div> -->
+              <div class="col-md-4">
+                <a class="btn  btn-primary text-dark btn-join ml-2 bg-white" (click)="parentlogin()">Parent Login</a>
+              </div>  
+              <div class="col-md-4">
+                <a class="btn  btn-primary text-dark btn-join ml-2 bg-white"(click)=" login()">Portal</a>
+              </div>
+            </div>
+        </div>
+    </header>
+
+  <!-- <section class="testimonials bg-light" id="marketplace">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto wow fadeInUp">
+                    <h3 class="text-center font-weight-bold">GQUE<span class="bg-main">WORLD</span> MARKET PLACE</h3>
+                    <p class=" text-center">here</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-4 mt-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="card">
+                        <img class="card-img-top h-262" src="">
+                        <div class="card-block">
+
+                            <h4 class="card-title">Lorem Ipsum Dolor Site Amet</h4>
+
+                            <div class="card-text">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <small>$ 170</small>
+                            <a href="#" class="pull-right">More Info</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-4 mt-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="card">
+                        <img class="card-img-top h-262" src="">
+                        <div class="card-block">
+
+                            <h4 class="card-title">Lorem Ipsum Dolor Site Amet</h4>
+
+                            <div class="card-text">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <small>$ 170</small>
+                            <a href="#" class="pull-right">More Info</a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-4 mt-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="card">
+                        <img class="card-img-top h-262" src="">
+                        <div class="card-block">
+
+                            <h4 class="card-title ">Lorem Ipsum Dolor Site Amet</h4>
+
+                            <div class="card-text ">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <small>$ 170</small>
+                            <a href="#" class="pull-right">More Info</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials text-center ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto wow fadeInUp">
+                    <h3 class="text-center font-weight-bold">GQUE<span class="bg-main">WORLD</span> FEATURED ARTIST</h3>
+                    <p class=" text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-6 mt-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="big-img-3">
+                        <img src="" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-6 mt-4">
+                    <div class="my-right-text wow fadeInUp">
+
+                        <p class="text-justify font-italic">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets. remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown.</p>
+
+                        <a href="#" class="link-color">GQUE</a>
+                        <p class="text-muted">Lorem Ipsum Dolor Sit Amet</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>-->
+
+        <div class="container-fluid" style="padding: 0 15%">
+            <div class="row" style="padding: 100px 0 50px 0">
+                <div class="col-12">
+                    <span>In hac habitasse platea dictumst. Donec egestas orci quis tortor accumsan lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rhoncus, tortor quis condimentum commodo, leo dui viverra magna, in placerat justo mi eget ligula. Vestibulum vestibulum molestie viverra. Aenean ultricies posuere urna, id pretium erat fermentum sit amet. Vivamus accumsan arcu eu nunc elementum sagittis. Aliquam pellentesque porttitor sapien et fermentum. Integer eu odio efficitur, maximus lectus quis, mattis est. Vivamus ante orci, elementum quis venenatis et, ornare et augue. Praesent aliquet nulla at erat ornare, et eleifend nisi rhoncus. Sed euismod blandit turpis, a euismod tortor. Sed in enim ac purus tristique malesuada aliquam quis eros. Etiam ullamcorper quam in nisl pretium placerat. Donec quis egestas justo, quis tincidunt urna. Vestibulum porta eget felis vitae aliquet.</span>
+                    <span>Praesent non congue elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare at felis sed mattis. Aenean euismod efficitur mattis. Nam non commodo leo. Fusce at quam rhoncus, euismod quam a, dictum risus. Aliquam pulvinar purus lacinia, lobortis turpis in, malesuada magna. Praesent gravida ex vel porta malesuada. Praesent quis orci maximus, iaculis ligula id, placerat enim. Vestibulum ac bibendum libero.</span>  
+                </div>
+            </div>
+            <div class="row" style="padding: 50px 0">
+                <div class="col-3">
+                    <div class="card">
+                        <img src="../assets/images/homepage/img-homepage-6.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Item Title</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus metus sapien, molestie commodo urna lobortis sit amet. Suspendisse quis pulvinar erat. Suspendisse tincidunt non lorem eget blandit. Maecenas vehicula odio in vehicula tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card">
+                        <img src="../assets/images/homepage/img-homepage-8.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Item Title</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus metus sapien, molestie commodo urna lobortis sit amet. Suspendisse quis pulvinar erat. Suspendisse tincidunt non lorem eget blandit. Maecenas vehicula odio in vehicula tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card">
+                        <img src="../assets/images/homepage/img-homepage-1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Item Title</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus metus sapien, molestie commodo urna lobortis sit amet. Suspendisse quis pulvinar erat. Suspendisse tincidunt non lorem eget blandit. Maecenas vehicula odio in vehicula tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card">
+                        <img src="../assets/images/homepage/img-homepage-4.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Item Title</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus metus sapien, molestie commodo urna lobortis sit amet. Suspendisse quis pulvinar erat. Suspendisse tincidunt non lorem eget blandit. Maecenas vehicula odio in vehicula tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   
+    <footer class="footer bg-dark">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-lg-6 text-center text-lg-left my-auto  wow zoomIn">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item">
+                            <a href="#">About</a>
+                        </li>
+                        <li class="list-inline-item">⋅</li>
+                        <li class="list-inline-item">
+                            <a href="#">Contact</a>
+                        </li>
+                        <li class="list-inline-item">⋅</li>
+                        <li class="list-inline-item">
+                            <a href="#">Terms of Use</a>
+                        </li>
+                        <li class="list-inline-item">⋅</li>
+                        <li class="list-inline-item">
+                            <a href="#">Privacy Policy</a>
+                        </li>
+                    </ul>
+                    <p class="text-muted small mb-4 mb-lg-0">© All Rights Reserved.</p>
+                </div>
+                <div class="col-lg-6 text-center text-lg-right my-auto  wow zoomIn">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                                <i class="fa fa-facebook fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                                <i class="fa fa-twitter fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <i class="fa fa-instagram fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+   
+    

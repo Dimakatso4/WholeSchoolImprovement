@@ -1,0 +1,644 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Notification Memo</a></li>
+    </ol>
+</nav>
+
+<div class="row headingStyle1">
+    <div class="col-md-12 bg-primary text-white headingStyle2">
+        <h2>Notification Memo Gauteng Department Of Education {{banner.text | titlecase}}: <span
+                class="text-warning">{{banner.title | titlecase}}</span></h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row" *ngIf="userRole =='DEO'">
+    <div class="col-md-12">
+        <button class="btn btn-primary float-right" (click)="openModal(createMemo)">Create Notification Memo</button>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive table-wrap">
+            <table role="table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="table table-hover mb-0">
+                <thead class="bg-secondary text-white">
+                    <tr>
+                        <th hidden class="tableheadStyle text-white">ID</th>
+                        <th class="tableheadStyle text-white">Notication Date</th>
+                        <th class="tableheadStyle text-white">Due Date and Time</th>
+                        <th class="tableheadStyle text-white">Description</th>
+                        <th class="tableheadStyle text-white">Documents</th>
+                        <th class="tableheadStyle text-white">Receipeints</th>
+                        <th class="tableheadStyle text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- [ngClass]="memo.dueDate <  todaysDate? 'black' : 'black'" -->
+                    <tr *ngFor="let memo of electioMemo; let i = index">
+                        <td hidden>{{memo.id}}</td>
+                        <td>{{memo.dateTimeCaptured | date:
+                            'YYYY-MM-dd hh:mm a'}}</td>
+                        <td>{{memo.dueDate | date:
+                            'YYYY-MM-dd hh:mm a'}}</td>
+                        <td>
+                            <a><i class="mdi mdi-book-open-variant"
+                                    (click)="openRowModal(description, i, 'description')"></i></a>
+                        </td>
+                        <td>
+                            <a><i class="mdi mdi-book-multiple black"
+                                    (click)="openRowModal(document, memo.id, 'document')"></i></a>
+                        </td>
+                        <td>
+                            <a><i class="mdi mdi-eye" (click)="openRowModal(recipient, i, 'recipient')"></i></a>
+                        </td>
+                        <td class="text-center">
+                            <span *ngIf="isElectionScheduled(memo.id, 'new')">
+                                <a class="btn btn-primary" [routerLink]="['/schedule/new']"
+                                    [queryParams]="{id:memo.id}">Propose Date</a>
+                            </span>
+                            <span *ngIf="isElectionScheduled(memo.id, 'complete')">
+                                <button class="btn btn-dark" disabled>Election Scheduled</button>
+                            </span>
+                            <span *ngIf="isElectionScheduled(memo.id, 'inprogress')">
+                                <button class="btn btn-dark" disabled>Scheduling Inprogress</button>
+                            </span>
+                            <span *ngIf="userRole=='DEO'">
+                                <a><i class="mdi mdi-pencil" (click)="openRowModal(update, i, 'update')"></i></a>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create Memo  -->
+<ng-template #createMemo let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title text-white" id="exampleModalLabel">Create Notification Memo</h4>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>
+    </div>
+    <div class="modal-body">
+
+        <!-- <form [formGroup]="validationForm"> -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Please Upload Document</label>
+                    <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+                        (success)="onUploadSuccess($event,'create')" (removedFile)="removeDocument($event, 'create', 0)"
+                        [ngClass]="{'is-invalid': isCreateFormSubmitted && memoDocument.length == 0}"></div>
+                    <p *ngIf="isCreateFormSubmitted && memoDocument.length == 0" class="invalid">Please upload memo
+                        document</p>
+                    <!-- <button class="btn btn-secondary mt-2 d-block ml-auto text-white"
+                        (click)="resetDropzoneUploads()">Clear Documents</button> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Example</h6>
+
+        <div class="dropzone" [dropzone]="config"  (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+        <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Reset</button>
+
+      </div>
+    </div>
+  </div>  
+</div> -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="name">Description</label>
+                    <textarea rows="13" cols="30" class="form-control" id="description" placeholder="Type here">MEMORANDUM
+
+1. In preparation for the {{currentYear | date:'YYYY'}} SGB Elections, schools are reminded to submit to the District Electoral Officer the proposed Election dates for Parents, Educators, and Non-Educators by {{!dueDate?currentDate:dueDate | date:'dd MMMM YYYY'}}.
+                                                                                   
+2. Kindly refer to the template below (Annexure A) for the information required from the school. The template should be on an Excel Spreadsheet signed by the Principal, dated, and include the school’s stamp.
+                                                       
+Yours faithfully
+                             
+{{username}}
+{{banner.title | titlecase}}
+                        </textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <h3 class="text-muted">School List</h3>  activeIds="faq1" -->
+        <br />
+
+        <ngb-accordion [closeOthers]="true">
+            <ngb-panel id="createlist" title="School List">
+                <ng-template ngbPanelContent>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><label class="text-description">Schools Not Receiving
+                                        The
+                                        Memo</label>
+                                </li>
+                                <li class="list-inline-item float-right justify-content-end"><button type="button"
+                                        class="btn btn-link btn-sm " (click)="updateSchoolList('addall', 0)">+Add
+                                        All</button></li>
+                            </ul>
+                            <!-- datatable [dtOptions]="listOptions" [dtTrigger]="listTrigger"  -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="bg-secondary  text-white">
+                                        <tr>
+                                            <th class="tableheadStyle text-white">School</th>
+                                            <th class="tableheadStyle text-white">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of completeSchoolList" class="table-item">
+                                            <td *ngIf="!data.isSchoolInvited">{{data.schoolName | titlecase}}</td>
+                                            <td *ngIf="!data.isSchoolInvited">
+                                                <a class="btn btn-primary "
+                                                    (click)="updateSchoolList('add',data.id)">Add
+                                                    School
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><label class="text-description">Schools Receiving The
+                                        Memo</label>
+                                </li>
+                                <li class="list-inline-item float-right justify-content-end"><button type="button"
+                                        class="btn btn-link btn-sm" (click)="updateSchoolList('removeall', 0)">-Remove
+                                        All</button></li>
+                            </ul>
+                            <!-- <label class="text-description">Schools Receiving The Memo <span class="d-flex justify-content-end"><a href="#">-Remove All</a></span></label> -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="bg-secondary text-white">
+                                        <tr>
+                                            <th class="tableheadStyle text-white">School</th>
+                                            <th class="tableheadStyle text-white">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of completeSchoolList" class="table-item">
+                                            <td *ngIf="data.isSchoolInvited">{{data.schoolName | titlecase}}</td>
+                                            <td *ngIf="data.isSchoolInvited">
+                                                <a class="btn btn-primary "
+                                                    (click)="updateSchoolList('remove', data.id)">Remove School
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--<div class="form-group">
+                         <label hidden for="names">Notification Memo School Individual List</label>
+                        <ng-select hidden [items]="atendents" [multiple]=true [closeOnSelect]="true" [searchable]="true"
+                            bindLabel="fullName" placeholder="Select people" [(ngModel)]="selectedPeople"
+                            formControlName="selectedPeople"
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.selectedPeople.errors}"
+                            required>
+                        </ng-select> 
+                        <p *ngIf="isCreateFormSubmitted && createForm.selectedPeople.errors?.required"
+                            class="invalid-feedback">Attendants required</p>
+                    </div>-->
+                        </div>
+                    </div>
+
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+        <p *ngIf="isCreateFormSubmitted && selectedSchoolList.length == 0 && showErrorMsg" class="invalid">Please add at
+            least one school to send the memo</p>
+
+        <br>
+        <form [formGroup]="validationForm">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">Due Date</label>
+                        <input [min]="todaysDate" onkeydown="return false" type="datetime-local"
+                            class="form-control datetimepicker-input" name="dueDate" [(ngModel)]="dueDate"
+                            formControlName="dueDate"
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.dueDate.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.dueDate.errors" class="invalid-feedback">Due date
+                            required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary mr-2" (click)="createElectionMemo()">Submit</button>
+                <button class="btn btn-light" (click)="Cancel('create')">Cancel</button>
+            </div>
+        </form>
+        <!-- </form> -->
+    </div>
+</ng-template>
+
+<!-- Modal Update Memo  -->
+<ng-template #update let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title text-white" id="exampleModalLabel">Update Election Memo</h4>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>
+    </div>
+    <div class="modal-body">
+
+        <!-- <form [formGroup]="validationForm"> -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Upload More Election Memo Documents</label>
+                    <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+                        (success)="onUploadSuccess($event,'update')" (removedFile)="removeDocument($event, 'update', 0)"
+                        [ngClass]="{'is-invalid': isEditFormSubmitted && editMemoDocument.length == 0}"></div>
+                    <p *ngIf="editMemoDocument.length == 0 && editMemoDocuments.length == 0" class="invalid">Please
+                        upload memo
+                        document</p>
+                    <!-- <button class="btn btn-secondary mt-2 d-block ml-auto text-white"
+                        (click)="resetDropzoneUploads()">Clear Documents</button> -->
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="bg-secondary">
+                    <tr>
+                        <th class="text-white">Document Title</th>
+                        <th class="text-white">Date Uploaded</th>
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let document of editMemoDocuments; let i = index">
+                        <th><a href={{document.documentPath}} target="_blank">{{i+1}}. {{document.title |
+                                titlecase}}</a></th>
+                        <th><a href={{document.documentPath}} target="_blank">{{document.uploadedDate | date:
+                                'YYYY-MM-dd &nbsp; HH:mm'}}</a></th>
+                        <th>
+                            <a target="_blank" href="{{document.documentPath}}"><i
+                                    class="mdi mdi-download text-dark"></i></a>
+                            &nbsp;
+                            <a><i class="mdi mdi-delete text-dark"
+                                    (click)="removeDocument($event, 'table', document.id)"></i></a>
+                        </th>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div col class="d-flex justify-content-center ">
+
+                <div *ngIf="editMemoDocuments.length == 0 && dataProgress == 'loading'">
+                    <div class="card-body">
+                        <p class="card-title text-bold text-center">Loading document list...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center ">
+
+                <div *ngIf="editMemoDocuments.length == 0 && dataProgress == 'done'">
+                    <div class="card-body">
+                        <p class="card-title text-danger text-center">No document uploaded for this memo
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="name">Memo Description</label>
+                    <textarea rows="13" cols="30" class="form-control" [(ngModel)]="editDescription"
+                        id="editDescription" placeholder="Type here">{{editDescription}}
+                        </textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <h3 class="text-muted">School List</h3>  activeIds="faq1" -->
+        <br />
+
+        <ngb-accordion [closeOthers]="true">
+            <ngb-panel id="editlist" title="School List">
+                <ng-template ngbPanelContent>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><label class="text-description">Schools Not Receiving
+                                        The
+                                        Memo</label>
+                                </li>
+                                <li class="list-inline-item float-right justify-content-end"><button type="button"
+                                        class="btn btn-link btn-sm " (click)="updateNewSchoolList('addall', 0)">+Add
+                                        All</button></li>
+                            </ul>
+                            <!-- datatable [dtOptions]="listOptions" [dtTrigger]="listTrigger"  -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="bg-secondary  text-white">
+                                        <tr>
+                                            <th class="tableheadStyle text-white">School</th>
+                                            <th class="tableheadStyle text-white">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of editSchoolList" class="table-item">
+                                            <td *ngIf="!data.isSchoolInvited">{{data.schoolName | titlecase}}</td>
+                                            <td *ngIf="!data.isSchoolInvited">
+                                                <a class="btn btn-primary "
+                                                    (click)="updateNewSchoolList('add',data.id)">Add
+                                                    School
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><label class="text-description">Schools Receiving The
+                                        Memo</label>
+                                </li>
+                                <li class="list-inline-item float-right justify-content-end"><button type="button"
+                                        class="btn btn-link btn-sm"
+                                        (click)="updateNewSchoolList('removeall', 0)">-Remove
+                                        All</button></li>
+                            </ul>
+                            <!-- <label class="text-description">Schools Receiving The Memo <span class="d-flex justify-content-end"><a href="#">-Remove All</a></span></label> -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="bg-secondary text-white">
+                                        <tr>
+                                            <th class="tableheadStyle text-white">School</th>
+                                            <th class="tableheadStyle text-white">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of editSchoolList" class="table-item">
+                                            <td *ngIf="data.isSchoolInvited">{{data.schoolName | titlecase}}</td>
+                                            <td *ngIf="data.isSchoolInvited">
+                                                <a class="btn btn-primary "
+                                                    (click)="updateNewSchoolList('remove', data.id)">Remove School
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div col class="d-flex justify-content-center ">
+
+                        <div *ngIf="editSchoolList.length == 0 && dataProgress == 'loading'">
+                            <div class="card-body">
+                                <p class="card-title text-bold text-center">Loading school list...</p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+        <p *ngIf="isEditFormSubmitted && selectedSchoolList.length == 0 && showErrorMsg" class="invalid">Please add at
+            least one school to send the memo</p>
+
+        <br>
+        <form [formGroup]="editvalidationForm">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">Due Date</label>
+                        <input [min]="todaysDate" onkeydown="return false" type="datetime-local"
+                            class="form-control datetimepicker-input" name="editDueDate" [(ngModel)]="editDueDate"
+                            formControlName="editDueDate"
+                            [ngClass]="{'is-invalid': isEditFormSubmitted && editForm.editDueDate.errors}" required>
+                        <p *ngIf="isEditFormSubmitted && editForm.editDueDate.errors" class="invalid-feedback">Due date
+                            required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary mr-2" (click)="updateElectionMemo()">Save</button>
+                <button class="btn btn-light" (click)="Cancel('update')">Cancel</button>
+            </div>
+        </form>
+        <!-- </form> -->
+    </div>
+</ng-template>
+
+<!-- Recipient List  -->
+<ng-template #recipient let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title" id="exampleModalLabel">Election Memo Recipient List</h4>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>
+    </div>
+
+    <ngb-accordion [closeOthers]="true" activeIds="viewlist">
+        <ngb-panel id="viewlist" title="List of schools that recieved this memo">
+            <ng-template ngbPanelContent>
+
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="table-responsive">
+                            <table role="table" class="table table-hover">
+                                <thead class="bg-secondary text-white">
+                                    <tr>
+                                        <th class="tableheadStyle text-white">Emis Code</th>
+                                        <th class="tableheadStyle text-white">School</th>
+                                        <th class="tableheadStyle text-white">Principal</th>
+                                        <!-- <th class="tableheadStyle text-white">Emis Number</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let recipient of recipientList">
+                                        <td>{{recipient.emisCode}}</td>
+                                        <td>
+                                            <span>{{recipient.schoolName}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{recipient.principal | titlecase}}</span>
+                                        </td>
+                                        <!-- <td>{{recipient.emiscode | titlecase}}</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div col class="d-flex justify-content-center ">
+
+                                <div *ngIf="recipientList.length == 0 && dataProgress == 'done'">
+                                    <div class="card-body">
+                                        <p class="card-title text-danger text-center">No schools was selected to send
+                                            this memo</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div col class="d-flex justify-content-center ">
+
+                                <div *ngIf="recipientList.length == 0 && dataProgress == 'loading'">
+                                    <div class="card-body">
+                                        <p class="card-title text-bold text-center">Loading recipient list...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+    <div class="card-footer">
+        <button class="btn btn-light float-right" (click)="modal.close('by: close icon')">Close</button>
+    </div>
+</ng-template>
+
+<!-- Memo Description  -->
+<ng-template #description let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title" id="exampleModalLabel">Election Memo Description</h4>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="minutes">Description</label>
+                    <textarea readonly name="descrtion" rows="30" cols="50" type="text" class="form-control"
+                        autocomplete="off">{{memoDescrtion}}
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-light float-right" (click)="modal.close('by: close icon')">Close</button>
+    </div>
+</ng-template>
+
+
+<!-- Memo Documents  -->
+<ng-template #document let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title" id="exampleModalLabel">Election Memo Document</h4>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="table-responsive">
+                <table role="table" class="table table-hover">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <th class="tableheadStyle text-white">Document Title</th>
+                            <th class="tableheadStyle text-white">Date Upload</th>
+                            <th class="tableheadStyle text-white">Uploaded By</th>
+                            <th class="tableheadStyle text-white">Download</th>
+                            <!--<th  class="tableheadStyle text-white">Download</th>-->
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="memoDocuments.length > 0">
+                        <tr *ngFor="let document of memoDocuments; let i = index">
+                            <td><a href={{document.documentPath}} target="_blank">{{i+1}}. {{(document.title |
+                                    titlecase)}}</a></td>
+                            <td><a href={{document.documentPath}} target="_blank">{{document.uploadedDate | date:
+                                    'YYYY-MM-dd
+                                    HH:mm'}}</a></td>
+                            <td><a href={{document.documentPath}} target="_blank">{{document.fullname}}</a></td>
+                            <td>
+                                <a href={{document.documentPath}} target="_blank"><i
+                                        class="mdi mdi-download text-dark"></i></a>
+                            </td>
+                            <!--<td>
+                                <a href={{docs.documentPath}} download={{(docs.title)}}><i class="mdi mdi-file-download text-dark"></i></a>
+                            </td>-->
+                        </tr>
+                    </tbody>
+                </table>
+                <div col class="d-flex justify-content-center ">
+
+                    <div *ngIf="memoDocuments.length == 0 && dataProgress == 'done'">
+                        <div class="card-body">
+                            <p class="card-title text-danger text-center">No document uploaded for this memo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div col class="d-flex justify-content-center ">
+
+                    <div *ngIf="memoDocuments.length == 0 && dataProgress == 'loading'">
+                        <div class="card-body">
+                            <p class="card-title text-bold text-center">Loading document list...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-light float-right" (click)="modal.close('by: close icon')">Close</button>
+    </div>
+</ng-template>

@@ -1,0 +1,169 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Meetings</a></li>
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2>Scheduled Meetings</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row" style="margin-bottom: 25px;">
+    <div class="col-md-12">
+        <button class="btn btn-primary float-right" >Create New</button>
+    </div>
+</div>
+
+<!-- ----------==========          VERSION 3 (Thato - No Card)          ==========---------- -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+                <thead class="bg-secondary text-white">
+                    <tr>
+                        <th style="padding: 20px 18px; color: #fff;">Id</th>
+                        <th style="padding: 20px 18px; color: #fff;">Title</th>
+                        <th style="padding: 20px 18px; color: #fff;">venue</th>
+                        <th style="padding: 20px 18px; color: #fff;">Description</th>
+                        <th style="padding: 20px 18px; color: #fff;">Start Date</th>
+                        <th style="padding: 20px 18px; color: #fff;">Start Time</th>
+                        <th style="padding: 20px 18px; color: #fff;">End Date</th>
+                        <th style="padding: 20px 18px; color: #fff;">End Time</th>
+                        <th style="padding: 20px 18px; color: #fff;">Scheduled By:</th>
+                        <th style="padding: 20px 18px; color: #fff;">minutes</th>
+                        <th style="padding: 20px 18px; color: #fff;">Action</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let training of data">
+                        <td>{{training.id}}</td>
+                        <td>{{training.title}}</td>
+                        <td>{{training.venue}}</td>
+                        <td>{{training.description}}</td>
+                        <td>{{training.startDate | date: 'YYYY-MM-dd'}}</td>
+                        <td>{{training.startDate | date: 'HH:mm'}}</td>
+                        <td>{{training.endDate | date: 'YYYY-MM-dd'}}</td>
+                        <td>{{training.endDate | date: 'HH:mm'}}</td>
+                        <td>{{training.scheduledBy}}</td>
+                        <td>{{training.minutes}}</td>
+                        <td>
+                            <button class="btn btn-primary" (click)="editMeeting(training)">Update Meeting</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="data.length === 0">
+                    <tr>
+                        <td colspan="3" class="no-data-available">No data!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ----------==========          VERSION 2 (Thato)          ==========---------- -->
+<!-- <div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th style="padding: 20px 18px; color: #fff;">Id</th>
+                                <th style="padding: 20px 18px; color: #fff;">Title</th>
+                                <th style="padding: 20px 18px; color: #fff;">venue</th>
+                                <th style="padding: 20px 18px; color: #fff;">Description</th>
+                                <th style="padding: 20px 18px; color: #fff;">Start Date</th>
+                                <th style="padding: 20px 18px; color: #fff;">Start Time</th>
+                                <th style="padding: 20px 18px; color: #fff;">End Date</th>
+                                <th style="padding: 20px 18px; color: #fff;">End Time</th>
+                                <th style="padding: 20px 18px; color: #fff;">Scheduled By:</th>
+                                <th style="padding: 20px 18px; color: #fff;">minutes</th>
+                                <th style="padding: 20px 18px; color: #fff;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr *ngFor="let training of data">
+                                <td>{{training.id}}</td>
+                                <td>{{training.title}}</td>
+                                <td>{{training.venue}}</td>
+                                <td>{{training.description}}</td>
+                                <td>{{training.startDate | date: 'YYYY-MM-dd'}}</td>
+                                <td>{{training.startDate | date: 'HH:mm'}}</td>
+                                <td>{{training.endDate | date: 'YYYY-MM-dd'}}</td>
+                                <td>{{training.endDate | date: 'HH:mm'}}</td>
+                                <td>{{training.scheduledBy}}</td>
+                                <td>{{training.minutes}}</td>
+                                <td>
+                                    <button class="btn btn-primary" (click)="editMeeting(training)">Update Meeting</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="data.length === 0">
+                            <tr>
+                              <td colspan="3" class="no-data-available">No data!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- ----------==========          VERSION 1          ==========---------- -->
+<!-- <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-title">Scheduled Meeting</h6>
+            <button class="btn btn-primary float-right" (click)="createMeeting()">Create Meeting</button>
+            <br />
+            <br />
+            <div class="table-responsive">
+                <table datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>venue</th>
+                            <th>Description</th>
+                            <th>Start Date</th>
+                            <th>Start Time</th>
+                            <th>End Date</th>
+                            <th>End Time</th>
+                            <th>Scheduled By:</th>
+                            <th>minutes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr *ngFor="let training of data">
+                            <td>{{training.id}}</td>
+                            <td>{{training.title}}</td>
+                            <td>{{training.venue}}</td>
+                            <td>{{training.description}}</td>
+                            <td>{{training.startDate | date: 'YYYY-MM-dd'}}</td>
+                            <td>{{training.startDate | date: 'HH:mm'}}</td>
+                            <td>{{training.endDate | date: 'YYYY-MM-dd'}}</td>
+                            <td>{{training.endDate | date: 'HH:mm'}}</td>
+                            <td>{{training.scheduledBy}}</td>
+                            <td>{{training.minutes}}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="editMeeting(training)">Update Meeting</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="data.length === 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No data!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> -->

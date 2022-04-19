@@ -1,0 +1,79 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Disputes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="page-title">Schools in you district</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" *ngIf="!noDisputes">
+        <h6 class="text-center">Disputes logged under the district {{districtName | titlecase}}</h6>
+    </div>
+</div>
+<div class="row" style="margin-bottom: 25px;">
+    <div class="col-md-12" *ngIf="noDisputes">
+        <h6 class="text-center">There are no disputes logged in {{districtName | titlecase}}</h6>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+            <table  datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" id="datatable" class="table table-hover mb-0">
+                <thead class="bg-secondary">
+                    <tr>
+                        <th class="text-white">#</th>
+                        <th class="text-white">EmisCode</th>
+                        <th class="text-white">School Name</th>
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let school of schools; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{school.emisCode}}</td>
+                        <td>{{school.institutionName}}</td>
+                        <td>
+                            <a><i class="mdi mdi-eye text-dark" (click)="view(i)"></i></a>
+                            <button *ngIf="false" class="btn btn-primary" (click)="view(i)">View</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ----------==========          VERSION 1          ==========----------- -->
+<!-- <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="pt-0">EmisCode</th>
+                            <th class="pt-0">School Name</th>
+                            <th class="pt-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let school of schools; let i = index">
+                            <td>{{school.emisCode}}</td>
+                            <td>{{school.institutionName}}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="view(i)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,62 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">Schools</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Pairing</li>
+  </ol>
+</nav>
+<h3 class="page-title">School Pairing</h3>
+<hr style="margin-bottom: 2rem;">
+
+<div class="row">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">
+          <h6 class="card-title" style="margin-bottom: 0;">School Pairing</h6>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="schoolName">School Name</label>
+                <input type="text" class="form-control" id="schoolName" disabled value="Lefofa Primary School">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="principalName">Principal</label>
+                <input type="text" class="form-control" id="principalName" disabled value="Mary Maloka">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="electoralOfficerName">Electoral officer</label>
+                <input type="text" class="form-control" id="electoralOfficerName" disabled value="Thabiso Mokoena">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="pairedschoolName">Paired School</label>
+                <select class="form-control" id="pairedschoolName">
+                  <option selected disabled>Select school</option>
+                  <option>School 1</option>
+                  <option>School 2</option>
+                  <option>School 3</option>
+                  <option>School 4</option>
+                  <option>School 5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <button class="btn btn-primary mr-2" type="submit">Submit</button>
+          <button class="btn btn-danger mr-2" type="submit">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+.disablediv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.top-navbar {
+    padding-top: 2vh;
+    padding-bottom: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+td:hover {
+    cursor: pointer ;
+    // cursor: not-allowed ;
+}
+ 

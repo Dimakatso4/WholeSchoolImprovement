@@ -1,0 +1,15 @@
+.masthead {
+    position: relative;
+    height: 100vh;
+    background-color: blue;
+    background: url('../images/hero-slider.png') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+.login-text {
+    color: #aaa !important;
+}

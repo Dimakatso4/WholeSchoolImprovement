@@ -1,0 +1,1280 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Election</a></li>
+        <li class="breadcrumb-item" aria-current="page">Confirming Monitoring Tool</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-xl-12 main-content px-xl-4 pr-xl-5">
+        <h2 class="page-title">SGB Elections Monitoring Tool</h2>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-6 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>CAPTURE ELECTION MONITORING DETAILS</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="text-dark col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="district">District</label>
+                            <select [(ngModel)]="districtCode" disabled >
+                                <option selected disabled [value]="null">Please select one</option>
+                                <option *ngFor="let dist of allDistricts" value={{dist.code}}>
+                                    {{dist.districtName}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="districtElectoralOfficer">Name of district electoral officer</label>
+                        <select disabled [(ngModel)]="districtElectoralOfficer" id="districtElectoralOfficer"
+                            class="form-control datetimepicker-input">
+                            <option *ngIf="!noDEOs" selected disabled [value]="null">Please select one</option>
+                            <option *ngIf="noDEOs" disabled value="">No district electoral office found</option>
+                            <option *ngFor="let deo of DEOs" value={{deo.id}}>
+                                {{deo.firstname}} {{deo.surname}}
+                            </option>
+
+                        </select>
+                        <!-- <div class="input-group date time-picker" id="handoverDateTime" >
+                                    <input type="text" [(ngModel)]="districtElectoralOfficer" class="form-control datetimepicker-input" >
+                                </div> -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="school">Name of the school</label>
+                            <select disabled id="school" [(ngModel)]="school">
+                                <option selected disabled [value]="null">Please select one</option>
+                                <option *ngFor="let school of allschools" value={{school.emisCode}}>
+                                    {{school.institutionName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="schoolElectoralOfficer">Name of school electoral officer</label>
+                        <select disabled id="schoolElectoralOfficer" class="text-dark"
+                            [(ngModel)]="schoolElectoralOfficer" class="form-control datetimepicker-input">
+                            <option *ngIf="!noSEOs" selected disabled [value]="null">Please select one</option>
+                            <option *ngIf="noSEOs" disabled value="">No school electoral office found</option>
+                            <option *ngFor="let seo of SEOs" value={{seo.id}}>
+                                {{seo.firstname}} {{seo.surname}}
+                            </option>
+
+                        </select>
+                        <!-- <div class="input-group date time-picker" id="handoverDateTime" >
+                                    <input type="text" [(ngModel)]="schoolElectoralOfficer" class="form-control datetimepicker-input" >
+                                </div> -->
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1.3rem">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="dateOfElection">Date of election</label>
+                        <div class="input-group date time-picker" id="dateOfElection">
+                            <input type="text" readonly [(ngModel)]="dateOfElection"
+                                class="form-control datetimepicker-input">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="timeOfElection">Time of election</label>
+                        <div class="input-group date time-picker" id="handoverDateTime">
+                            <input type="text" readonly id="timeOfElection" [(ngModel)]="timeOfElection"
+                                class="form-control datetimepicker-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1.3rem">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="districtMonitor">Name and surname of district electoral monitor</label>
+                        <div class="input-group date time-picker" id="districtMonitor">
+                            <input type="text" placeholder="Type here" [(ngModel)]="districtMonitor"
+                                class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="provincialMonitor">Name of provincial monitor</label>
+                        <div class="input-group date time-picker" id="provincialMonitor">
+                            <input type="text" [(ngModel)]="provincialMonitor" readonly
+                                class="form-control datetimepicker-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="row " style="margin-top: 1.3rem">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="modeOfElection">Mode of election(Standard/Full)</label>
+                        <select disabled [(ngModel)]="modeOfElection" id="modeOfElection"
+                            class="form-control datetimepicker-input">
+                            <option selected disabled value="">Please select one</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Full Day">Full Day</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="directorate">Directorate</label>
+                            <select disabled [(ngModel)]="directorate" id="directorate">
+                                <option selected disabled [value]="null">Please select one</option>
+                                <option value="Public Ordinary Schools">Public Ordinary Schools</option>
+                                <option value="Inclusion and Special Schools">Inclusion and Special Schools</option>
+                                <option value="MGSLG">MGSLG</option>
+                                <option value="Special Investigations">Special Investigations</option>
+                                <option value="Quality Assurance">Quality Assurance</option>
+                                <option value="Legal Services">Legal Services</option>
+                                <option value="e-Government">e-Government</option>
+                                <option value="Information Systems">Information Systems</option>
+                                <option value="Policy and Planning">Policy and Planning</option>
+                                <!-- <option *ngFor="let directorate of Directorates" value={{directorate.emisCode}}>
+                                    {{directorate.institutionName}}
+                                </option> -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <label for="nameOf">Observers</label>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group date time-picker" id="handoverDateTime">
+                                    <input type="text" readonly [(ngModel)]="observer1"
+                                        class="form-control datetimepicker-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group date time-picker" id="handoverDateTime">
+                                    <input type="text" readonly [(ngModel)]="observer2"
+                                        class="form-control datetimepicker-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group date time-picker" id="handoverDateTime">
+                                    <input type="text" readonly [(ngModel)]="observer3"
+                                        class="form-control datetimepicker-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--  -->
+                
+                <div class="row" style="margin-top: 1.3rem">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>1. Was it duly elected</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" [(ngModel)]="dulyElected" class="form-check-input"
+                                        name="dulyElected" value="Yes" disabled>
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" [(ngModel)]="dulyElected" class="form-check-input"
+                                        name="dulyElected"value="No" disabled>
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea [(ngModel)]="dulyElectedComment" readonly
+                                placeholder="Type here" name="dulyElectedComment"
+                                class="form-control" rows="4" cols="50"></textarea>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 1.3rem">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>2. The election process started at the planned time.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="TheElectionProcessStartedAtThePlannedTime"
+                                        class="form-check-input" name="TheElectionProcessStartedAtThePlannedTime"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="TheElectionProcessStartedAtThePlannedTime"
+                                        class="form-check-input" name="TheElectionProcessStartedAtThePlannedTime"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="TheElectionProcessStartedAtThePlannedTime"
+                                        class="form-check-input" name="TheElectionProcessStartedAtThePlannedTime"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="TheElectionProcessStartedAtThePlannedTimeComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>3. The school Electoral Officer (SEO) & District Electoral Team Member (DET) are both present
+                        </p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheSchoolElectoralOfficerDistrictElectoralTeamMemberAreBothPresent"
+                                        class="form-check-input"
+                                        name="TheSchoolElectoralOfficerDistrictElectoralTeamMemberAreBothPresent"
+                                        value="SEO">
+                                    <i class="input-frame"></i>
+                                    SEO
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheSchoolElectoralOfficerDistrictElectoralTeamMemberAreBothPresent"
+                                        class="form-check-input"
+                                        name="TheSchoolElectoralOfficerDistrictElectoralTeamMemberAreBothPresent"
+                                        value="DET">
+                                    <i class="input-frame"></i>
+                                    DET
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheSchoolElectoralOfficerDistrictElectoralTeamMemberAreBothPresent"
+                                        class="form-check-input"
+                                        name="TheSchoolElectoralOfficerDistrictElectoralTeamMemberAreBothPresent"
+                                        value="Both">
+                                    <i class="input-frame"></i>
+                                    Both
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled
+                                [(ngModel)]="TheSchoolElectoralOfficerDistrictElectoralTeamMemberAreBothPresentComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>4. An official Voters roll has been prepared & signed.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="AnOfficialVotersRRollHasBeenPreparedSigned"
+                                        class="form-check-input" name="AnOfficialVotersRRollHasBeenPreparedSigned"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="AnOfficialVotersRRollHasBeenPreparedSigned"
+                                        class="form-check-input" name="AnOfficialVotersRRollHasBeenPreparedSigned"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="AnOfficialVotersRRollHasBeenPreparedSigned"
+                                        class="form-check-input" name="AnOfficialVotersRRollHasBeenPreparedSigned"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="AnOfficialVotersRRollHasBeenPreparedSignedComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>5. The election process only proceeds in the presence of a quorum (15 % of eligible voters).
+                        </p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheElectionProcessOnlyProceedsInThePresenceOfAQuorum"
+                                        class="form-check-input"
+                                        name="TheElectionProcessOnlyProceedsInThePresenceOfAQuorum" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheElectionProcessOnlyProceedsInThePresenceOfAQuorum"
+                                        class="form-check-input"
+                                        name="TheElectionProcessOnlyProceedsInThePresenceOfAQuorum" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheElectionProcessOnlyProceedsInThePresenceOfAQuorum"
+                                        class="form-check-input"
+                                        name="TheElectionProcessOnlyProceedsInThePresenceOfAQuorum"
+                                        value="Not applicable">
+                                    <i class="input-frame"></i>
+                                    Not applicable
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="TheElectionProcessOnlyProceedsInThePresenceOfAQuorumComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="TheElectionProcessOnlyProceedsInThePresenceOfAQuorum == 'No'">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>Select the date of the next election
+                        </p>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <input type="text" disabled [(ngModel)]="dateOfNextElection" readonly
+                            class="input-group date time-picker" name="dateOfNextElection">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>6. Provision is made for a ballot box.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="ProvisionIsMadeForABallotBox"
+                                        class="form-check-input" name="ProvisionIsMadeForABallotBox" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="ProvisionIsMadeForABallotBox"
+                                        class="form-check-input" name="ProvisionIsMadeForABallotBox" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="ProvisionIsMadeForABallotBox"
+                                        class="form-check-input" name="ProvisionIsMadeForABallotBox"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="ProvisionIsMadeForABallotBoxComment" class="form-control"
+                                rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>7. The empty ballot box was shown to candidates before sealing.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheEmptyBoxWasShownToCandidatesBeforeSealing"
+                                        class="form-check-input" name="TheEmptyBoxWasShownToCandidatesBeforeSealing"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheEmptyBoxWasShownToCandidatesBeforeSealing"
+                                        class="form-check-input" name="TheEmptyBoxWasShownToCandidatesBeforeSealing"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheEmptyBoxWasShownToCandidatesBeforeSealing"
+                                        class="form-check-input" name="TheEmptyBoxWasShownToCandidatesBeforeSealing"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="TheEmptyBoxWasShownToCandidatesBeforeSealingComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>8. Provision is made for voting to take place in privacy.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ProvisionIsMadeForVotingToTakePlaceInPrivacy"
+                                        class="form-check-input" name="ProvisionIsMadeForVotingToTakePlaceInPrivacy"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ProvisionIsMadeForVotingToTakePlaceInPrivacy"
+                                        class="form-check-input" name="ProvisionIsMadeForVotingToTakePlaceInPrivacy"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ProvisionIsMadeForVotingToTakePlaceInPrivacy"
+                                        class="form-check-input" name="ProvisionIsMadeForVotingToTakePlaceInPrivacy"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="ProvisionIsMadeForVotingToTakePlaceInPrivacyComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>9. Ballot papers are validated upon issue.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="BallotPapersAreValidatedUponIssue"
+                                        class="form-check-input" name="BallotPapersAreValidatedUponIssue" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="BallotPapersAreValidatedUponIssue"
+                                        class="form-check-input" name="BallotPapersAreValidatedUponIssue" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="BallotPapersAreValidatedUponIssue"
+                                        class="form-check-input" name="BallotPapersAreValidatedUponIssue"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="BallotPapersAreValidatedUponIssueComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>10. A mechanism is in place to ensure that voters are prevented from voting more than once.
+                        </p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="AMechanismIsInPlaceToEnsureThatVotersArePreventedFromVotingMoreThanOnce"
+                                        class="form-check-input"
+                                        name="AMechanismIsInPlaceToEnsureThatVotersArePreventedFromVotingMoreThanOnce"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="AMechanismIsInPlaceToEnsureThatVotersArePreventedFromVotingMoreThanOnce"
+                                        class="form-check-input"
+                                        name="AMechanismIsInPlaceToEnsureThatVotersArePreventedFromVotingMoreThanOnce"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="AMechanismIsInPlaceToEnsureThatVotersArePreventedFromVotingMoreThanOnce"
+                                        class="form-check-input"
+                                        name="AMechanismIsInPlaceToEnsureThatVotersArePreventedFromVotingMoreThanOnce"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled
+                                [(ngModel)]="AMechanismIsInPlaceToEnsureThatVotersArePreventedFromVotingMoreThanOnceComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>11. It is possible to identify the electoral staff instantly.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ItIsPossibleToIdentifyTheElectoralStaffInstantly"
+                                        class="form-check-input" name="ItIsPossibleToIdentifyTheElectoralStaffInstantly"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ItIsPossibleToIdentifyTheElectoralStaffInstantly"
+                                        class="form-check-input" name="ItIsPossibleToIdentifyTheElectoralStaffInstantly"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ItIsPossibleToIdentifyTheElectoralStaffInstantly"
+                                        class="form-check-input" name="ItIsPossibleToIdentifyTheElectoralStaffInstantly"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="ItIsPossibleToIdentifyTheElectoralStaffInstantlyComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>12. Provision is made to assist the disabled & illiterate in an appropriate manner.
+                            (Including other general assistance that might be needed) </p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ProvisionIsMadeToAssistTheDisabledIlliterateInAnAppropriateManner"
+                                        class="form-check-input"
+                                        name="ProvisionIsMadeToAssistTheDisabledIlliterateInAnAppropriateManner"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ProvisionIsMadeToAssistTheDisabledIlliterateInAnAppropriateManner"
+                                        class="form-check-input"
+                                        name="ProvisionIsMadeToAssistTheDisabledIlliterateInAnAppropriateManner"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="ProvisionIsMadeToAssistTheDisabledIlliterateInAnAppropriateManner"
+                                        class="form-check-input"
+                                        name="ProvisionIsMadeToAssistTheDisabledIlliterateInAnAppropriateManner"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled
+                                [(ngModel)]="ProvisionIsMadeToAssistTheDisabledIlliterateInAnAppropriateMannerComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>13. Voting takes place in orderly manner.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="VotingTakesPlaceInOrderlyManne"
+                                        class="form-check-input" name="VotingTakesPlaceInOrderlyManne" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="VotingTakesPlaceInOrderlyManne"
+                                        class="form-check-input" name="VotingTakesPlaceInOrderlyManne" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="VotingTakesPlaceInOrderlyManne"
+                                        class="form-check-input" name="VotingTakesPlaceInOrderlyManne"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="VotingTakesPlaceInOrderlyManneComment" class="form-control"
+                                rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>14. Are candidates present when counting is done.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="CandidatesAreAllowedToBePresentDuringCounting"
+                                        class="form-check-input" name="CandidatesAreAllowedToBePresentDuringCounting"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="CandidatesAreAllowedToBePresentDuringCounting"
+                                        class="form-check-input" name="CandidatesAreAllowedToBePresentDuringCounting"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="CandidatesAreAllowedToBePresentDuringCounting"
+                                        class="form-check-input" name="CandidatesAreAllowedToBePresentDuringCounting"
+                                        value="Candidates did no show up">
+                                    <i class="input-frame"></i>
+                                    Candidates did no show up
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="CandidatesAreAllowedToBePresentDuringCountingComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>15. The ballot box is opened in the presence of candidates (If candidates did not show up
+                            please tick 'not applicable').</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheBallotBoxIsOpenedInThePresenceOfCandidates"
+                                        class="form-check-input" name="TheBallotBoxIsOpenedInThePresenceOfCandidates"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheBallotBoxIsOpenedInThePresenceOfCandidates"
+                                        class="form-check-input" name="TheBallotBoxIsOpenedInThePresenceOfCandidates"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="TheBallotBoxIsOpenedInThePresenceOfCandidates"
+                                        class="form-check-input" name="TheBallotBoxIsOpenedInThePresenceOfCandidates"
+                                        value="Not applicable">
+                                    <i class="input-frame"></i>
+                                    Not applicable
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="TheBallotBoxIsOpenedInThePresenceOfCandidatesComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>16. A recount is done where necessary.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="ARecountIsDoneWhereNecessary"
+                                        class="form-check-input" name="ARecountIsDoneWhereNecessary" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="ARecountIsDoneWhereNecessary"
+                                        class="form-check-input" name="ARecountIsDoneWhereNecessary" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="ARecountIsDoneWhereNecessary"
+                                        class="form-check-input" name="ARecountIsDoneWhereNecessary"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="ARecountIsDoneWhereNecessaryComment" class="form-control"
+                                rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>17. The result is announced after the voting.</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="TheResultIsAnnouncedAfterTheVoting"
+                                        class="form-check-input" name="TheResultIsAnnouncedAfterTheVoting" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="TheResultIsAnnouncedAfterTheVoting"
+                                        class="form-check-input" name="TheResultIsAnnouncedAfterTheVoting" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="TheResultIsAnnouncedAfterTheVoting"
+                                        class="form-check-input" name="TheResultIsAnnouncedAfterTheVoting"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="TheResultIsAnnouncedAfterTheVotingComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>18. Regulations Guiding the election process are followed</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="RegulationsGuidingtheelectionprocessArefollowed"
+                                        class="form-check-input" name="RegulationsGuidingtheelectionprocessArefollowed"
+                                        value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="RegulationsGuidingtheelectionprocessArefollowed"
+                                        class="form-check-input" name="RegulationsGuidingtheelectionprocessArefollowed"
+                                        value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="RegulationsGuidingtheelectionprocessArefollowed"
+                                        class="form-check-input" name="RegulationsGuidingtheelectionprocessArefollowed"
+                                        value="Partially">
+                                    <i class="input-frame"></i>
+                                    Partially
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled
+                                        [(ngModel)]="RegulationsGuidingtheelectionprocessArefollowed"
+                                        class="form-check-input" name="RegulationsGuidingtheelectionprocessArefollowed"
+                                        value="Not Observed">
+                                    <i class="input-frame"></i>
+                                    Not Observed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="RegulationsGuidingtheelectionprocessArefollowedComment"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>19. COVID-19 Protocols are observed</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" [(ngModel)]="Screening" class="form-check-input"
+                                        name="Screening" disabled>
+                                    <i class="input-frame"></i>
+                                    Screening
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" [(ngModel)]="HandSanitising" class="form-check-input"
+                                        name="HandSanitising" disabled>
+                                    <i class="input-frame"></i>
+                                    Hand Sanitising
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" [(ngModel)]="Masking" class="form-check-input" name="Masking"
+                                        disabled>
+                                    <i class="input-frame"></i>
+                                    Masking
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" [(ngModel)]="SocialDistancing" class="form-check-input"
+                                        name="SocialDistancing" disabled>
+                                    <i class="input-frame"></i>
+                                    Social distancing
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" [(ngModel)]="Other" class="form-check-input" name="Other"
+                                        disabled>
+                                    <i class="input-frame"></i>
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea [(ngModel)]="COVIDProtocolsareobservedComment" disabled class="form-control" rows="4"
+                                cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>20. Were there any irregularities</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="WereThereAnyIrregularities"
+                                        class="form-check-input" name="WereThereAnyIrregularities" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="WereThereAnyIrregularities"
+                                        class="form-check-input" name="WereThereAnyIrregularities" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>21. Raised any dispute</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="disputes" class="form-check-input"
+                                        name="disputes" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="disputes" class="form-check-input"
+                                        name="disputes" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label class="form-check-label">Comment or explain</label>
+                            <textarea disabled [(ngModel)]="COVIDProtocolsareobservedComment" class="form-control" rows="4"
+                                cols="50">
+
+                                    </textarea>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="row" *ngIf="disputes == 'Yes'">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>22. Was the dispute resolved</p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="resolved" class="form-check-input"
+                                        name="resolved" value="Resolved">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" disabled [(ngModel)]="resolved" class="form-check-input"
+                                        name="resolved" value="Not Resolved">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 1.6rem;margin-bottom: 1.0rem;">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>Please report in a brief and concise manner on the following issues listed below. Statements
+                            should contain supporting evidence. Where appropriate documented evidence should be
+                            attached. </p>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <p>1. Policy Compliance </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea disabled [(ngModel)]="PolicyCompliance" class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <p>2. Best Practice </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea disabled [(ngModel)]="BestPractice" class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <p>3. Irregularities </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea disabled [(ngModel)]="Irregularities" class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <p>3. Action taken </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea disabled [(ngModel)]="actiontaken" class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <p>4. Conducive environment for free and fair election</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea disabled [(ngModel)]="conduciveenvironment" class="form-control" rows="4"
+                                cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <p>5. Recommendation / Comments </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea disabled [(ngModel)]="recommendation" class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div *ngIf="assignedTo == 'PEO' || assignedTo == 'SEO'"
+                        class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <p> Feedback </p>
+                        </div>
+                    </div>
+                    School Electoral Officer Comment:
+                    <!-- *ngIf="currentRole == 'SEO' && assignedTo == 'SEO' || assignedTo == 'Confirmed' || assignedTo == 'PEO'" -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea [(ngModel)]="seocomment" placeholder="Type here"
+                                [disabled]="currentRole != 'SEO' && assignedTo != 'SEO' || currentRole != 'SEO' && assignedTo != 'SEO.' || assignedTo == 'PEO' || assignedTo == 'Confirmed'"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                    Provincial Electoral Officer Comment:
+                    <!-- *ngIf="currentRole == 'PEO' && assignedTo == 'PEO' || assignedTo == 'SEO.' || assignedTo == 'Confirmed'" -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <textarea [(ngModel)]="peocomment" placeholder="Type here"
+                                [disabled]="currentRole != 'PEO' && assignedTo != 'PEO' || currentRole != 'PEO' && assignedTo != 'SEO' || assignedTo == 'SEO.' || assignedTo == 'Confirmed'"
+                                class="form-control" rows="4" cols="50">
+
+                                    </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer" style="margin-top: 1.3rem;"
+                    *ngIf="currentRole == 'PEO' && assignedTo == 'PEO' || currentRole == 'PEO' && assignedTo == 'SEO' || currentRole == 'SEO' && assignedTo == 'SEO' || currentRole == 'SEO' && assignedTo == 'SEO.'">
+                    <button type="submit" class="btn btn-primary mr-2" (click)="Confirm()">Confirm</button>
+                    <!-- <button class="btn btn-light" >Cancel</button> -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

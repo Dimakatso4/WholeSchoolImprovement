@@ -1,0 +1,17 @@
+.ng-select.disable-dropdown .ng-dropdown-panel {
+    display: none;
+  }
+
+  .ng-select.disable-arrow .ng-arrow-wrapper .ng-arrow {
+    display: none;
+  }
+
+  .ng-select.disable-clear-all .ng-clear-wrapper {
+    display: none;
+  }
+
+  td {
+    
+    //text-align:center;
+    white-space: pre;
+  }

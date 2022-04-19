@@ -1,0 +1,42 @@
+:host {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .error_text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1vh;
+  }
+
+  .required-asterisk{
+
+    color: red;
+  
+    font-weight: bold;
+  
+    margin-left: 3px;
+  
+    font-size: 1.2em;
+  
+  }
+  .invalid {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 90%;
+    color: #dc3545;
+}
+
+.custom-navbar {
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: transparent;
+  // padding-bottom: 200px;
+}
+  

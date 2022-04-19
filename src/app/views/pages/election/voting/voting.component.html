@@ -1,0 +1,83 @@
+<nav class="page-breadcrumb bg-primary ">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Cast Vote</a></li>
+    </ol>
+</nav>
+
+<div class="row headingStyle1">
+    <div class="col-md-12 bg-primary text-white headingStyle2" >
+        <h4><span class="text-warning">{{schoolName}}</span> SGB ELECTIONS</h4>
+        <br>
+        <P>Due to a number of leaners enrolled at the school, you are only: <span class="text-warning">{{maxVotes}}</span> allowed votes</P>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div  class="table-responsive">
+                <table role="table"  datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-hover">
+                    <thead  class="bg-secondary text-white">
+                        <tr>
+                            <th class="tableheadStyle text-white">Candidate Details</th>
+                        <!-- <th class="tableheadStyle text-white">Name</th>
+                            <th class="tableheadStyle text-white">Surname</th>
+                            <th class="tableheadStyle text-white">District</th>
+                            <th class="tableheadStyle text-white">Emis Number</th>
+                            <th class="tableheadStyle text-white">Role</th>-->
+                            <th class="tableheadStyle text-white">Check Box to vote(x)</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr [ngClass]="castVote >= maxVotes? 'strikethrough' : 'black'"  *ngFor="let roll of votersRoll">
+                            <td >{{roll.fullName}}</td>
+                            <!-- <td [ngClass]="castVote >= 5? 'strikethrough' : 'black'">{{roll.firstname}}</td>
+                            <td [ngClass]="castVote >= 5? 'strikethrough' : 'black'">{{roll.surname}}</td>
+                            <td [ngClass]="castVote >= 5? 'strikethrough' : 'black'">{{roll.districtCode}}</td>
+                            <td [ngClass]="castVote >= 5? 'strikethrough' : 'black'">{{roll.emisNumber}}</td>
+                            <td [ngClass]="castVote >= 5? 'strikethrough' : 'black'">{{roll.userType}}</td>-->
+                            <td [ngClass]="castVote >= maxVotes? 'strikethrough' : 'black'">
+                                <input type="checkbox" #checkbox  name="checkbox"  class="form-check-input"  (change)="castVoteCount($event,roll)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</div>
+
+<br>
+ <div [ngClass]="castVote >= maxVotes? 'show ' : ' hide'" class="row">
+     <div class="col-md-12">
+         <div  class="table-responsive">
+             <table role="table"  class="table table-hover">
+                 <thead  class="bg-secondary text-white">
+                     <tr>
+                         <th class="tableheadStyle text-white">Name</th>
+                         <th class="tableheadStyle text-white">Surname</th>
+                         <th class="tableheadStyle text-white">District</th>
+                         <th class="tableheadStyle text-white">Emis Number</th>
+                         <th class="tableheadStyle text-white">Role</th>
+                     </tr>
+                 </thead>
+                 <tbody >
+                     <tr  *ngFor="let roll of votedPeopleID">
+                        <td [ngClass]="castVote >= maxVotes? 'black' : 'black'">{{roll.firstname}}</td>
+                         <td [ngClass]="castVote >= maxVotes? 'black' : 'black'">{{roll.surname}}</td>
+                         <td [ngClass]="castVote >= maxVotes? 'black' : 'black'">{{roll.districtCode}}</td>
+                         <td [ngClass]="castVote >= maxVotes? 'black' : 'black'">{{roll.emisNumber}}</td>
+                         <td [ngClass]="castVote >= maxVotes? 'black' : 'black'">{{roll.userType}}</td>
+                     </tr>
+                 </tbody>
+             </table>
+         </div>
+     </div>
+ </div>
+ <br>
+<div class="row">
+    <div class="center">
+        <button [ngClass]="castVote >= maxVotes? 'show ' : ' hide'" class="btn btn-primary " (click)="voteSubmit()" >Submit Votes</button>
+    </div>
+    <div class="center">
+        <button [ngClass]="castVote >= maxVotes? 'show ' : ' hide'" class="btn btn-primary" (click)="uncheckAll()">Cancel Votes</button>
+    </div>
+</div>

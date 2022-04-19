@@ -1,0 +1,78 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Disputes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</nav>
+<h1 class="page-title">Disputes</h1>
+<hr style="margin-bottom: 40px;">
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+            <button *ngIf="userRole == 'SEO' || userRole == 'PARENT'" class="btn btn-primary float-right"
+                routerLink="/disputes/new">Lodge Dispute</button>
+
+            <br />
+            <br />
+            <div style="margin-bottom: 40px;" *ngIf="!noDisputes" class="row justify-content-center">
+                <h6 class="card-title"> Disputes logged under the school {{schoolTitle | titlecase}}</h6>
+            </div>
+            <br />
+
+            <div class="table-responsive table-wrap">
+                <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" id="datatable"
+                    class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="pt-0">ID</th>
+                            <th class="pt-0">Parent Name</th>
+                            <th class="pt-0">Official Name</th>
+                            <th class="pt-0">Date Logged</th>
+                            <th class="pt-0 text-nowrap">Details</th>
+                            <th class="pt-0">Status</th>
+                            <th class="pt-0">Assigned To</th>
+                            <th class="pt-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dispute of disputes; let i = index">
+                            <td>{{dispute.id}}</td>
+                            <td>{{dispute.parentName | titlecase}} {{dispute.parentSurname | titlecase}}</td>
+                            <td>{{dispute.nameOfFacilitator}}</td>
+                            <td>{{dispute.dueDate | date: 'YYYY-MM-dd hh:mm a'}}</td>
+                            <td>{{dispute.disputeDetails}}</td>
+                            <td>
+                                <span *ngIf="dispute.status == 'open'"
+                                    class="badge badge-warning">{{dispute.status}}</span>
+                                <span *ngIf="dispute.status == 'closed'"
+                                    class="badge badge-success">{{dispute.status}}</span>
+                                <span *ngIf="dispute.status == 'appeal'"
+                                    class="badge badge-warning">{{dispute.status}}</span>
+                                <span *ngIf="dispute.status == 'escalated'"
+                                    class="badge badge-danger">{{dispute.status}}</span>
+                                <span *ngIf="dispute.status == 'feedback review'"
+                                    class="badge badge-info">{{dispute.status}}</span>
+                                <!-- <span *ngIf="dispute.status == 'feedback review'" class="badge badge-secondary"
+                                    (click)="viewfeddback(i)">{{dispute.status}}</span> -->
+                            </td>
+                            <td>{{dispute.assignedTo}}</td>
+                            <td><a class="ml-auto mr-auto"><i class="mdi mdi-eye text-dark" (click)="view(i)"></i></a>
+                                <!-- <button class="btn btn-primary" (click)="view(i)">View</button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center ">
+                    <div *ngIf="noDisputes">
+                        <div class="card-body">
+                            <p class="card-title text-danger text-center">There are no disputes logged in {{schoolTitle
+                                | titlecase}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

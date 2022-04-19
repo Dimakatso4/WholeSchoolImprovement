@@ -1,0 +1,69 @@
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">List DIP</h3>
+        <hr>
+    </div>
+</div>
+
+<!--table-->
+<div>
+    <!--modal button-->
+    <div class="row d-flex justify-content-end" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+        <button class="btn btn-primary float-right" (click)="openModal(Modal)">List DIP
+        </button>
+    </div>
+    <br />
+    <!--modal button-->
+    <!--table-->
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="table-responsive">
+                <table role="table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+
+                            <th class="tableheadStyle text-white" style="width: 20%">Area Of Evaluation</th>
+                            <th class="tableheadStyle text-white" style="width: 20%">Component</th>
+                            <th class="tableheadStyle text-white" style="width: 50%">KPI</th>
+                            <th class="tableheadStyle text-white" style="width: 50%">Is Priority</th>
+                            <th hidden class="tableheadStyle text-white">kpiid</th>
+                            <!-- <th class="tableheadStyle text-white">Action</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let val of kpiInfo; let i = index">
+                            <td>{{val.focusArea}}</td>
+                            <td>{{val.componentName}}</td>
+                            <td>{{val.kpiName}}</td>
+                           
+                            <td>
+                                &nbsp;
+                                <input type="checkbox" name="IsCompletedCheckBox" id="IsCompletedCheckBox"
+                                    (change)="onCheckedCompletedChanged($event,i)" />
+                            </td>
+                            <td hidden>{{val.kpiid}}</td>
+
+                            <!-- <td>
+                                <a title="Edit KPI" ><i class="mdi mdi-pencil text-dark"
+                                        (click)="openEditModal(editModal)"></i></a>
+                                        &nbsp;
+                                <a title="Delete KPI" style="margin-left: 30px;"><i class="mdi mdi-delete text-danger"
+                                        (click)="removeQuantity()" (click)="openXlModal(xlModal2)"></i></a>
+                                
+                            </td> -->
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            
+                
+            </div>
+
+        </div>
+        <!--table-->
+    </div>
+    <button class="btn btn-primary mt-2 " (click)="SubmitSSE()">Submit</button>
+</div>
+<br>
+<!--table-->

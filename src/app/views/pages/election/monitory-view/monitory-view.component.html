@@ -1,0 +1,61 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Elections</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Monitor List</li>
+    </ol>
+</nav>
+<h1 class="page-title">Monitoring</h1>
+<hr style="margin-bottom: 40px;">
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+
+            <div  class="table-responsive table-wrap">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>District</th>
+                            <th >School</th>
+                            <th >Election mode</th>
+                            <th >Date and time of election</th>
+                            <th >Status</th>
+                            <th >Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let monitor of monitoringList; let i = index">
+                            <td>{{monitor.districtName}}</td>
+                            <td>{{monitor.schoolName}}</td>
+                            <td>{{monitor.mode}}</td>
+                            <td>{{monitor.dateOfElection | date:'YYYY-MM-dd'}} {{monitor.timeOfElection}}
+                            </td>
+                            <td>
+                                <span *ngIf="monitor.assignTo == 'SEO'">Awaiting SEO & PEO Confirmation</span>
+                                <span *ngIf="monitor.assignTo == 'PEO'">Awaiting PEO Confirmation</span>
+                                <span *ngIf="monitor.assignTo == 'SEO.'">Awaiting SEO Confirmation</span>
+                                <span *ngIf="monitor.assignTo == 'Confirmed'">Confirmed</span>
+                            </td>
+                            <td>
+                                <!-- <button *ngIf="userRole != 'PEM'" class="btn btn-primary"
+                                    (click)="view(i)">View</button> -->
+                                <button class="btn btn-primary" (click)="confirm(i)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="d-flex justify-content-center ">
+
+                    <div *ngIf="emptyList">
+                        <div class="card-body">
+                            <p class="card-title text-danger text-center">No records found</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

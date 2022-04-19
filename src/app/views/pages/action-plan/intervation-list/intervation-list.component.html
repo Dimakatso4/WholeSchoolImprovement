@@ -1,0 +1,76 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="../kpi-list">Action Plan</a></li>
+        <li class="breadcrumb-item"><a routerLink="../intervate-kpi">Intervate KPI</a></li>
+        <li class="breadcrumb-item"><a routerLink="../intervation">Intervate KPI</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Intervation List</li>
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">Action Plan</h2>
+        <hr>
+    </div>
+</div>
+
+<div _ngcontent-acq-c173="" class="card">
+    <div _ngcontent-acq-c173="" class="card-header bg-primary">
+      <h6 _ngcontent-acq-c173="" class="card-title text-white" style="margin-bottom: 0;">Intervation List</h6>
+    </div>
+    
+    <div class="container row">
+      <br>
+      <div class="col-lg-6" style="margin-top: 10px; margin-bottom: 10px;">
+      </div>
+      <!-- <div class="col-lg-6">
+        <div class="form-check float-right">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">Select All</label>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="container">
+        <div class="col-md-12 grid-margin stretch-card">
+          <div class="table-responsive table-wrap list-group">
+            <table class="table table-hover">
+              <thead class="bg-secondary text-white">
+                <tr>
+                    <th scope="col" class="text-white">intervention Description</th>
+                    <th scope="col" class="text-white">Target Group</th>
+                    <th scope="col" class="text-white">Resources</th>
+                    <th scope="col" class="text-white">Responsibe</th>
+                    <th scope="col" class="text-white">Start Date</th>
+                    <th scope="col" class="text-white">End Date</th>
+                    <th scope="col" class="text-white">Progress</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let businessunits of data">
+                <tr style="background-color: #bdbdbd;">
+                    <td colspan="7" ><a href="" (click)="false" class="">{{businessunits.areaOfDevelopment}}</a></td>
+                </tr>
+                <tr>
+                  <td>{{businessunits.descriptionOfActivities}}</td>
+                  <td>{{businessunits.targetGroup}}</td>
+                  <td>{{businessunits.resources}}</td>
+                  <td>{{businessunits.responsibility}}</td>
+                  <td>{{businessunits.startDate | date:'yyyy-MM-dd'}}</td>
+                  <td>{{businessunits.finishDate | date:'yyyy-MM-dd'}}</td>
+                  <td>{{businessunits.progressPerQuarter}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+      
+          </div>
+        </div><!-- col end -->
+      </div><!-- row end -->
+
+        <form class="ng-untouched ng-pristine ng-invalid">
+            <div class="container">
+                <span><button _ngcontent-acq-c173="" type="submit" class="btn btn-primary mr-2 float-left" style="margin: 25px;" routerLink=".">Submit</button></span>
+                <!-- <span><button _ngcontent-acq-c173="" class="btn btn-light" routerLink=".">Cancel</button></span> -->
+            </div>
+        </form>
+</div>

@@ -1,0 +1,756 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">News Feed</a></li>
+    <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+  </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+  <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+    <h3 class="mb-2">News Feed</h3>
+    <hr>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+
+    <button [disabled]="isPageLoading" *ngIf="pos =='CD' && officeLevel=='Head Office'" class="btn btn-primary float-right"
+      (click)="openAcknowledgementForm(editModel1)">Add News Feed</button>
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+      <label for="newsFeedType">Newsfeed Type
+      </label>
+      <select class="form-control" (change)="getNewsFeedByTypeId($event)">
+        <option [value]="undefined" selected>Filter By News Feed Type</option>
+        <option *ngFor="let newsFeed of dropdown" value="{{newsFeed.newsFeedTypeID}}">{{newsFeed.description}}
+        </option>
+      </select>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+<ng-template #editModel1 let-modal>
+
+  <div class="modal-header bg-primary text-white headingStyle3">
+
+    <h5 class="modal-title text-white" id="exampleModalLabel">Add News feed</h5>
+
+    <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+
+      <span aria-hidden="true">&times;</span>
+
+    </button>
+
+  </div>
+
+  <!-- <div class="row"> -->
+  <div class="card-body">
+    <form [formGroup]="requiredForm">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="newsFeedType">Newsfeed Type
+              <span class="required-asterisk">*</span>
+            </label>
+            <select class="form-control" [(ngModel)]="newsFeedType" formControlName="newsFeedType"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.newsFeedType.errors}" required>
+              <!-- <option disabled selected hidden >Please select one</option> -->
+              <option [value]="undefined" disabled hidden>Select News Feed Type</option>
+
+              <option *ngFor="let newsFeed of dropdown" value="{{newsFeed.newsFeedTypeID}}">{{newsFeed.description}}
+              </option>
+            </select>
+            <small *ngIf="isFormSubmitted && Form.newsFeedType.errors?.required" class="text-danger">NewsFeedType
+              Required</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="author">Author
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="text" id="author" [(ngModel)]="author" formControlName="author" size="50" class="form-control"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.author.errors}">
+            <small *ngIf="isFormSubmitted && Form.author.errors?.required" class="text-danger">Author Required</small>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="tittle">Title
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="text" id="title" [(ngModel)]="title" formControlName="title" size="50" class="form-control"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.title.errors}">
+            <small *ngIf="isFormSubmitted && Form.title.errors?.required" class="text-danger">Title Required</small>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="startDate">Start Date
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="date" class="form-control" [min]="getToday()" [(ngModel)]="startDate"
+              formControlName="startDate" [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+
+
+            <small *ngIf="isFormSubmitted && Form.startDate.errors?.required" class="text-danger">Date Required</small>
+          </div>
+
+
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="endDate">End Date
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="date" class="form-control" [min]="getday()" [(ngModel)]="endDate" formControlName="endDate"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}">
+
+
+            <small *ngIf="isFormSubmitted && Form.endDate.errors?.required" class="text-danger">Date Required</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="image">Image
+              <span class="required-asterisk">*</span>
+            </label>
+            <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+              (success)="onUploadSuccess($event)" [ngClass]="{'is-invalid': isFormSubmitted  && docPath == ''}"></div>
+
+            <small *ngIf="isFormSubmitted && docPath =='' " class="text-danger">Choose File</small>
+          </div>
+        </div>
+        <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="message"> Message
+              <span class="required-asterisk">*</span> </label>
+            <quill-editor type="text" id="message" name="message" formControlName="message" [(ngModel)]="message"
+              placeholder="Message" class="form-control" [modules]="quillConfig"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.message.errors}">
+            </quill-editor>
+            <small *ngIf="isFormSubmitted && Form.message.errors?.required" class="text-danger">Message Required</small>
+          </div>
+        </div> -->
+
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="message"> Message
+              <span class="required-asterisk">*</span> </label>
+            <quill-editor type="text" id="message" (keyup)="countCharacters(message)" name="message"
+              formControlName="message" [(ngModel)]="message" placeholder="Message" class="form-control"
+              [modules]="quillConfig" [ngClass]="{'is-invalid': isFormSubmitted && Form.message.errors}">
+            </quill-editor>
+            <small *ngIf="getLimit(message)" style="color:red">
+              Reached Limit
+            </small>
+            <div id="my-textarea-remaining-chars">300 characters remaining</div>
+
+            <small *ngIf="isFormSubmitted && Form.message.errors?.required" class="text-danger">Message Required</small>
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <div class="card-footer">
+        <div class="row float-right">
+
+          <button class="btn btn-primary mr-2" (click)="logDispute()">Submit</button>
+
+
+
+          <button class="btn btn-warning mr-2 " (click)="resetDropzoneUploads()">Cancel</button>
+
+        </div>
+      </div>
+
+    </form>
+  </div><!-- row end -->
+
+  <!--testing script-->
+  <!-- <script>
+    const myTextArea = document.getElementById('message');
+    const remainingCharsText = document.getElementById('my-textarea-remaining-chars');
+    const MAX_CHARS = 250;
+
+    myTextArea.addEventListener('input', ()=>{
+    console.log('got input!')
+    const remaining = MAX_CHARS - myTextArea.value.length;
+    remainingCharsText.textContent = `${remaining} characters remaining `;
+    });
+  </script> -->
+
+
+</ng-template>
+
+<!--edit modal-->
+<ng-template #editModel2 let-modal>
+
+  <div class="modal-header bg-primary text-white headingStyle3">
+
+    <h5 class="modal-title text-white" id="exampleModalLabel">Edit News Feed</h5>
+
+    <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+
+      <span aria-hidden="true">&times;</span>
+
+    </button>
+
+  </div>
+
+  <!-- <div class="row"> -->
+  <div class="card-body">
+    <form [formGroup]="requiredForm">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="newsFeedType">Newsfeed Type
+              <span class="required-asterisk">*</span>
+            </label>
+            <select class="form-control" [(ngModel)]="newsFeedType" formControlName="newsFeedType"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.newsFeedType.errors}" required>
+              <!-- <option disabled selected hidden >Please select one</option> -->
+              <option [value]="undefined" disabled hidden>Select News Feed Type</option>
+
+              <option *ngFor="let newsFeed of dropdown" value="{{newsFeed.newsFeedTypeID}}">{{newsFeed.description}}
+              </option>
+            </select>
+            <small *ngIf="isFormSubmitted && Form.newsFeedType.errors?.required" class="text-danger">NewsFeedType
+              Required</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="author">Author
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="text" id="author" [(ngModel)]="author" formControlName="author" size="50" class="form-control"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.author.errors}">
+            <small *ngIf="isFormSubmitted && Form.author.errors?.required" class="text-danger">Author Required</small>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="tittle">Title
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="text" id="title" [(ngModel)]="title" formControlName="title" size="50" class="form-control"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.title.errors}">
+            <small *ngIf="isFormSubmitted && Form.title.errors?.required" class="text-danger">Title Required</small>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="startDate">Start Date
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="date" class="form-control" [min]="getToday()" [(ngModel)]="startDate"
+              formControlName="startDate" [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+
+
+            <small *ngIf="isFormSubmitted && Form.startDate.errors?.required" class="text-danger">Date Required</small>
+          </div>
+
+
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="endDate">End Date
+              <span class="required-asterisk">*</span>
+            </label>
+            <input type="date" class="form-control" [min]="getday()" [(ngModel)]="endDate" formControlName="endDate"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}">
+
+
+            <small *ngIf="isFormSubmitted && Form.endDate.errors?.required" class="text-danger">Date Required</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="image">Image
+              <span class="required-asterisk">*</span>
+            </label>
+            <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+              (success)="onUploadSuccess($event)" [ngClass]="{'is-invalid': isFormSubmitted  && docPath == ''}"></div>
+
+            <small *ngIf="isFormSubmitted && docPath =='' " class="text-danger">Choose File</small>
+          </div>
+        </div>
+        <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="message"> Message
+              <span class="required-asterisk">*</span> </label>
+            <textarea type="text" id="message" name="message" formControlName="message" [(ngModel)]="message" rows="9"
+              cols="900" placeholder="Message" class="form-control"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.message.errors}">
+</textarea>
+            <small *ngIf="isFormSubmitted && Form.message.errors?.required" class="text-danger">Message Required</small>
+          </div>
+        </div> -->
+      </div>
+      <!--start quill editor-->
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label for="message"> Message
+              <span class="required-asterisk">*</span> </label>
+            <quill-editor type="text" id="message" name="message" formControlName="message" [(ngModel)]="message"
+              placeholder="Message" class="form-control"
+              [ngClass]="{'is-invalid': isFormSubmitted && Form.message.errors}">
+            </quill-editor>
+            <small *ngIf="isFormSubmitted && Form.message.errors?.required" class="text-danger">Message Required</small>
+          </div>
+        </div>
+      </div>
+      <!--end quill editor-->
+
+
+      <div class="row">
+        <a href="{{newsFeedImages}}" target="_blank">View Document</a>
+        <!-- <a title="Delete"><i class="mdi mdi-delete text-danger" (click)="DeleteItem(newsFeedID)"></i></a> -->
+        <!-- <p>{{newsFeedID}}</p> -->
+
+      </div>
+
+
+
+      <div class="card-footer">
+        <div class="row float-right">
+
+          <button class="btn btn-primary mr-2" (click)="editNewsFeed()">Submit</button>
+
+
+
+          <button class="btn btn-warning mr-2 " (click)="resetDropzoneUploads()">Cancel</button>
+
+        </div>
+      </div>
+
+    </form>
+  </div><!-- row end -->
+
+
+</ng-template>
+<!--edit modal-->
+
+
+<div class="row" style="padding: 50px 0">
+  <div class="col-3" *ngFor="let card of storeAll">
+    <a *ngIf="pos =='CD' && officeLevel=='Head Office'" title="Edit"><i class="mdi mdi-pencil text-dark"
+        (click)="openEditModal(editModel2,card)"></i></a>
+    &nbsp;
+    <a *ngIf="pos =='CD' && officeLevel=='Head Office'" title="Delete"><i class="mdi mdi-delete text-danger"
+        (click)="DeleteItem(card.newsFeedID)"></i></a>
+    <div class="card"
+      *ngIf="card.newsFeedImages.indexOf('jpeg')>0 ||card.newsFeedImages.indexOf('jpg')>0 || card.newsFeedImages.indexOf('png')>0">
+      <img src="{{card.newsFeedImages}}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">{{card.title}}</h5>
+        <p [innerHTML]="(card.message.length > 6)?(card.message|slice:0:31)+'..': (card.message)" class="card-text">
+        </p>
+
+        <p style="text-align:center; font-weight:bold; color:#004b98">
+          {{card.description}}
+        </p>
+        <a (click)="modalReadMore(viewNews,card)" class="btn btn-primary">Read More</a>
+
+        <p>
+          <small>Posted by {{card.author}} on {{card.dateGenerated | date: 'fullDate'}}</small>
+        </p>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="card.newsFeedImages.indexOf('pdf')>0 || card.newsFeedImages.indexOf('xls')>0">
+      <img src="../assets/images/placeholder.jpg" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">{{card.title}}</h5>
+        <p [innerHTML]="(card.message.length > 6)?(card.message|slice:0:31)+'..': (card.message)" class="card-text"
+          class="card-text">
+        </p>
+        <p style="text-align:center; font-weight:bold; color:#004b98">
+          {{card.description}}
+        </p>
+        <!-- <a href="{{card.newsFeedImages}}" target="_new" class="btn btn-primary">Read More</a> -->
+        <a (click)="modalReadMoreDoc(viewNewsDoc,card)" class="btn btn-primary">Read More</a>
+        <p>
+          <small>Posted by {{card.author}} &bull; on {{card.dateGenerated | date: 'fullDate'}}</small>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!--Spinner code-->
+<div *ngIf="isPageLoading" class="text-center">
+  <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+
+<br>
+<br>
+<div *ngIf="!readMore">
+
+  <h3> {{title}} </h3>
+  <br>
+  By {{author}} {{dateGenerated}}
+
+  <br>
+  <img src="{{newsFeedImages}}" class="card-img-top" alt="...">
+  <br>
+
+  <p>{{message }}</p>
+  <br>
+
+  <br>
+  <button class="btn btn-primary mr-2" (click)="back()">Back</button>
+</div>
+
+<!---Nompumelelo-->
+<ng-template #viewNews let-modal>
+
+
+
+
+
+  <!-- <div class="row">  -->
+  <div class="col-md-12 grid-margin stretch-card">
+
+
+
+    <div *ngIf="isImgLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+
+
+    <div class="card" class="float-right">
+      <button type="button" class="close text-dark float-rightmr-auto align-btn"
+        (click)="modal.close('by: close icon');" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <img style="height: 260px;" src="{{ newsFeedImages?newsFeedImages:'../assets/images/placeholder.jpg'}}"
+        alt="{{newsFeedImages?'Image file is corrupt.':'404. File not fount'}}" (error)="setErrorImgModal()"
+        class="card-img-top">
+      <div class="card-body">
+
+
+
+        <h4 class="card-title align-label">{{!title || !title?'':title |
+          titlecase}}</h4>
+        <!-- <p class="card-text">{{viewMore(news.description)}}</p> -->
+        <h6 class="card-subtitle mb-2 text-muted align-label">{{!dateGenerated||
+          !dateGenerated?'':dateGenerated | date:'dd/MM/YYY'}} </h6>
+        <!-- <p class="card-text">{{card && description?description:''}} </p> -->
+        <!-- <textarea class="show-text form-control" placeholder="Loading Story..." id="exampleFormControlTextarea1"
+          rows="10" readonly>{{message?message:''}}</textarea> -->
+        <!--rich text-->
+        <quill-editor class="show-text form-control" placeholder="Loading Story..." id="exampleFormControlTextarea1"
+          [(ngModel)]="message" id="message" [modules]="{ toolbar: false }" [disabled]="true" readonly>{{message?message:''}}
+        </quill-editor>
+        <!--rich text-->
+      </div>
+
+
+
+      <div class="card-footer">
+        <button type="button" (click)="modal.close('by: close icon')" class="btn btn-warning ">Close</button>
+      </div>
+      <!-- <a *ngIf="viewMore(news.description)" (click)="ViewMoreNews(nwes)" class="btn btn-primary">View All</a> -->
+    </div>
+
+
+
+  </div> <!-- col -->
+  <!-- </div>  -->
+
+
+
+
+
+</ng-template>
+
+<!--View modal for document-->
+<ng-template #viewNewsDoc let-modal>
+  <!-- <div class="row">  -->
+  <div class="col-md-12 grid-margin stretch-card">
+
+
+
+    <div *ngIf="isImgLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+
+
+    <div class="card" class="float-right">
+      <button type="button" class="close text-dark float-rightmr-auto align-btn"
+        (click)="modal.close('by: close icon');" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <!-- <img style="height: 260px;" src="{{ newsFeedImages?newsFeedImages:'../assets/images/placeholder.jpg'}}"
+        alt="{{newsFeedImages?'Image file is corrupt.':'404. File not fount'}}" (error)="setErrorImgModal()"
+        class="card-img-top"> -->
+      <div class="card-body">
+        <h4 class="card-title align-label">{{!title || !title?'':title |
+          titlecase}}</h4>
+        <!-- <p class="card-text">{{viewMore(news.description)}}</p> -->
+        <h6 class="card-subtitle mb-2 text-muted align-label">{{!dateGenerated||
+          !dateGenerated?'':dateGenerated | date:'dd/MM/YYY'}} </h6>
+        <!--end test view-->
+        <quill-editor class="show-text form-control" placeholder="Loading Story..." id="exampleFormControlTextarea1"
+          [(ngModel)]="message" id="message" [modules]="{ toolbar: false }" [disabled]="true" readonly >
+          {{message?message:''}}
+        </quill-editor>
+        <!--end test view-->
+        <br>
+        <a href="{{newsFeedImages}}" target="_new" class="btn btn-primary mr-2">View File</a>
+        <a href="{{newsFeedImages}}" download="proposed_file_name" class="btn btn-danger mr-2">Download File</a>
+      </div>
+
+
+
+      <div class="card-footer">
+        <button type="button" (click)="modal.close('by: close icon')" class="btn btn-warning ">Close</button>
+      </div>
+      <!-- <a *ngIf="viewMore(news.description)" (click)="ViewMoreNews(nwes)" class="btn btn-primary">View All</a> -->
+    </div>
+
+
+
+  </div> <!-- col -->
+  <!-- </div>  -->
+
+
+
+
+
+</ng-template>
+<!--View modal for document-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <body>
+  <div *ngIf="readMore"  >
+    <section class="container" *ngFor="let card of storeAll">
+      <div class="card"  >
+        <div class="card-image car-1" (click)="scrollDownLatest()"></div>
+
+        <p><b 
+          
+          style="text-decoration:none" onmouseover="style='text-decoration:underline'" onmouseout="style='font-size:16px;'" 
+          
+          class="read-more-btn" *ngIf="message.length > 150" (click)="scrollDownLatest()"
+          
+          
+          > {{tittle}} </b></p>
+        <div>
+
+          <p>
+
+            By {{author}}
+            <br>
+
+            {{message | slice:0:75 }}
+          </p>
+          <span 
+
+          style="text-decoration:none" onmouseover="style='text-decoration:underline'" onmouseout="style='text-decoration:none'"
+          
+          class="read-more-btn" *ngIf="message.length > 150" (click)="scrollDownLatest()">Read more....</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-image car-2" (click)="scrollDownNotices()"></div>
+
+        <p><b style="font-size:16px;" (click)="scrollDownNotices()"> {{tittle1}} </b></p>
+        <div>
+
+          <p>
+
+            <br>
+
+            By {{author1}}
+            <br>
+            <br>
+
+            {{message1 | slice:0:75 }}
+          </p>
+        </div>
+
+        <br>
+        <span class="read-more-btn" *ngIf="message1.length > 150" (click)="scrollDownNotices()">Read more....</span>
+      </div>
+      <div class="card">
+        <div class="card-image car-3" (click)="scrollDownActivity()"></div>
+
+        <p><b style="font-size:16px;" (click)="scrollDownActivity()">{{tittle2}}</b></p>
+        <p>
+
+          <br>
+
+          By {{author2}}
+          <br>
+          <br>
+          {{message2 | slice:0:75 }}
+        </p>
+        <span class="read-more-btn" *ngIf="message2.length > 150" (click)="scrollDownActivity()">Read more....</span>
+        <br>
+      </div>
+    </section>
+  </div>
+
+  <div *ngIf="readMore">
+    <section class="container">
+      <div class="card">
+        <div class="card-image car-1" (click)="scrollDownLatest()"></div>
+
+        <p><b style="font-size:16px;" (click)="scrollDownLatest()"> {{tittle}} </b></p>
+        <div>
+
+          <p>
+
+            By {{author}}
+            <br>
+
+            {{message | slice:0:75 }}
+          </p>
+          <span class="read-more-btn" *ngIf="message.length > 150" (click)="scrollDownLatest()">Read more....</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-image car-2" (click)="scrollDownNotices()"></div>
+
+        <p><b style="font-size:16px;" (click)="scrollDownNotices()"> {{tittle1}} </b></p>
+        <div>
+
+          <p>
+
+            <br>
+
+            By {{author1}}
+            <br>
+            <br>
+
+            {{message1 | slice:0:75 }}
+          </p>
+        </div>
+
+        <br>
+        <span class="read-more-btn" *ngIf="message1.length > 150" (click)="scrollDownNotices()">Read more....</span>
+      </div>
+      <div class="card">
+        <div class="card-image car-3" (click)="scrollDownActivity()"></div>
+
+        <p><b style="font-size:16px;" (click)="scrollDownActivity()">{{tittle2}}</b></p>
+        <p>
+
+          <br>
+
+          By {{author2}}
+          <br>
+          <br>
+          {{message2 | slice:0:75 }}
+        </p>
+        <span class="read-more-btn" *ngIf="message2.length > 150" (click)="scrollDownActivity()">Read more....</span>
+        <br>
+      </div>
+    </section>
+  </div>
+
+
+
+
+
+
+
+  <div *ngIf="!readMore">
+  
+    <h3> {{articleTittle}} </h3>
+    <br>
+     By {{articleAuthor}} {{articleDate}}
+   
+    <br>
+    <br>
+    
+    <p>{{articleMessage}}</p>
+    <br>
+    <table>
+      <tbody>
+        <tr>
+     
+          <td><a href="{newsFeedImages}" target="_blank">{{newsFeedImages.filename}}</a></td>
+        </tr>
+        <div *ngIf="noRecordsElection" class="card justify-content-center">
+          <div class="card-body">
+            <h5 class="text-danger">
+              Please upload any document related to this election.
+            </h5>
+          </div>
+        </div>
+      </tbody>
+    </table>
+    <br>
+    <button class="btn btn-primary mr-2" (click)="back()">Back</button>
+  </div>
+
+</body>  -->

@@ -1,0 +1,194 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">SGB</a></li>
+        <li class="breadcrumb-item" aria-current="page">Handover</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-xl-12 bg-primary text-white headingStyle2">
+        <h2 class="col-xl-12  bg-primary text-white headingStyle2">School Governing Body Handover<br> <span class="text-warning">{{schoolname}}</span></h2>
+    </div>
+</div>
+
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header  bg-primary text-white headingStyle2">
+                    <h4 class="text-warning">Handover Document List</h4>
+                </div>
+                <div class="card-body">
+                   
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="schoolName">School Name</label>
+                                    <input readonly type="text" class="form-control" [(ngModel)]="schoolname" name="schoolname" id="schoolname" autocomplete="off" placeholder="Type here"  #requried="ngModel" required>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="emis">EMIS No.</label>
+                                    <input readonly type="text" class="form-control" [(ngModel)]="emisNumber" id="emisNumber" placeholder="Type here">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="district">District</label>
+                                    <input readonly type="text" class="form-control" [(ngModel)]="districtName" id="districtName" placeholder="Type here">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label for="handoverDateTime">Time</label>
+                                <div class="input-group date time-picker" id="handoverDateTime" data-target-input="nearest">
+                                    <input readonly type="text" class="form-control datetimepicker-input" value="{{todaysDate | date: 'YYYY-MM-dd HH:mm'}}">
+                                    <div class="input-group-append" data-target="#handoverDateTime" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i data-feather="clock"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div *ngIf="isUploadShown" class="container-fluid"  id="divshow" > -->
+                        <div  class="row" style="margin-top: 1.3rem">
+                            <div class="col-md-12">
+                                <h6 class="card-title">Supporting Documents</h6>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <dropzone class="dropzone-container" 
+                                            [config]="config" class="dropzone"  
+                                            [message]="'Click or drag files here to upload'" 
+                                            (error)="onUploadError($event)"
+                                            (success)="onComplete($event)">
+                                </dropzone>
+                                <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Remove All</button>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+
+                        <!-- <div *ngIf="isListShown" class="container-fluid"  id="divshow" > -->
+                        <div  class="row" style="margin-top: 1.3rem">
+                            <div class="col-md-12">
+                                <h6 class="card-title">Uploaded Handover Reports</h6>
+                            </div>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Report</th>
+                                    <th>Title</th>
+                                </tr>
+                                </thead>
+                            <tbody>
+                                <tr *ngFor="let document of documentList">
+                                <td>{{document.reportType}}</td>
+                                <td><a href="{{document.documentPath}}" target="_blank">{{document.title}}</a></td>                                
+                                </tr>
+                                <div *ngIf="noRecordsElection" class="card justify-content-center">
+                                <div class="card-body">
+                                    <h5 class="text-danger">
+                                    Please upload any document related to this election.
+                                    </h5>
+                                </div>
+                                </div>
+                            </tbody>
+                        </table>
+                        <!-- </div> -->
+
+                        <!-- <div *ngIf="isUploadShown" class="container-fluid"  id="divshow" > -->
+                        <div class="card-footer" style="margin-top: 1.3rem;">
+                            <button type="submit" class="btn btn-primary mr-2"  (click)="saveHandoverData()">Submit</button>
+                            <button class="btn btn-light">Cancel</button>
+                        </div>
+                        <!-- </div> -->
+
+                        <!-- Button trigger modal -->
+                        <!-- <button class="btn btn-primary" (click)="openBasicModal(basicModal)">Launch demo modal</button> -->
+
+                        <!-- Modal -->
+                        <ng-template #basicModal let-modal>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Select Handover Report Type</h5>
+                            <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                           
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="narrativeReport" value="Narrative Report" >
+                                            <i class="input-frame"></i>
+                                            <p>A narrative report, which reports on projects in the school in the past three years</p>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="auditedFinancialStatementsOfThePastThreeYears" value="Audited Financial Statements of the Past Three Years" >
+                                            <i class="input-frame"></i>
+                                            <p>Audited Financial Statements of the past three years</p>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="schoolDevelopmentPlanningReport" value="School Development Planning Report">
+                                            <i class="input-frame"></i>
+                                            <p>School Development Planning Report</p>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="schoolImprovementPlanningReport" value="School Improvement Planning Report">
+                                            <i class="input-frame"></i>
+                                            <p>School Improvement Planning Report</p>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="theCurriculumReport" value="The Curriculum Report">
+                                            <i class="input-frame"></i>
+                                            <p>The Curriculum report</p>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="anyOutstandingOngoingProjects" value="Any Outstanding Ongoing Projects">
+                                            <i class="input-frame"></i>
+                                            <p>Any Outstanding/Ongoing Projects</p>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="allContractsInTheSchoolAndTheirDueDates" value="All Contracts in the School and Their Due Dates">
+                                            <i class="input-frame"></i>
+                                            <p>All contracts in the school and their due dates</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+ 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeAddExpenseModal (click)="modal.close('by: close button')">Close</button>
+                            <button type="button" class="btn btn-primary" (click)="onUpload($event)">Save changes</button>
+                        </div>
+                        </ng-template>
+                        <!-- Close result -->
+                        <p *ngIf="basicModalCloseResult != ''" class="mt-2">{{basicModalCloseResult}}</p>
+                                        
+                </div>
+            </div>
+        </div>
+
+    </div>
+ 

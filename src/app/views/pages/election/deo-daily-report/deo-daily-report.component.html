@@ -1,0 +1,700 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Elections</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DEO Daily Report</li>
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="page-title">DEO Daily Report</h3>
+        <hr>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12 col-xl-12 stretch-card">
+        <div class="row flex-grow">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools</h6>
+                            <button type="button" class="btn btn-primary btn-icon p-2">
+                                <i data-feather="calendar"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchools}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of election through a ballot</h6>
+                            <button type="button" class="btn btn-danger btn-icon p-2">
+                                <i data-feather="clock"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalElectedThroughBallot}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of duly elected</h6>
+                            <button type="button" class="btn btn-success btn-icon p-2">
+                                <i data-feather="check-square"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalDulyElected}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--  stat-card-row  -->
+
+<div class="row">
+    <div class="col-12 col-xl-12 stretch-card">
+        <div class="row flex-grow">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools successfully elected</h6>
+                            <button type="button" class="btn btn-secondary text-white btn-icon p-2">
+                                <i data-feather="check-square"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchoolsElected}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools conducted elections</h6>
+                            <button type="button" class="btn btn-warning btn-icon p-2">
+                                <i data-feather="clock"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchoolsConductedElection}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools pending elections</h6>
+                            <button type="button" class="btn btn-danger btn-icon p-2">
+                                <i data-feather="clock"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchoolsPending}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--  stat-card-row  -->
+
+
+<!-- <div class="row">
+    <div class="col-12 col-xl-12 stretch-card">
+        <div class="row flex-grow">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools</h6>
+                            <button type="button" class="btn btn-primary btn-icon p-2">
+                                <i data-feather="calendar"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchools}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools successfully elected</h6>
+                            <button type="button" class="btn btn-success btn-icon p-2">
+                                <i data-feather="check-square"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchoolsElected}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools pending elections</h6>
+                            <button type="button" class="btn btn-danger btn-icon p-2">
+                                <i data-feather="clock"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchoolsPending}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!--  stat-card-row  -->
+
+<!-- <div class="row">
+    <div class="col-12 col-xl-12 stretch-card">
+        <div class="row flex-grow">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of duly elected</h6>
+                            <button type="button" class="btn btn-success btn-icon p-2">
+                                <i data-feather="check-square"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalDulyElected}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of election through a ballot</h6>
+                            <button type="button" class="btn btn-danger btn-icon p-2">
+                                <i data-feather="clock"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalElectedThroughBallot}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Total number of schools conducted elections</h6>
+                            <button type="button" class="btn btn-warning btn-icon p-2">
+                                <i data-feather="clock"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <h1 class="mb-2">{{totalSchoolsConductedElection}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!--  stat-card-row  -->
+
+
+
+<div class="row mb-3">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="control-label">Start Date</label>
+            <input type="date" placeholder="yyyy-mm-dd hh:mm" class="form-control" [(ngModel)]="startDate"
+                name="startDate">
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="control-label">End Date</label>
+            <input type="date" placeholder="yyyy-mm-dd hh:mm" class="form-control" [(ngModel)]="endDate" name="endDate">
+        </div>
+    </div>
+    <div class="col-sm-3 d-flex flex-wrap align-content-center">
+        <button type="button" class="btn btn-primary mt-3" (click)="searchData()">Search</button>
+    </div>
+
+    <!-- <button class="btn btn-primary float-right">Create Report</button> -->
+    <!-- <div class="align-right d-flex flex-wrap align-content-center float-right">
+        <button type="button" class="btn btn-primary">Create Report</button>
+    </div> -->
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h4 class="text-center">{{districtName}}</h4>
+        <button class="btn btn-primary float-right" (click)="addNewReport(ModalReport)">Capture SummaryReport</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-xl-12 grid-margin grid-margin-xl-0 stretch-card">
+        <!-- <div class="card"> -->
+            <!-- <div class="card-body"> -->
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <!-- <thead>
+                            <tr>
+                                <th class="pt-0 bg-primary text-light">Schools</th>
+                                <th class="pt-0 bg-primary text-light">Mode of election</th>
+                                <th class="pt-0 bg-primary text-light">Time</th>
+                                <th class="pt-0 bg-success text-light">Status of election</th>
+                                <th class="pt-0 bg-danger text-light">disputes</th>
+                            </tr>
+                            
+                            <tr class="bg-secondary">
+                                <th class="pt-0">Schools</th>
+                                <th class="pt-0">Mode of election</th>
+                                <th class="pt-0">Time</th>
+
+                                <th class="pt-0">No</th>
+                                <th class="pt-0">Letters</th>
+                                <th class="pt-0">No</th>
+                                <th class="pt-0">Letters</th>
+
+                                <th class="pt-0">Submitted</th>
+                                <th class="pt-0">Outstanding</th>
+                        
+                            </tr>
+                            
+                        </thead> -->
+
+                        <thead class="bg-secondary">
+                            <tr>
+                                <th class="text-white">Election Date</th>
+                                <th class="text-white">Schools</th>
+                                <th class="text-white">Mode of election</th>
+                                <th class="text-white">Time</th>
+                                <th class="text-white">Elected through ballot</th>
+                                <th class="text-white">Duly Elected</th>
+                                <th class="text-white">Quorum Reached</th>
+                                <th class="text-white">Date of next election</th>
+                                <th class="text-white">Dispute/s (only if YES)</th>
+                                <th class="text-white">Resolved/Not Resolved</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- <tr[attr.rowspan]="0" *ngFor="let report of reports; let i = index">
+                                <td>{{report.dateOfElection}}</td>
+                            </tr> -->
+                            <tr *ngFor="let report of reports; let i = index">
+                                <td >{{report.dateOfElection | date:
+                                    'YYYY-MM-dd'}}</td>
+                                <td>{{report.schoolName}}</td>
+                                <td>{{report.mode}}</td>
+                                <td>{{report.timeOfElection}}</td>
+                                <td>{{report.provisionMade}}</td>
+                                <td>{{report.dulyElected}}</td>
+                                <td>{{report.quoromReached}}</td>
+                                <td>{{report.dateOfNextElection | date:'YYYY-MM-dd'}}</td>
+                                <td>{{report.disputes}}</td>
+                                <td>{{report.resolved}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-center ">
+
+                        <div *ngIf="noReport">
+                            <div class="card-body">
+                                <p class="card-title text-danger text-center">Nothing to report for today</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+</div><!--  row 2  -->
+
+
+
+<ng-template #ModalReport let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Capture report</h5>
+        <button type="button" class="close" (click)="resetModalForm()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 stretch-card">
+                <div class="card">
+                    <div class="card">
+                        <div class="card-header">
+                            Capture New Report
+                        </div>
+                        <form (ngSubmit)="saveNewReport()" [formGroup]="validationForm">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="school">School Name</label>
+                                            <select formControlName="emisCode" (change)="getSchoolName()"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && Form.emisCode.errors}">
+                                                <option class="text-danger" value="" hidden disabled selected>Please Select one</option>
+                                                <option *ngFor="let school of schools; let i = index"
+                                                    value={{school.emisCode}}>
+                                                    {{school.institutionName}}</option>
+                                            </select>
+                                            <p *ngIf="isFormSubmitted && Form.emisCode.errors?.required"
+                                                class="invalid">School required</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="modeOfElection">Mode of election(Standard/Full)</label>
+                                            <select id="modeOfElection" formControlName="modeOfElection"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && Form.modeOfElection.errors}"
+                                                name="modeOfElection" class="form-control">
+                                                <option selected disabled value="">Please select one</option>
+                                                <option value="Standard">Standard</option>
+                                                <option value="Full Day">Full Day</option>
+
+                                            </select>
+                                            <p *ngIf="isFormSubmitted && Form.modeOfElection.errors?.required"
+                                                class="invalid">
+                                                Mode of election required</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label for="school">Was it duly elected?</label>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="dulyElected" [(ngModel)]="dulyElected"
+                                                        (change)="fieldChange()" name="" value="Yes"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.dulyElected.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="dulyElected" name="dulyElected"
+                                                        (change)="fieldChange()" [(ngModel)]="dulyElected" value="No"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.dulyElected.errors}">
+                                                    <i class="input-frame"></i>
+                                                    No
+                                                </label>
+                                            </div>
+                                            <!-- <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="quorumReached" name="quorumReached"
+                                                        (change)="fieldChange()" [(ngModel)]="quorumReached"
+                                                        value="Not applicable"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.quorumReached.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Not applicable
+                                                </label>
+                                            </div> -->
+                                            <p *ngIf="isFormSubmitted && Form.dulyElected.errors?.required"
+                                                class="invalid">Answer required
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div> 
+                                <div class="row" *ngIf="dulyElected == 'No'">
+                                    <label for="school">The election process only proceeds in the presence of a quorum
+                                        (15 % of eligible voters).</label>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="quorumReached" [(ngModel)]="quorumReached"
+                                                        (change)="fieldChange()" name="quorumReached" value="Yes"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.quorumReached.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="quorumReached" name="quorumReached"
+                                                        (change)="fieldChange()" [(ngModel)]="quorumReached" value="No"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.quorumReached.errors}">
+                                                    <i class="input-frame"></i>
+                                                    No
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="quorumReached" name="quorumReached"
+                                                        (change)="fieldChange()" [(ngModel)]="quorumReached"
+                                                        value="Not applicable"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.quorumReached.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Not applicable
+                                                </label>
+                                            </div>
+                                            <p *ngIf="isFormSubmitted && Form.quorumReached.errors?.required"
+                                                class="invalid">Answer required
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="quorumReached == 'No'">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="school">Date of next election</label>
+                                            <input type="date" formControlName="dateOfNextElection"
+                                                name="dateOfNextElection" class="form-control"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && Form.dateOfNextElection.errors}">
+
+                                            <p *ngIf="isFormSubmitted && Form.dateOfNextElection.errors?.required"
+                                                class="invalid">Date required</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="quorumReached == 'Yes' || quorumReached == 'Not applicable'">
+                                    <label for="school">Elected through ballot?</label>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="electedThroughBallot"
+                                                        name="electedThroughBallot" value="Yes"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.electedThroughBallot.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="electedThroughBallot"
+                                                        name="electedThroughBallot" value="No"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.electedThroughBallot.errors}">
+                                                    <i class="input-frame"></i>
+                                                    No
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="electedThroughBallot"
+                                                        name="electedThroughBallot" value="Not Obseerved"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.electedThroughBallot.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Not Obseerved
+                                                </label>
+                                            </div>
+                                            <p *ngIf="isFormSubmitted && Form.electedThroughBallot.errors?.required"
+                                                class="invalid">Answer required
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row" >
+                                    <label for="school">Any dispute raised?</label>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="disputes" name="disputes" value="Yes"
+                                                        [(ngModel)]="disputes" (change)="fieldChange()"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.disputes.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="disputes" name="disputes" value="No"
+                                                        [(ngModel)]="disputes"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.disputes.errors}"
+                                                        (change)="fieldChange()">
+                                                    <i class="input-frame"></i>
+                                                    No
+                                                </label>
+                                            </div>
+                                            <p *ngIf="isFormSubmitted && Form.disputes.errors?.required"
+                                                class="invalid">Answer required
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="disputes == 'Yes'">
+                                    <label for="school">Was it resolved?</label>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="resolved" name="resolved" value="Resolved"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.resolved.errors}">
+                                                    <i class="input-frame"></i>
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input"
+                                                        formControlName="resolved" name="resolved" value="Not Resolved"
+                                                        [ngClass]="{'is-invalid': isFormSubmitted && Form.resolved.errors}">
+                                                    <i class="input-frame"></i>
+                                                    No
+                                                </label>
+                                            </div>
+                                            <p *ngIf="isFormSubmitted && Form.resolved.errors?.required"
+                                                class="invalid">Answer required
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <!-- <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="school">School Name</label>
+                                            <select formControlName="schoolName"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && Form.schoolName.errors}">
+                                                <option value="" hidden disabled selected>Please Select one</option>
+                                                <option *ngFor="let school of schools" value={{school.emisCode}}>
+                                                    {{school.institutionName}}</option>
+                                            </select>
+                                            <p *ngIf="isFormSubmitted && Form.schoolName.errors?.required"
+                                                class="invalid">School required</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="modeOfElection">Mode of election(Standard/Full)</label>
+                                            <select id="modeOfElection" formControlName="modeOfElection"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && Form.modeOfElection.errors}"
+                                                name="modeOfElection" class="form-control">
+                                                <option selected disabled value="">Please select one</option>
+                                                <option value="Standard">Standard</option>
+                                                <option value="Full Day">Full Day</option>
+
+                                            </select>
+                                            <p *ngIf="isFormSubmitted && Form.modeOfElection.errors?.required"
+                                                class="invalid">
+                                                Mode of election required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="school">School Name</label>
+                                            <select formControlName="schoolName"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && Form.schoolName.errors}">
+                                                <option value="" hidden disabled selected>Please Select one</option>
+                                                <option *ngFor="let school of schools" value={{school.emisCode}}>
+                                                    {{school.institutionName}}</option>
+                                            </select>
+                                            <p *ngIf="isFormSubmitted && Form.schoolName.errors?.required"
+                                                class="invalid">School required</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="modeOfElection">Mode of election(Standard/Full)</label>
+                                            <select id="modeOfElection" formControlName="modeOfElection"
+                                                [ngClass]="{'is-invalid': isFormSubmitted && Form.modeOfElection.errors}"
+                                                name="modeOfElection" class="form-control">
+                                                <option selected disabled value="">Please select one</option>
+                                                <option value="Standard">Standard</option>
+                                                <option value="Full Day">Full Day</option>
+
+                                            </select>
+                                            <p *ngIf="isFormSubmitted && Form.modeOfElection.errors?.required"
+                                                class="invalid">
+                                                Mode of election required</p>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            <button class="btn btn-light" (click)="resetModalForm()">Cancel</button>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

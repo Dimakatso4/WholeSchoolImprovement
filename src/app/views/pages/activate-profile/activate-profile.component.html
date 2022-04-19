@@ -1,0 +1,160 @@
+<div class="row w-100 mx-0 auth-page">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="left: 0; top: 0; width: 100%">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 160px; height: auto;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+             <li class="nav-item">
+               <a class="nav-link active" aria-current="page" href="#">Home</a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="#">About</a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="#">Contact</a>
+             </li>
+           </ul>
+         </div> -->
+    </div>
+  </nav>
+  <div class="col-md-12 mx-auto">
+    <div class="card">
+      <div class="row">
+        <div class="col-md-5 col-lg-6 pr-md-0">
+          <div class="auth-left-wrapper"
+            style="background-image: url(../../../../assets/images/img-homepage-1.jpg); background-position: -150px 50%; background-repeat: no-repeat;">
+          </div>
+        </div>
+        <div class="col-md-7 col-lg-6">
+          <div class="auth-form-wrapper px-4 py-5">
+
+            <a href="#" class="noble-ui-logo d-block m-2">
+              <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 225px; height: auto">
+            </a>
+            <h5 class="text-muted font-weight-normal mb-4 login-text">Please fill in your detail below to create
+              your password.
+            </h5>
+
+            <form (ngSubmit)="formSubmit()" [formGroup]="requiredForm" class="forms-sample">
+
+
+              <!-- <div class="form-group">
+                <label for="UserName">UserName
+                  <span class="required-asterisk">*</span>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="UserName" autocomplete="off"
+                  formControlName="UserName" [ngClass]="{'is-invalid': isFormSubmitted && Form.UserName.errors}"
+                  placeholder="Type UserName">
+                <p *ngIf="isFormSubmitted && Form.UserName.errors?.required" class="invalid">Field Required</p>
+              </div> -->
+              <div class="form-group">
+                <label for="temporarypassword">Temporary Password
+                  <span class="required-asterisk">*</span>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="temporarypassword" autocomplete="off"
+                  formControlName="temporarypassword" (focus)="resetFlag()"
+                  [ngClass]="{'is-invalid': isPasswordInvalid && isFormSubmitted || isFormSubmitted && Form.temporarypassword.errors}"
+                  placeholder="Type here">
+                <p *ngIf="isFormSubmitted && Form.temporarypassword.errors?.required" class="invalid">Temporary password
+                  required</p>
+                <p *ngIf="isFormSubmitted && isPasswordInvalid" class="invalid">Incorrect
+                  password, please try again</p>
+              </div>
+
+              <div class="form-group">
+                <label for="Password">New Password
+                  <span class="required-asterisk">*</span>
+                </label>
+                <input type="{{showPassword ? 'text' : 'password' }}" class="form-control" [(ngModel)]="Password"
+                  autocomplete="off" formControlName="Password" (focus)="changePasswordField('busy')"
+                  (blur)="changePasswordField('done')"
+                  [ngClass]="{'is-invalid': isFormSubmitted && Form.Password.errors}" placeholder="Type here" />
+                <a *ngIf="!showPassword" (click)="setShowPassword(true)"><i class="mdi mdi-eye text-dark"></i> Show
+                  Password</a>
+                <a *ngIf="showPassword" (click)="setShowPassword(false)"><i class="mdi mdi-eye-off text-dark"></i> hide
+                  Password</a>
+
+
+                <p *ngIf="isFormSubmitted && Form.Password.errors?.required" class="invalid">New password required</p>
+
+                <p>
+
+                  <!-- <span class="invalid" *ngIf="Form.Password.errors?.pattern && isFormSubmitted">Invalid password format, your
+                    password should</span> -->
+                  <span class="hint">Your password should</span>
+
+                </p>
+
+                <!-- *ngIf="Form.Password.errors?.pattern" -->
+
+                <ul class="{{Form.Password.errors?.pattern && isFormSubmitted?'invalid':'hint'}}">
+
+                  <li class="{{isCorrect('length')?'text-success':''}}">
+                    Be a minimum of 8 characters
+                  </li>
+                  <li class="{{isCorrect('upper')?'text-success':''}}">
+                    contain atleast 1 UPPERCASE letter
+                  </li>
+                  <li class="{{isCorrect('lower')?'text-success':''}}">
+                    contain atleast 1 lowercase letter
+                  </li>
+                  <li class="{{isCorrect('numeric')?'text-success':''}}">
+                    contain atleast 1 numeric character
+                  </li>
+                  <li class="{{isCorrect('special')?'text-success':''}}">
+                    contain atleast 1 special character
+                  </li>
+                </ul>
+
+              </div>
+
+              <div class="form-group">
+                <label for="confirmpassword">Confirm Password
+                  <span class="required-asterisk">*</span>
+                </label> <input type="{{showConfirm ? 'text' : 'password' }}" class="form-control"
+                  [(ngModel)]="confirmpassword" formControlName="confirmpassword" (blur)="confirmPasswordDone(true)"
+                  (focus)="confirmPasswordDone(false)"
+                  [ngClass]="{'is-invalid': isFormSubmitted && Form.confirmpassword.errors || isConfirmPasswordDone && confirmpassword != Password}"
+                  placeholder="Type here">
+                <!-- <input type="checkbox" (click)="toggleConfirm()"> Show Password
+                 -->
+
+                <a *ngIf="!showConfirm" (click)="setshowConfirm(true)"><i class="mdi mdi-eye text-dark"></i> Show
+                  Password</a>
+                <a *ngIf="showConfirm" (click)="setshowConfirm(false)"><i class="mdi mdi-eye-off text-dark"></i> hide
+                  Password</a>
+
+
+                <p *ngIf="isFormSubmitted && Form.confirmpassword.errors?.required" class="invalid">
+                  Confirmed password required
+                </p>
+                <p *ngIf="isConfirmPasswordDone && confirmpassword != Password" class="invalid">
+                  Password don't match
+                </p>
+
+              </div>
+
+
+
+              <div class="mt-3">
+
+                <button type="submit" class="btn btn-primary mr-2 mb-2 mb-md-0" [disabled]="isLoading"><span
+                    class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                    *ngIf="isLoading"></span>Login</button>
+
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div><!-- row -->
+    </div><!-- Card -->
+  </div><!-- Col-8 -->
+</div>

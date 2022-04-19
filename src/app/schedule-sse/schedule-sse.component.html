@@ -1,0 +1,25 @@
+
+ <form [formGroup]="requiredForm" novalidate>
+    <div class="form-group">
+<label for="District">District
+    <input type="text" [(ngModel)]="District" class="form-control" formControlName="District"   >
+  </label>
+    </div>
+    <div class="form-group">
+  <label for="School">School
+    <input type="text" [(ngModel)]="School" class="form-control" formControlName="School"   >
+  </label>
+</div>
+
+<div class="form-group">
+    <label for="startDate">startDate
+        <input type="text" [(ngModel)]="startDate" class="startDate" formControlName="startDate"   >
+      </label>
+        </div>
+        <div class="form-group">
+      <label for="endDate">School
+        <input type="text"  class="form-control" formControlName="endDate"   >
+      </label>
+    </div>
+  <button type="submit"  (click)="create()" class="btn btn-primary mr-2">Submit</button>
+</form>

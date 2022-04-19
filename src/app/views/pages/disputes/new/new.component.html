@@ -1,0 +1,240 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Disputes</a></li>
+        <li *ngIf="userRole == 'PARENT'" class="breadcrumb-item"><a routerLink="/disputes/list">List</a></li>
+        <li class="breadcrumb-item active" aria-current="page">New</li>
+    </ol>
+</nav>
+<h1 class="page-title">Disputes</h1>
+<hr style="margin-bottom: 50px;">
+<div *ngIf="schoolname != null || schoolname != undefined || schoolname != '' " style="margin-bottom: 30px;"
+    class="row justify-content-center">
+    <h4>
+        <!-- {{election.description}}  took place bettween {{election.startDate}} and {{election.description}} -->
+    </h4>
+</div>
+<div class="row">
+
+    <div class="col-md-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-header">
+                Log Election Dispute
+            </div>
+            <div class="card-body">
+                <form class="forms-sample" (ngSubmit)="logDispute()" [formGroup]="validationForm">
+                    <div class="row" style="margin-bottom: 1rem;">
+                        <div class="col-md-12">
+                            <h6>Parent Information</h6>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentname">Name</label>
+                                <input type="text" class="form-control" formControlName="parentname"
+                                    [(ngModel)]="parentname" name="parentname" id="parentname" autocomplete="off"
+                                    placeholder="Type here"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                    class="invalid-feedback">Firstname Required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentsurname">Surname</label>
+                                <input type="text" class="form-control" formControlName="parentsurname"
+                                    [(ngModel)]="parentsurname" name="parentsurname" id="parentsurname"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentsurname.errors}"
+                                    autocomplete="off" placeholder="Type here">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentsurname.errors?.required"
+                                    class="invalid-feedback">Surname Required</p>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentcellnumber">Contact Number</label>
+                                <input type="text" class="form-control" formControlName="parentcellnumber"
+                                    [(ngModel)]="parentcellnumber" name="parentcellnumber" id="parentcellnumber"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentcellnumber.errors}"
+                                    autocomplete="off" placeholder="Type here" minlength="0" maxlength="12"
+                                    mask="000 000 0000">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentcellnumber.errors?.required"
+                                    class="invalid-feedback">Contact number required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentemail">Email Address</label>
+                                <input type="email" class="form-control" formControlName="parentemail"
+                                    [(ngModel)]="parentemail" name="parentemail" id="parentemail" autocomplete="off"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentemail.errors}"
+                                    pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" placeholder="Type here"
+                                    inputmode="email">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentemail.errors?.required"
+                                    class="invalid-feedback">Email required</p>
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentemail.errors?.pattern"
+                                    class="invalid-feedback">Invalid email address</p>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="officialname">Name of Official</label>
+                                <input type="text" class="form-control" formControlName="officialname"
+                                    [(ngModel)]="officialname" name="officialname" id="officialname"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.officialname.errors}"
+                                    placeholder="Type here">
+                                <p *ngIf="isDisputeFormSubmitted && Form.officialname.errors?.required"
+                                    class="invalid-feedback">Name of official required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="officialtitle">Title of Official</label>
+                                <input type="text" class="form-control" formControlName="officialtitle"
+                                    [(ngModel)]="officialtitle" name="officialtitle" id="officialtitle"
+                                    autocomplete="off" placeholder="Type here">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row" *ngIf="isSGB">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentname">Name</label>
+                                <input type="text" class="form-control" formControlName="parentname"
+                                    [(ngModel)]="parentname" name="parentname" id="parentname" autocomplete="off"
+                                    placeholder="Type here" readonly
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                    class="invalid-feedback">First name Required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentsurname">Surname</label>
+                                <input type="text" class="form-control" formControlName="parentsurname"
+                                    [(ngModel)]="parentsurname" name="parentsurname" id="parentsurname"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentsurname.errors}"
+                                    autocomplete="off" readonly placeholder="Type here">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentsurname.errors?.required"
+                                    class="invalid-feedback">Surname Required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="isSGB">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentcellnumber">Contact Number</label>
+                                <input type="text" class="form-control" formControlName="parentcellnumber"
+                                    [(ngModel)]="parentcellnumber" name="parentcellnumber" id="parentcellnumber"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentcellnumber.errors}"
+                                    autocomplete="off" placeholder="Type here" readonly minlength="0" maxlength="12"
+                                    mask="000 000 0000">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentcellnumber.errors?.required"
+                                    class="invalid-feedback">Contact number required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentemail">Email Address</label>
+                                <input type="email" class="form-control" formControlName="parentemail"
+                                    [(ngModel)]="parentemail" name="parentemail" id="parentemail" autocomplete="off"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentemail.errors}"
+                                    pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" placeholder="Type here" readonly
+                                    inputmode="email">
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentemail.errors?.required"
+                                    class="invalid-feedback">Email required</p>
+                                <p *ngIf="isDisputeFormSubmitted && Form.parentemail.errors?.pattern"
+                                    class="invalid-feedback">Invalid email address</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row" style="margin-bottom: 1rem; margin-top: 1rem;">
+                        <div class="col-md-12">
+                            <h6>School Information</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="schoolname">School Name</label>
+                                <input type="text" class="form-control" formControlName="schoolname" readonly
+                                    [(ngModel)]="schoolname" name="schoolname" id="schoolname" autocomplete="off"
+                                    placeholder="Type here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="district">District</label>
+                                <input type="text" class="form-control" formControlName="district" readonly
+                                    [(ngModel)]="district" name="district" id="district" autocomplete="off"
+                                    placeholder="Type here">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6" *ngIf="!isSGB">
+                            <div class="form-group">
+                                <label for="officialname">Name of Official</label>
+                                <input type="text" class="form-control" formControlName="officialname"
+                                    [(ngModel)]="officialname" name="officialname" id="officialname"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.officialname.errors}"
+                                    readonly placeholder="Type here">
+                                <p *ngIf="isDisputeFormSubmitted && Form.officialname.errors?.required"
+                                    class="invalid-feedback">Name of official required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6" *ngIf="isSGB">
+                            <div class="form-group">
+                                <label for="officialname">Name of Official</label>
+                                <input type="text" class="form-control" formControlName="officialname"
+                                    [(ngModel)]="officialname" name="officialname" id="officialname"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.officialname.errors}"
+                                    placeholder="Type here">
+                                <p *ngIf="isDisputeFormSubmitted && Form.officialname.errors?.required"
+                                    class="invalid-feedback">Name of official required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="officialtitle">Title of Official</label>
+                                <input type="text" class="form-control" formControlName="officialtitle"
+                                    [(ngModel)]="officialtitle" readonly name="officialtitle" id="officialtitle"
+                                    autocomplete="off" placeholder="Type here">
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row" style="margin-top: 1.6rem;">
+                        <div class="col-md-12">
+                            <h6 style="margin-bottom: 0.5rem;">Dispute Information</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="details">Details</label>
+                                <textarea class="form-control" required [(ngModel)]="details" formControlName="details"
+                                    name="details" id="details" rows="8" placeholder="Type here"
+                                    [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.details.errors}"></textarea>
+                                <p *ngIf="isDisputeFormSubmitted && Form.details.errors?.required"
+                                    class="invalid-feedback">Dispute details required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button *ngIf="userRole == 'PARENT' || userRole == 'SGB' || userRole =='SEO'" type="submit"
+                        class="btn btn-primary mr-2 justify-content-center">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

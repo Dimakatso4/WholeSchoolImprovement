@@ -1,0 +1,55 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">School Profile</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2"> School Profile</h2>
+        <hr>
+    </div>
+</div>
+
+
+<div>
+    <div class="yearselection">
+        <select ([ngModel])="selectedYear">
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+    </div>
+
+    <br>
+
+    <div>
+        <div class="card" style="width:80%; height:400px;margin-left: 10%;">
+          <div class="card-body">
+            <h6 class="card-title">Pie chart showing the SSE Rating.</h6>
+            <!-- <apx-chart
+          [series]="pieChartOptions.nonAxisSeries"
+          [chart]="pieChartOptions.chart"
+          [colors]="pieChartOptions.colors"
+          [stroke]="pieChartOptions.stroke"
+          [legend]="pieChartOptions.legend"
+          [dataLabels]="pieChartOptions.dataLabels">
+         </apx-chart> -->
+            
+          </div>
+        </div>
+      </div>
+
+
+    <br>
+    <div class="bottom">
+        <div class="card">
+            <div class="container">
+                <h4 style="color:#FD1C03;"><b>Red = 0 - 40%</b></h4>
+                <h4 style="color:#FFBF00;"><b>Amber = 41-79%</b></h4>
+                <h4 style="color:#2dc937;"><b>Green = 80 -100%</b></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+

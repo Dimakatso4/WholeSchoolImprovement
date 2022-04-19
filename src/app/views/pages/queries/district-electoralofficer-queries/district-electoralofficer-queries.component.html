@@ -1,0 +1,114 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">Queries</a></li>
+    <li class="breadcrumb-item active" aria-current="page">District Electoral Officer Queries</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-md-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <!-- Button trigger modal -->
+        <button class="btn btn-primary float-right ml-3" (click)="openBasicModal(basicModal)">Create New Query</button>
+        <div class="table-responsive">
+          <table id="dataTableExample" class="table">
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<ng-template #basicModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">District Electoral Officer Query</h5>
+    <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12 stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title">Enter Question</h6>
+
+
+            <form (ngSubmit)="sendQuery()" [formGroup]="validationForm">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">Name</label>
+                    <input formControlName="Name" id="Name" type="text" class="form-control" placeholder="Enter Name"
+                      [ngClass]="{'is-invalid': isFormSubmitted && Form.Name.errors}" [(ngModel)]="Name">
+                    <p *ngIf="isFormSubmitted && Form.Name.errors?.required" class="invalid-feedback">Name
+                      required</p>
+                  </div>
+                </div><!-- Col -->
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">Surname</label>
+                    <input formControlName="Surname" type="text" class="form-control" placeholder="Enter Surname"
+                      [ngClass]="{'is-invalid': isFormSubmitted && Form.Surname.errors}" [(ngModel)]="Surname">
+                    <p *ngIf="isFormSubmitted && Form.Surname.errors?.required" class="invalid-feedback">Surname
+                      required</p>
+                  </div>
+                </div><!-- Col -->
+              </div><!-- Row -->
+              <div class="row">
+                <!-- Col -->
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">Email</label>
+                    <input formControlName="Email" type="email" class="form-control" placeholder="Enter Email"
+                      [ngClass]="{'is-invalid': isFormSubmitted && Form.Email.errors}" [(ngModel)]="Email"
+                      pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+                    <p *ngIf="isFormSubmitted && Form.Email.errors?.required" class="invalid-feedback">Email
+                      required</p>
+                    <p *ngIf="isFormSubmitted && Form.Email.errors?.pattern" class="invalid-feedback">Invalid email
+                      address
+                    </p>
+                  </div>
+                </div><!-- Col -->
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">Phone Number</label>
+                    <input formControlName="PhoneNumber" mask="000 000 0000" minlength="0" maxlength="12" type="text"
+                      class="form-control" placeholder="Phone number"
+                      [ngClass]="{'is-invalid': isFormSubmitted && Form.PhoneNumber.errors}" [(ngModel)]="PhoneNumber">
+                    <p *ngIf="isFormSubmitted && Form.PhoneNumber.errors?.required" class="invalid-feedback">Phone
+                      number required</p>
+                    <p *ngIf="isFormSubmitted && !Form.PhoneNumber.errors?.maxlength && !Form.PhoneNumber.errors?.required"
+                      class="invalid-feedback">Invalid
+                      phone number
+                    </p>
+                  </div>
+                </div><!-- Col -->
+              </div><!-- Row -->
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="Questions">Questions</label>
+                    <textarea formControlName="Questions" class="form-control" id="Questions" rows="10"
+                      [ngClass]="{'is-invalid': isFormSubmitted && Form.Questions.errors}" [(ngModel)]="Questions"
+                      placeholder="Please type your question here"></textarea>
+                    <p *ngIf="isFormSubmitted && Form.Questions.errors?.required" class="invalid-feedback">Question
+                      required</p>
+                  </div>
+                </div><!-- Col -->
+              </div><!-- Row -->
+              <div class="float-left modal-footer">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">Close</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

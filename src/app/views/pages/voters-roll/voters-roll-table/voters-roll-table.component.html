@@ -1,0 +1,155 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">Voters Roll</a></li>
+  </ol>
+</nav>
+
+<h4 class="card-title text-primary">Voter's Roll</h4>
+<div class="row">
+  <div class="col-md-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <table datatable class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>I.D/Passport</th>
+              <th>Email</th>
+              <th>Name of Child</th>
+              <th>Grade of Child</th>
+              <th>Action</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let voters of votersRoll; let i = index">
+              <td>{{voters.firstName}} {{voters.lastName}</td>
+              <td>{{voters.idNumber}</td>
+              <td>{{voters.emailAddress}</td>
+              <td>{{voters.child}</td>
+              <td>{{voters.grade}</td>
+              <td>
+                <a><i class="mdi mdi-eye text-dark" (click)="viewVottersRoll(i)"
+                    (click)="openBasicModal(basicModal)"></i></a>
+                &nbsp;
+                <a><i class="mdi mdi-pencil text-dark" (click)="editVottersRoll(i)"
+                    (click)="openBasicModal(basicModal)"></i></a>
+                &nbsp;
+                <a><i class="mdi mdi-delete text-danger" (click)="deleteVottersRoll(i)"
+                    (click)="openBasicModal(basicModal)"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center ">
+
+          <div *ngIf="noData">
+            <div class="card-body">
+              <p class="card-title text-danger text-center">No records found</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<ng-template #basicModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Edit Nomination</h5>
+
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="nomineeEditForm" (ngSubmit)="onSubmitNominee()">
+      <div class="form-group">
+        <label for="nominationName">First Name</label>
+        <input type="text" formControlName="firstNameNominee" class="form-control" id="nominationName"
+          placeholder="{{nominee.firstName}} ">
+      </div>
+      <div class="form-group">
+        <label for="nominationSurname">Last Name</label>
+        <input type="text" formControlName="lastNameNominee" class="form-control" id="nominationSurname"
+          placeholder="{{nominee.lastName}} ">
+      </div>
+      <div class="form-group">
+        <label for="nominationSurname">Institution Name</label>
+        <input type="text" formControlName="institutionNameNominee" class="form-control" id="nominationInstitutionName"
+          placeholder="{{nominee.institutionName}} ">
+      </div>
+      <div class="form-group">
+        <label for="NomineeIdNumber">ID Number</label>
+        <input type="text" formControlName="idNumberNominee" class="form-control" id="NomineeIdNumber"
+          placeholder="{{nominee.idNumber}} ">
+      </div>
+      <div class="form-group">
+        <label for="NomineeMobileNo">Mobile Number</label>
+        <input type="text" formControlName="mobileNonNominee" class="form-control" id="NomineeMobileNo"
+          placeholder="{{nominee.mobileNo}} ">
+      </div>
+      <div class="form-check">
+
+        <input type="checkbox" formControlName="mobileBlackListed" [value]="nominee.blackListed"
+          class="form-check-input" id="NomineeBlackListed" placeholder="{{nominee.blackListed}} ">
+        <label for="NomineeBlackListed">Is BlackListed</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('')">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+<!-- Close result -->
+<p *ngIf="basicModalCloseResult != ''" class="mt-2">{{basicModalCloseResult}}</p>
+
+<!-- Modal -->
+<ng-template #vorterall let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Edit Nomination</h5>
+
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="votersRollEditForm" (ngSubmit)="onSubmitVotersRoll()">
+      <div class="form-group">
+        <label for="firstNameVottersRoll">First Name</label>
+        <input type="text" formControlName="firstNameVottersRoll" class="form-control" id="firstNameVottersRoll"
+          placeholder="{{votersRoll.firstName}} ">
+      </div>
+      <div class="form-group">
+        <label for="nominationSurname">Last Name</label>
+        <input type="text" formControlName="lastNameVottersRoll" class="form-control" id="nominationSurname"
+          placeholder="{{votersRoll.lastName}} ">
+      </div>
+      <div class="form-group">
+        <label for="nominationSurname">Institution Name</label>
+        <input type="text" formControlName="institutionVottersRoll" class="form-control" id="nominationInstitutionName"
+          placeholder="{{votersRoll.institutionName}} ">
+      </div>
+      <div class="form-group">
+        <label for="NomineeIdNumber">ID Number</label>
+        <input type="text" formControlName="idNumberVottersRoll" class="form-control" id="NomineeIdNumber"
+          placeholder="{{votersRoll.idNumber}} ">
+      </div>
+      <div class="form-group">
+        <label for="NomineeMobileNo">Mobile Number</label>
+        <input type="text" formControlName="mobileNonVottersRoll" class="form-control" id="NomineeMobileNo"
+          placeholder="{{votersRoll.mobileNo}} ">
+      </div>
+      <div class="form-check">
+
+        <input type="checkbox" formControlName="mobileBlackListed" checked={{votersRoll.blackListed}}
+          class="form-check-input" id="NomineeBlackListed" placeholder="{{nominee.blackListed}} ">
+        <label for="NomineeBlackListed">BlackListed</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('')">Close</button>
+    <button type="submit" class="btn btn-primary" (click)="onSubmitNominee()">Save changes</button>
+  </div>
+</ng-template>
+<!-- Close result -->
+<p *ngIf="basicModalCloseResult != ''" class="mt-2">{{basicModalCloseResult}}</p>

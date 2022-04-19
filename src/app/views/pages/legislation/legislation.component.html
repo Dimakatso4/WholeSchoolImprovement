@@ -1,0 +1,131 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Legislative Framework</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">Legislative Framework</h3>
+        <hr>
+    </div>
+</div>
+
+<div>
+    <div class="row d-flex justify-content-end">
+        <button *ngIf="userRole == 'HO'" class="btn btn-primary float-right" (click)="openModal(Modal)">Add Legislative
+            Framework</button>
+    </div>
+    <br />
+    
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <!-- <div class="card"> -->
+            <!-- <div class="card"> -->
+            <!-- <div class="card-body"> -->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="bg-secondary">
+                        <tr>
+                            <th class="text-white">Document Name</th>
+                            <th class="text-white">Date Uploaded</th>
+                            <th class="text-white">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                        <tr *ngFor="let document of documents; let i = index">
+                            <th>{{i+1}}. {{document.title}}</th>
+                            <th>{{document.uploadedDate | date: 'YYYY-MM-dd &nbsp; HH:mm'}}</th>
+                            <th>
+                                <a target="_blank" href="{{document.documentPath}}"><i
+                                        class="mdi mdi-download text-dark"></i></a>
+                                &nbsp;
+                                <a *ngIf="userRole == 'HO'"><i class="mdi mdi-delete text-dark"
+                                        (click)="removeDocument(i)"></i></a>
+                                <!-- <a target="_//////////// -->
+                                <!-- <a><i class="mdi mdi-pencil text-dark"
+                                                    (click)="viewDocument(editDocument, i)"></i></a> -->
+                                <!-- <button type="button" class="btn btn-primary mr-2"
+                                                (click)="viewDocument(Modal, i)">View</button> -->
+                                <!-- &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-primary mr-2">Edit</button> -->
+                            </th>
+                        </tr>
+                    </tbody>
+    
+                </table>
+                <div class="d-flex justify-content-center ">
+    
+                    <div *ngIf="noDocuments">
+                        <div class="card-body">
+                            <p class="card-title text-danger text-center">No legislative framework uploaded
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+        </div>
+    </div>
+
+</div>
+
+
+<ng-template #Modal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Upload Legislative Framework</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <label for="docsTitle">Title</label>
+                    <input type="text" [(ngModel)]="docsTitle" name="docsTitle"
+                        placeholder="Enter here to change the title of your document" class="form-control">
+                    <!-- <h6 class="card-title">Upload Document</h6>
+
+                    <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+                        [ngClass]="{'is-invalid': isFormSubmitted && docPath == ''}"
+                        (success)="onUploadSuccess($event)"></div>
+                    <p *ngIf="isFormSubmitted && docPath == '' " class="invalid">Please upload document
+                    </p>-->
+                    <br />
+
+                    <div class="form-group">
+                        <label>Upload Document</label>
+                        <input (change)="handleFileInput($event)" type="file" name="fileUploadInputExample"
+                            [ngClass]="{'is-invalid': isFormSubmitted && FileName == ''}" class="file-upload-default"
+                            id="fileUploadInputExample">
+                        <div class="input-group col-xs-12" (click)="openFileBrowser($event)">
+                            <input type="text" class="form-control file-upload-info" disabled="" [(ngModel)]="FileName"
+                                [ngClass]="{'is-invalid': isFormSubmitted && FileName == ''}" name="FileName"
+                                placeholder="No file uploaded">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                            </span>
+                        </div>
+                        <p *ngIf="isFormSubmitted && FileName == '' " class="invalid-feedback">Please upload document
+                        </p>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary mt-2 " (click)="UploadNewDocument()">Submit</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-danger mt-2 " (click)="resetDropzoneUploads()">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div> <!-- col -->
+    </div>
+</ng-template>

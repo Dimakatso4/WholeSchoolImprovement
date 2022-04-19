@@ -1,0 +1,180 @@
+
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Management Plan</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+
+<!--style-->
+
+
+<!-- Button trigger modal -->
+
+
+
+ <!--tear radio-->
+ <!----->
+
+
+
+
+ 
+ 
+
+ <div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;" id="pdfTable"  #pdfTable>
+    <div class="col-md-12 bg-primary text-white"  style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">WSI Management Plan</h2>
+        <hr>
+    </div>         
+            
+    <table class="table table-hover" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+                <thead class="bg-secondary"style="padding-left: 0.75rem; padding-right: 0.75rem;">
+                  
+                    <tr>
+                    
+                        <th class="text-white">Activity Name</th>
+                        <th class="text-white">Responsibility</th>
+                        <th class="text-white">Start Date</th>
+                        <th class="text-white">End Date</th>
+                        <th class="text-white">Action</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                        <tr *ngFor="let e of lis;"> 
+                       
+                            <td>{{e.activityName }}</td>
+                            <td><tr *ngFor="let manrole of e.responsibility;"> 
+                                <td>{{ manrole.rolename }}</td>
+                                </tr></td>
+                            <td>{{e.startDate | date:'YYYY-MM-dd '}}</td>
+                            <td>{{e.endDate | date:'YYYY-MM-dd '}}</td>
+                           
+                            <td>
+                                
+                            <a  (click)="openEditModel6(editModel6,e.planID,e.activityName,e.startDate, e.endDate,e.periodID)" title="View District Sub-Activies" ><i class="mdi mdi-eye text-primary"></i></a> 
+                            &nbsp;&nbsp;  
+                           
+                            </td>
+                            </tr>
+
+                   
+                </tbody>
+            </table>
+            
+     
+      
+  </div> 
+  <button  class="btn btn-primary mr-2" (click)="downloadAsPDF()">Download</button>
+  <!---Modal View Sub-Acticity List Per District-->
+  
+  <ng-template #editModel6 let-modal>
+ 
+    <div class="card-header bg-primary ">
+      <h6 class="card-title text-white" style="margin-bottom: 0;">District Sub-Activities Plan</h6>
+  </div>
+    <div class="row mt-4">
+      
+      <div class="col-md-12">
+          <div   class="card-header" class="table-responsive table-wrap">
+    <table  datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" id="datatable" class="table table-hover mb-0">
+      <thead  class=" card-header bg-secondary">
+      <tr>
+       
+                <th class="text-white">Sub-Activity Name</th>
+                <th class="text-white">Responsibility</th>
+                <th class="text-white">Start Date</th>
+                <th class="text-white">End Date</th>
+               
+              
+               
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of lisSub;"> 
+        
+        <td>{{ e.subActivity }}</td>
+        <td>{{ e.responsibility }}</td>
+        <td>{{ e.startDate | date:'YYYY-MM-dd '}}</td>
+        <td>{{ e.endDate  | date:'YYYY-MM-dd '}}</td>
+     
+      </tr>
+   
+      </tbody>
+    
+    </table>
+    <div class="card-footer">
+  
+      <div class="row float-right">
+   
+    <button class="btn btn-warning mr-2 float-right " (click)="modal.close('by: close icon');">Cancel</button>
+  </div>
+  </div>
+   
+       
+     
+  
+    
+          </div>
+          </div>
+    </div>
+  </ng-template>
+
+ 
+<!---Modal View Sub-Acticity Head Office-->
+  
+<ng-template #editModelsub let-modal>
+ 
+  <div class="card-header bg-primary ">
+    <h6 class="card-title text-white" style="margin-bottom: 0;"> Head-Office Sub-Activies Plan</h6>
+</div>
+  <div class="row mt-4">
+    
+    <div class="col-md-12">
+        <div   class="card-header" class="table-responsive table-wrap">
+  <table  datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" id="datatable" class="table table-hover mb-0">
+    <thead  class=" card-header bg-secondary">
+    <tr>
+     
+              <th class="text-white">Sub-Activity Name</th>
+              <th class="text-white">Responsibility</th>
+              <th class="text-white">Start Date</th>
+              <th class="text-white">End Date</th>
+           
+            
+             
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let e of HeadList;"> 
+      
+      <td>{{ e.subActivity }}</td>
+      <td>{{ e.responsibility }}</td>
+      <td>{{ e.startDate | date:'YYYY-MM-dd '}}</td>
+      <td>{{ e.endDate  | date:'YYYY-MM-dd '}}</td>
+   
+    </tr>
+ 
+    </tbody>
+  
+  </table>
+  <div class="card-footer">
+
+      <div class="row float-right">
+         
+          <button class="btn btn-warning mr-2 float-right " (click)="modal.close('by: close icon');">Cancel</button>
+        </div>
+</div>
+ 
+     
+   
+
+  
+        </div>
+        </div>
+  </div>
+</ng-template>

@@ -1,0 +1,207 @@
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">User Management </h2>
+        <hr>
+    </div>
+</div>
+<!--table start-->
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+                <!-- <button class="btn btn-primary float-right" (click)="openLgModal(createModal)">Create New
+                    User</button> -->
+
+
+                <br>
+                <br>
+                <div class="table-responsive">
+
+                    <table role="table" datatable class="table table-hover">
+                        <thead class="bg-secondary">
+                            <tr>
+
+                                <th hidden class="text-white">ID</th>
+                                <th class="text-white">User name</th>
+                                <th class="text-white">First Name</th>
+
+                                <th class="text-white">Last Name</th>
+
+                                <th class="text-white">Office Level</th>
+                                <th class="text-white">Position</th>
+                                <th class="text-white">Status</th>
+                                <th class="text-white">Action</th>
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                                <td hidden></td>
+                                <td>11113333</td>
+                                <td>Timothy</td>
+                                <td>Smith</td>
+                                <td>Head Office</td>
+                                <td>Director</td>
+                                <td>Awaiting Activation</td>
+
+                                <td>
+                                    &nbsp;&nbsp;
+                                    <a (click)="openEditModel4(editModal, i)"><i
+                                            class="mdi mdi-eye text-primary"></i></a>
+
+                                    <!-- &nbsp;
+
+                                    <a title="Activate"><i class="mdi mdi-lock-open text-success"
+                                            (click)="DeactivaStatus()"></i></a> -->
+                                    &nbsp;
+                                    <a title="Deactivated"><i class="mdi mdi-lock text-danger"
+                                            (click)="ActivateStatus()"></i></a>
+
+
+
+
+
+                                </td>
+
+
+
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit modal-->
+<!-- <ng-template #editModal let-modal>
+
+
+    <div class="card">
+
+        <div style="margin-top:0px ;" class="modal-header bg-primary text-white headingStyle2">
+            <h4 class="modal-title text-white" id="exampleModalLabel">Update User Profile</h4>
+            <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <div class="card-body">
+            <form>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="updateGender">Gender <span class="required-asterisk">*</span></label>
+                            <input [(ngModel)]="updateGender" class="form-control"
+                                formControlName="updateGender" required disabled>
+                        
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="userName">UserName
+                            </label>
+                            <input class="form-control" [(ngModel)]="updateUserName" formControlName="updateUserName"
+                                name="updateUserName" placeholder="" disabled>
+
+                        </div>
+
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <label for="updateFirstname">Name <span class="required-asterisk">*</span></label>
+                        <input type="text" class="form-control" formControlName="updateFirstname" disabled
+                            [(ngModel)]="updateFirstname" minlength="3" 
+                            pattern="^([A-Z][a-z]*((\\s[A-Za-z])?[a-z]*)*)$"
+                            [ngClass]="{'is-invalid': isEditFormSubmitted && updateForms.updateFirstname.errors}"
+                            required>
+                        <p *ngIf="isEditFormSubmitted && updateForms.updateFirstname.errors?.required"
+                            class="invalid-feedback">
+                            First name required</p>
+                        <p *ngIf="isEditFormSubmitted && !updateForms.updateFirstname.errors?.minlength"
+                            class="invalid-feedback">
+                            firstname must atleast 3 Characters
+                        </p>
+
+                        <p *ngIf="isEditFormSubmitted && updateForms.updateFirstname.errors?.pattern"
+                            class="invalid-feedback">
+                            firstname start with Captial Letters required</p>
+
+                    </div>
+                    
+
+                    <div class="col-md-6">
+                        <label for="Surname">Surname <span class="required-asterisk">*</span></label>
+                        <input type="text" class="form-control" formControlName="updateSurname" minlength="3" disabled
+                            [(ngModel)]="updateSurname" name="updateSurname" id="updateSurname" autocomplete="off"
+                            pattern="^([A-Z][a-z]*((\\s[A-Za-z])?[a-z]*)*)$" 
+                            [ngClass]="{'is-invalid': isEditFormSubmitted && updateForms.updateSurname.errors}"
+                            required>
+                        <p *ngIf="isEditFormSubmitted && updateForms.updateSurname.errors?.required"
+                            class="invalid-feedback">
+                            Surname required</p>
+                        <p *ngIf="isEditFormSubmitted && !updateForms.updateSurname.errors?.minlength"
+                            class="invalid-feedback">
+                            Surname must atleast 3 Characters
+                        </p>
+
+                        <p *ngIf="isEditFormSubmitted && updateForms.updateSurname.errors?.pattern"
+                            class="invalid-feedback">
+                            Surname start with Captial Letters required</p>
+
+                    </div>
+                </div>
+
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="status">Status<span class="required-asterisk">*</span></label>
+                            <input [(ngModel)]="applicantStatus" id="status" #status
+                                (change)="onOptionsSelected(status.value)" class="form-control"
+                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.status.errors}" disabled>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" id="comments" *ngIf="isShown">
+                    <div class="col-md-6">
+                        <label for="comments">Comments<span class="required-asterisk">*</span></label>
+                        <textarea rows="4" cols="60" class="form-control" id="comments">
+
+                    </textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer">
+
+            <div class="row float-right">
+                <button type="button" (click)="updateUserInfo()" class="btn btn-primary mr-2"
+                    [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true" *ngIf="isLoading"></span>Submit</button>
+                <button type="button" class="btn btn-warning" (click)="modal.close('by: close icon')"
+                    [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true" *ngIf="isLoading"></span>Cancel</button>
+    
+            </div>
+        </div>
+    </div>
+
+</ng-template> -->

@@ -1,0 +1,561 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">List District SIP</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">List District SIP</h3>
+        <hr>
+    </div>
+</div>
+<div>
+    <br />
+</div>
+
+<button class="btn btn-primary float-right " routerLink="/sse/school"><i class="mdi mdi-arrow-left"></i> Go
+    Back</button>
+<br />
+<br />
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="docsTitle">School Name</label>
+                        <input type="text" value="{{schoolName | titlecase}}" placeholder="loading..." name="docNo"
+                            class="form-control" disabled>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="docsTitle">EMIS Number</label>
+                        <input type="text" name="docNo" value="{{emisNumber}}" class="form-control" disabled>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="docName">District Name</label>
+                        <input type="text" name="docName" value="{{districtName | titlecase}}" placeholder="loading..."
+                            class="form-control" disabled>
+                    </div>
+                </div>
+
+
+            </div>
+            <hr />
+
+
+            <h4> &nbsp;&nbsp;List SIP</h4>
+
+            <form *ngIf="sipLogged" name="captureSSEForm" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+
+                <ngb-accordion [closeOthers]="true" *ngFor="let aoe of AreaList; let v = index;trackBy: customQuantity">
+
+                    <ngb-panel title="{{aoe.focusArea}}" style="width: 100%;"
+                        *ngIf="aoe.currentAreaOfEvaluation != aoe.previousAreaOfEvaluation && getTotalComponent(aoe.currentComponent) > 0">
+
+                        <ng-template ngbPanelContent>
+
+                            <ngb-accordion
+                                *ngFor="let component of ComponentList; let x = index;trackBy: customQuantity"
+                                [closeOthers]="true">
+                                <ngb-panel
+                                    *ngIf="aoe.currentAreaOfEvaluation == component.currentAreaOfEvaluation && getTotalComponent(component.currentComponent) > 0"
+                                    title="{{component.componentName}}" style="width: 100%;">
+                                    <ng-template ngbPanelContent>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="header-label" style="color:black; font-size:12px;">KPI
+                                                    </th>
+
+                                                    <th class="header-label"
+                                                        style="color:black; font-size:12px; white-space: pre-wrap"><span
+                                                            *ngIf="districtReponse.length > 0">Initial Rating
+                                                        </span>
+                                                    </th>
+
+                                                    <th class="header-label"
+                                                        style="color:black; font-size:12px;  white-space: pre-wrap">
+                                                        Final Rating
+                                                    </th>
+
+                                                    <!-- <th class="header-label" style="color:black; font-size:12px;">BU Comment
+                                                </th>
+
+                                                <th class="header-label" style="color:black; font-size:12px;">
+                                                    Evidence
+                                                </th> -->
+
+                                                    <th class="header-label" style="color:black; font-size:12px;">
+                                                        Prioritised
+                                                    </th>
+
+                                                    <th class="header-label" style="color:black; font-size:12px;">BU
+                                                        Comment
+                                                    </th>
+
+                                                    <th class="header-label" style="color:black; font-size:12px;"><span
+                                                            *ngIf="canAction">Action
+                                                        </span>
+                                                    </th>
+                                                </tr>
+
+                                            </thead>
+
+
+                                            <tbody>
+
+                                                <tr *ngFor="let kpi of kpiList; let i = index;trackBy: customQuantity"
+                                                    [hidden]="component.currentComponent != kpi.currentComponent">
+
+                                                    <td>
+                                                        <div style="white-space: pre-wrap">{{kpi.kpiName}}</div>
+
+                                                    </td>
+                                                    <td
+                                                        *ngIf="(kpiList[i].status === 'SendBackSIP' || kpiList[i].status === 'SIPPublished' || kpiList[i].status === 'SIPLogged' || kpiList[i].status === 'SendForEvidence')">
+                                                        <span *ngIf="districtReponse.length > 0">{{kpi.previousRating}}
+                                                        </span>
+
+                                                    </td>
+                                                    <td
+                                                        *ngIf="(kpiList[i].status === 'SendBackSIP' || kpiList[i].status === 'SIPPublished' || kpiList[i].status === 'SIPLogged' || kpiList[i].status === 'SendForEvidence') ">
+                                                        {{kpi.response}}
+
+                                                    </td>
+                                                    <!-- <td>
+
+                                                    <div *ngIf="kpiList[i].status === 'SIPPublished' && role=='Director'"
+                                                        style="white-space: pre-wrap">&nbsp;{{kpi.comment}}</div>
+
+                                                    <input type="text"
+                                                        *ngIf="kpiList[i].status === 'SIPLogged' && role=='Director'"
+                                                        name="kpiComment" #kpiComment="ngModel"
+                                                        [ngClass]="{'invalid': kpiList[i].comment?.length===0}"
+                                                        [(ngModel)]="kpiList[i].comment" />
+
+                                                </td>
+                                                <td>
+                                                    <div *ngIf="kpiList[i].status === 'SIPPublished'"
+                                                        style="white-space: pre-wrap">
+                                                        &nbsp; {{kpi.evidenceDescription}}
+                                                    </div>
+                                                </td> -->
+
+                                                    <td>
+                                                        <input type="checkbox" disabled *ngIf="(kpiList[i].status === 'SendBackSIP' || kpiList[i].status === 'SendForEvidence' || kpiList[i].status === 'SIPPublished' || kpiList[i].status ===
+                                                    'SIPLogged')" id="IsPrioritise" name="IsPrioritise"
+                                                            [checked]="kpi.isPrioritise"
+                                                            (change)="OnIsPrioritiseSelected($event,i)">
+                                                    </td>
+
+
+                                                    <td>
+                                                        <textarea name="sipClusterComments" placeholder="Type here"
+                                                            cols="15" rows="15" class="form-control"
+                                                            [readonly]="canAction"
+                                                            (input)="updateComment('sipcomment', $event, i)">{{kpi.sipClusterComments}}</textarea>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <a title="View Plan" *ngIf="canAction"
+                                                            (click)="openViewPlanModal(ActionPlanHistoryModal,i)"><i
+                                                                class="mdi mdi-eye text-success"></i></a>
+                                                        &nbsp;
+
+                                                        <!-- <a title="Calculate Score"
+                                                        (click)="openCalculateScorePlanModal(CalculateScoreModal,i)"><i
+                                                            class="mdi mdi-thumb-up text-success"></i></a> -->
+                                                    </td>
+
+
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+
+                        </ng-template>
+                    </ngb-panel>
+
+                </ngb-accordion>
+
+            </form>
+
+            <div *ngIf="!sipLogged && !isPageLoading" class="d-flex justify-content-center ">
+
+                <div>
+                    <div class="card-body">
+                        <p class="card-title text-danger text-center">No SIP listed
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isPageLoading" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="card-footer">
+
+            <div *ngIf="officeLevel==='District' && kpiList.length > 0 && !canAction && sipLogged">
+                <!-- <button class="btn btn-primary mt-2 " (click)="SendToSchoolUpdate()">Submit Updates</button> -->
+                <button class="btn btn-primary mt-2 " (click)="sendBack()" [disabled]="isLoading"><span
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="isLoading"></span> Send Back To School</button>
+                &nbsp;&nbsp;
+                <button class="btn btn-primary mt-2 " (click)="PublishSIP()" [disabled]="isLoading"><span
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="isLoading"></span>Publish</button>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+
+    </div> <!-- col -->
+</div>
+
+<ng-template #ActionPlanHistoryModal let-modal>
+
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">Action Plan For {{kpi.kpiName}}</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table role="table" class="table table-hover">
+            <thead class="bg-secondary text-white">
+                <tr>
+
+                    <!--   datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                        <th class="tableheadStyle text-white">Area of Development</th>
+                    -->
+                    <th class="tableheadStyle text-white">Description</th>
+                    <th class="tableheadStyle text-white">Target Group</th>
+                    <th class="tableheadStyle text-white">Responsibility</th>
+                    <th class="tableheadStyle text-white">Start Date</th>
+                    <th class="tableheadStyle text-white">End Date</th>
+                    <th class="tableheadStyle text-white">Resources</th>
+                    <th class="tableheadStyle text-white">Quarter</th>
+                    <th class="tableheadStyle text-white">Completed</th>
+                    <th class="tableheadStyle text-white">Approve</th>
+                    <th class="tableheadStyle text-white">BU Comment</th>
+                    <th class="tableheadStyle text-white">
+                        <span *ngIf="actionPlanList.length > 0">Reprofiling</span>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let actionPlan of actionPlanList; let i = index">
+
+                    <!--                     <th> {{actionPlan.areaOfDevelopment}}</th>
+-->
+                    <th> {{actionPlan.descriptionOfActivities}}</th>
+
+                    <th> {{actionPlan.targetGroup}}</th>
+
+                    <th> {{actionPlan.responsibility}}</th>
+
+                    <th> {{actionPlan.startDate | date:'yyyy-MM-dd'}}</th>
+
+                    <th> {{actionPlan.finishDate | date:'yyyy-MM-dd'}}</th>
+
+                    <th> {{actionPlan.resources}}</th>
+
+
+                    <th>Quarter {{actionPlan.quarter}}
+                        <!-- <div *ngIf="actionPlanList.length > 0 && actionPlanList[i].isApproved" class="row">
+                            <div class="form-group">
+                                <label for="savedby">Quarter<span class="required-asterisk">*</span></label>
+                                <select name="kpiScore" value="{{kpi.quarter}}" class="form-control"
+                                    [(ngModel)]="actionPlanList[i].quarter" (change)="onScoreChangeChanged($event,i)"
+                                    style="max-width: fit-content;">
+                                    <option value=null hidden disabled selected>Please select
+                                    </option>
+                                    <option value="1">Quarter 1</option>
+                                    <option value="2">Quarter 2</option>
+                                    <option value="3">Quarter 3</option>
+                                    <option value="4">Quarter 4</option>
+                                </select>
+                            </div>
+                        </div> -->
+
+                    </th>
+
+                    <th class="text-center">
+
+                        <!-- <input type="checkbox" name="IsCompletedCheckBox" id="IsCompletedCheckBox"
+                            (change)="onCheckedCompletedChanged($event,i)" [checked]="actionPlan.isCompleted" /> -->
+
+                        <a><i *ngIf="!actionPlan.isCompleted"
+                                class="mdi mdi-checkbox-blank-outline text-dark icon-sm disable-link"></i></a>
+                        <a><i *ngIf="actionPlan.isCompleted"
+                                class="mdi mdi-checkbox-marked text-primary icon-sm disable-link"></i></a>
+                        &nbsp;&nbsp;
+                        <a *ngIf="actionPlan.isCompleted" (click)="viewProgressReport(updateReport, i)"><i
+                                title="View report" class="mdi mdi-eye icon-sm "></i></a>
+                    </th>
+
+                    <th class="text-center" *ngIf="true">
+
+                        <input type="checkbox" [checked]="actionPlan.isApproved" name="actionStatus"
+                            id="IsCompletedCheckBox" [(ngModel)]="actionPlanList[i].isApproved"
+                            (change)="approvePlan(actionPlanList[i].isApprove)" [readonly]="!actionPlan.isCompleted " />
+
+
+                    </th>
+
+                    <th>
+                        <input type="text" name="comment" placeholder="Type here"
+                            (input)="updateComment('comment', $event, i)" value="{{actionPlan.comment}}"
+                            class="form-control" />
+                    </th>
+
+                    <!-- <th class="text-center">
+                        <div *ngIf="true">
+
+                            <input type="checkbox" [checked]="actionPlan.isApproved" name="actionStatus"
+                                id="IsCompletedCheckBox" [(ngModel)]="actionPlanList[i].isApproved"
+                                [disabled]="!actionPlan.isCompleted" />
+                            <input type="checkbox" disabled *ngIf="actionPlan.isCompleted" checked />
+
+
+
+                        </div>
+
+                    </th> -->
+
+                    <th>
+
+                        <div *ngIf="actionPlanList.length > 0 && actionPlanList[i].isApproved" class="row">
+                            <div class="form-group">
+
+                                <select name="kpiScore" class="form-control"
+                                    (change)="updateComment('score', $event, i)"
+                                    (change)="onScoreChangeChanged($event,i)" value="{{kpi.score}}"
+                                    [(ngModel)]="actionPlanList[i].score">
+                                    <option value=0 hidden disabled selected>Please select
+                                    </option>
+                                    <option value="0.2">0% - 19%</option>
+                                    <option value="0.3">20% - 39%</option>
+                                    <option value="0.4">40% - 59%</option>
+                                    <option value="0.6">60% - 79%</option>
+                                    <option value="0.8">80% - 89%</option>
+                                    <option value="1">90% - 100%</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <!-- <span *ngIf="allActionPlanList[i].isApproved">
+                            {{getScore(actionPlan.score)}}
+                        </span> -->
+
+                    </th>
+
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="d-flex justify-content-center ">
+
+            <div *ngIf="noDocuments">
+                <div class="card-body">
+                    <p class="card-title text-danger text-center">No SIP listed
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="isTableLoading" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-12 grid-margin stretch-card" *ngIf="role==='Director' || role==='District'">
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="actionPlanList.length > 0" class="row">
+                        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="savedby">Quarter<span class="required-asterisk">*</span></label>
+                                <select name="kpiScore" class="form-control" (change)="onScoreChangeChanged($event,i)"
+                                    style="max-width:
+                                 fit-content;">
+                                    <option value="" hidden disabled selected>Please select one
+                                    </option>
+                                    <option value="1">Quarter 1</option>
+                                    <option value="2">Quarter 2</option>
+                                    <option value="3">Quarter 3</option>
+                                    <option value="4">Quarter 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="savedby">Score<span class="required-asterisk">*</span></label>
+                                <select name="kpiScore" class="form-control" (change)="onScoreChangeChanged($event,i)"
+                                    style="max-width:fit-content;" ([ngModel])="selectedScore">
+                                    <option value="" hidden disabled selected>Please select one
+                                    </option>
+                                    <option value="0.2">0 - 19</option>
+                                    <option value="0.2">20 - 39</option>
+                                    <option value="0.2">40 - 59</option>
+                                    <option value="0.2">60 - 79</option>
+                                    <option value="0.2">80 - 89</option>
+                                    <option value="0.2">90 - 100</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row float-left">
+                        <button *ngIf="actionPlanList.length > 0" class="btn btn-primary mt-2 " (click)="UpdateScore()"
+                            [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true" *ngIf="isLoading"></span>Submit</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-warning mt-2 " (click)="resetDropzoneUploads()"
+                            [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true" *ngIf="isLoading"></span>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="col-md-12 grid-margin stretch-card">
+
+            <div class="row float-left">
+                <button *ngIf="actionPlanList.length > 0" class="btn btn-primary mt-2 " (click)="UpdateScore()"
+                    [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true" *ngIf="isLoading"></span>Submit</button>
+                &nbsp;&nbsp;
+                <button class="btn btn-warning mt-2 " (click)="resetDropzoneUploads()" [disabled]="isLoading"><span
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="isLoading"></span>Cancel</button>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-12 grid-margin stretch-card" *ngIf="role==='Director' || role==='District'">
+            <div *ngIf="isComlpete" class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="savedby">Quarter<span class="required-asterisk">*</span></label>
+                                <select name="kpiScore" class="form-control" (change)="onScoreChangeChanged($event,i)"
+                                    style="max-width:
+                                 fit-content;">
+                                    <option value="" hidden disabled selected>Please select one
+                                    </option>
+                                    <option value="1">Quarter 1</option>
+                                    <option value="2">Quarter 2</option>
+                                    <option value="3">Quarter 3</option>
+                                    <option value="4">Quarter 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="savedby">Score<span class="required-asterisk">*</span></label>
+                                <select name="kpiScore" class="form-control" (change)="onScoreChangeChanged($event,i)"
+                                    style="max-width:fit-content;" ([ngModel])="selectedScore">
+                                    <option value="" hidden disabled selected>Please select one
+                                    </option>
+                                    <option value="0.2">0 - 19</option>
+                                    <option value="0.2">20 - 39</option>
+                                    <option value="0.2">40 - 59</option>
+                                    <option value="0.2">60 - 79</option>
+                                    <option value="0.2">80 - 89</option>
+                                    <option value="0.2">90 - 100</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row float-left">
+                        <button class="btn btn-primary mt-2 " (click)="UpdateScore()">Submit</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-warning mt-2 " (click)="resetDropzoneUploads()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+
+</ng-template>
+
+
+
+<ng-template #updateReport let-modal>
+
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">View Progress Report</h5>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <!-- Col -->
+                <div class="form-group">
+                    <label class="control-label">Progress report</label>
+                    <textarea rows="8" cols="30" class="form-control" placeholder="No progress report"
+                        readonly>{{progressReport}}</textarea>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="card-footer">
+        <!-- <button type="button" class="btn btn-primary submit" (click)="saveReport()"
+            (click)="modal.close('by: close icon');" [disabled]="isLoading"> <span
+                class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+            Save</button>
+        &nbsp;&nbsp; -->
+        <button type="button" class="btn btn-warning submit" (click)="modal.close('by: close icon');"
+            [disabled]="isLoading"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                *ngIf="isLoading"></span>
+            Cancel</button>
+    </div>
+
+</ng-template>

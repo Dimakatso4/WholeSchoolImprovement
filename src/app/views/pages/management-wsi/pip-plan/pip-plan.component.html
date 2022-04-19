@@ -1,0 +1,620 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Review District Improvement Plan</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">District Improvement Plan</h3>
+        <hr>
+    </div>
+</div>
+<div>
+    <br />
+</div>
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+
+        <div>
+        </div>
+        <h4> &nbsp;&nbsp;Review District Improvement Plan</h4>
+
+        <form name="captureSSEForm" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+
+            <ngb-accordion [closeOthers]="true" *ngFor="let kpi of kpiList; let i = index;trackBy: customQuantity">
+
+                <ngb-panel title="{{kpi.focusArea}}" style="width: 100%;"
+                    *ngIf="kpi.currentAreaOfEvaluation != kpi.previousAreaOfEvaluation">
+
+                    <ng-template ngbPanelContent>
+
+                        <ngb-accordion [closeOthers]="true">
+                            <ngb-panel *ngIf="kpi.currentComponent != kpi.previousComponent"
+                                title="{{kpi.componentName}}" style="width: 100%;">
+                                <ng-template ngbPanelContent>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="header-label" style="color:black; font-size:12px;">
+                                                    KPI
+                                                </th>
+
+                                                <th class="header-label" style="color:black; font-size:12px;">
+                                                    Action
+                                                </th>
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                            <tr *ngFor="let kpi of kpiList; let i = index;trackBy: customQuantity">
+
+                                                <td>
+                                                    <div style="white-space: pre-wrap">&nbsp;{{kpi.kpiName}}
+                                                    </div>
+
+                                                </td>
+                                                <td>
+
+                                                    <a (click)="openEditSchools(schoolList,i)"
+                                                        title="View School List"><i
+                                                            class="mdi mdi-eye text-primary"></i></a>
+                                                    &nbsp;&nbsp;
+
+                                                    <a (click)="interventios(Intervetions,i)"
+                                                        title="Review Intervention"><i
+                                                            class="mdi  mdi-book-multiple  text-primary"></i></a>
+
+                                                </td>
+
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
+
+                    </ng-template>
+                </ngb-panel>
+
+            </ngb-accordion>
+            <!--Spinner code-->
+            <div *ngIf="isPageLoading" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+
+        </form>
+
+    </div> <!-- col -->
+</div>
+
+<div class="card-footer">
+
+    <div class="row float-left">
+        <button [disabled]="isPageLoading" class="btn btn-primary mt-2 " (click)="SubmitIntervention()">Publish</button>
+        &nbsp;&nbsp;
+        <button [disabled]="isPageLoading" class="btn btn-warning mt-2 " (click)="DistrictPlan()">Submit Back To
+            District</button>
+    </div>
+</div>
+
+<ng-template #editAction let-modal>
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">Review-DIP Action Plan</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="subCriteria">Select sub-criteria
+                                <span class="required-asterisk">*</span></label>
+                            <input class="form-control" [(ngModel)]="subCriteria" readonly>
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="Intervention">Capture Intervention/ Activity to be
+                                performed
+                                <span class="required-asterisk">*</span></label>
+
+                            <input class="form-control" [(ngModel)]="Intervention" readonly>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="responsibility">Capture the Team/ individual
+                                responsible
+                                <span class="required-asterisk">*</span></label>
+
+
+                            <input class="form-control" [(ngModel)]="responsibility" readonly>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="impactedParty">Identify impacted party<span
+                                    class="required-asterisk">*</span></label>
+
+
+                            <input class="form-control" [(ngModel)]="impactedParty" readonly>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Start Date<span class="required-asterisk">*</span></label>
+                            <input type="date" class="form-control" [(ngModel)]="startDate"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>End Date<span class="required-asterisk">*</span></label>
+                            <input type="date" class="form-control" [(ngModel)]="endDate"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Status<span class="required-asterisk">*</span></label>
+                            <select type="text" class="form-control" [(ngModel)]="status"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.status.errors}">
+                                >
+                                <option value="" hidden disabled selected>Please select one</option>
+                                <option> </option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Comment<span class="required-asterisk">*</span></label>
+                            <input type="text" class="form-control" [(ngModel)]="comment"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.comment.errors}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row float-right">
+                    <button class="btn btn-primary mt-2 " (click)="ReviewPlan()">Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-warning mt-2 " (click)="modal.close('by: close icon');">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+
+<!--Modal View Sub-Activity list For All District-->
+<ng-template #schoolList let-modal>
+    <div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+        <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+            <h2 class="mb-2">School List</h2>
+            <hr>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="noDisputes" class="row justify-content-center">
+                    <div class="row">
+                        <h4 class="text-danger">There are no sse logged in your Province</h4>
+                    </div>
+                </div>
+
+
+                <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-secondary">
+                            <tr>
+                                <th class="text-white">Emis Code</th>
+                                <th class="text-white">School Name</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let school of listSchools; let i=index;">
+                                <td>{{school.emisNumber}}</td>
+                                <td>{{school.institutionName}}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-footer">
+
+                        <div class="row float-right">
+
+                            <button class="btn btn-warning mr-2 float-right "
+                                (click)="modal.close('by: close icon');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!--Modal View  list For AllIntervetions-->
+<ng-template #Intervetions let-modal>
+    <div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+        <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+            <h2 class="mb-2">Action Plan List</h2>
+            <hr>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+
+                <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-secondary">
+                            <tr>
+                                <th class="text-white">Action Name</th>
+                                <th class="text-white">Responsibility</th>
+                                <th class="text-white">Start Date</th>
+                                <th class="text-white">End Date</th>
+                                <th class="text-white">Status</th>
+                                <th class="text-white">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let list of ActionList; let i = index">
+                                <td>{{list.descriptionOfActivities}}</td>
+                                <td>{{list.responsibility}}</td>
+                                <td>{{list.startDate | date:'YYYY-MM-dd '}}</td>
+                                <td>{{list.finishDate | date:'YYYY-MM-dd '}}</td>
+                                <td>{{list.status}}</td>
+                                <td>
+
+                                    &nbsp;&nbsp;
+                                    <a (click)="openCreatePlanModal(ActionPlanCreateModal,i)"
+                                        title="Review Action Plan"><i class="mdi mdi-tooltip-plus text-primary"></i></a>
+                                        &nbsp;&nbsp;
+                                        <a *ngIf="list.status !='Published'" (click)="openEditModel4(editModel4,i)"
+                                            title="View Comments"><i class="mdi mdi-chat text-primary"></i></a>
+                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;
+                                        <span *ngIf="list.status =='Published'|| list.status =='Complete' ||list.status =='In-Progress' ||list.status =='Approve' || list.status =='Request Update' " class="badge badge-success"
+                                            (click)="progressCheck(progressModel,i)" title="Track Progress">Progress</span>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-footer">
+
+                        <div class="row float-right">
+
+
+                            <button class="btn btn-warning mr-2 float-right "
+                                (click)="modal.close('by: close icon');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+
+<ng-template #ActionPlanCreateModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">Review-DIP Action Plan</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dname">Focus Area<span class="required-asterisk">*</span></label>
+                            <input type="text" value="{{kp.focusArea}}" class="form-control" readonly>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dname">Area of Development<span class="required-asterisk">*</span></label>
+                            <input type="text" value="{{kpi.descriptionOfActivities}}" class="form-control" readonly>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="districtName">District Name<span class="required-asterisk">*</span></label>
+                            <input type="textarea" class="form-control" [(ngModel)]="districtName" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dnum">Description of Activities / Interventions Programmes<span
+                                    class="required-asterisk">*</span></label>
+                            <input type="textarea" class="form-control" [(ngModel)]="descriptionOfActivities">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="description">Target Group<span class="required-asterisk">*</span></label>
+                            <input type="text" [(ngModel)]="targetGroup" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="savedby">Responsibility<span class="required-asterisk">*</span></label>
+                            <input type="text" class="form-control" [(ngModel)]="responsibility">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Start Date<span class="required-asterisk">*</span></label>
+                            <input type="date" class="form-control" [(ngModel)]="startDate"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>End Date<span class="required-asterisk">*</span></label>
+                            <input type="date" class="form-control" [(ngModel)]="endDate"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" id="dapprovedby">
+                            <label id="dapprovedby">Resources<span class="required-asterisk">*</span></label>
+                            <input type="text" id="dapprovedby" class="form-control" [(ngModel)]="resources">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Select Status For This Activity<span class="required-asterisk">*</span></label>
+                            <select type="text" class="form-control" [(ngModel)]="status"
+                                [ngClass]="{'is-invalid': isFormSubmitted && Form.status.errors}">
+                                <option value="" hidden disabled selected>Please select one</option>
+                                <option *ngFor="let e of statuses" [value]=e.status> {{e.status}}</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="status=='Request update'" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                        id="dapprovdate">
+                        <div class="form-group" id="dapprovdate">
+                            <label id="dapprovdate">Comments<span class="required-asterisk">*</span></label>
+                            <input type="text" class="form-control" [(ngModel)]="comment">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row float-left">
+                    <button class="btn btn-primary mt-2 " (click)="CreateActionPlan()">Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-warning mt-2 " (click)="resetDropzoneUploads()">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+
+<!---comment modal-->
+<ng-template #editModel4 let-modal>
+
+    <div class="card-header bg-primary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Review Comment</h6>
+    </div>
+    <div class="card-body">
+       
+        
+                <div >
+                    <label for="dipbuComment"> Business Unit Comment:</label>
+                    <textarea class="form-control" [(ngModel)]="dipbuComment"  rows="8"
+                        placeholder="No Comment" readonly></textarea>
+                </div>
+                <br>
+           
+             
+                   
+                        <div >
+                            <label for="dipCircuitComent"> Circuit Manager Comment:  </label>
+                            <textarea class="form-control" [(ngModel)]="dipCircuitComent"  rows="8"
+                                placeholder="No Comment" readonly></textarea>
+                        </div>
+                        <br>
+                    <div> <label for="dipDirectComment">Director Comment: </label>
+                    <textarea class="form-control" [(ngModel)]="dipDirectComment"  rows="8"
+                        placeholder="No Comment" readonly></textarea>
+               
+                   </div>
+   
+
+            <div class="card-footer">
+
+                <div class="row float-right">
+
+                    <button class="btn btn-warning mr-2" (click)="modal.close('by: close icon');">Cancel</button>
+                </div>
+            </div>
+       
+    </div><!-- row end -->
+
+</ng-template>
+
+
+<!--Dimakatso-->
+<ng-template #progressModel let-modal>
+
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h6 class="modal-title text-white">Progress of the DIP intervention</h6>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                <label for="status">Action Plan Status
+                    <span class="required-asterisk">*</span>
+                </label>
+                <input type="text" [(ngModel)]="status" class="form-control" readonly>
+                <!-- <option value="" hidden disabled selected>Please select one</option> -->
+                <!---- <option *ngFor="let e of statuses"  [value]=e.status
+                         > {{e.status}}</option>--->
+                <!-- <option value="In-Progress">In-Progress</option>
+                      <option value="Complete">Complete</option> -->
+
+
+
+                <p *ngIf="isFormSubmitted && Form.status.errors?.required" class="text-danger"> Status Required</p>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="dipbuComment">Business Unit Comment <span class="required-asterisk">*</span></label>
+                    <textarea class="form-control" [(ngModel)]="dipbuComment" rows="8" placeholder="Type Comment"
+                        readonly></textarea>
+                </div>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="dipCircuitComent">Circuit Mananger Comment <span class="required-asterisk">*</span></label>
+                    <textarea class="form-control" [(ngModel)]="dipCircuitComent" rows="8" placeholder="Type Comment"
+                        readonly></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                <label for="comment">Attached Evidence </label><br>
+                <a href="{{path}}" target="_new" class="btn btn-primary mr-2">View File</a>
+                <a href="{{path}}" download="proposed_file_name" class="btn btn-danger mr-2">Download File</a>
+                <!-- <div class="dropzone dropzone-container" [dropzone]="config" (error)="onUploadError($event)"
+                    [message]="'Click or drag files here to upload'" (success)="onUploadSuccess($event,i)">
+
+                </div> -->
+
+            </div>
+        </div>
+        <div class="row">
+            <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                
+                    <label for="status">Select Status For This Action Plan
+                        <span class="required-asterisk">*</span>
+                    </label>
+                    <select (change)="selectStatus($event)" 
+                    [(ngModel)]="status" [ngClass]="{'is-invalid': isFormSubmitted && Form.status.errors}">
+                    <option value="" hidden disabled selected>Please select one</option>
+                  <!---- <option *ngFor="let e of statuses"  [value]=e.status
+                     > {{e.status}}</option>--->
+                  <option value="Approve">Approve</option>
+                  <option value="Request Update">Request Update</option>
+                    </select>
+                
+             
+                <p *ngIf="isFormSubmitted && Form.status.errors?.required"
+                class="text-danger"> Status Required</p>
+                
+            </div>
+       
+            <div  *ngIf="status =='Request Update' "id="dipDirectComment" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="dipDirectComment">Capture Comment <span class="required-asterisk">*</span></label>
+                    <textarea class="form-control" [(ngModel)]="dipDirectComment" rows="8" 
+                        placeholder="Type Comment"></textarea>
+                </div>
+
+            </div>
+         </div>
+        <div class="card-footer">
+
+            <div class="row float-right">
+                <button class="btn btn-primary mr-2" (click)="saveEvidence()">Save</button>
+                <button class="btn btn-warning mr-2" (click)="modal.close('by: close icon');">Cancel</button>
+            </div>
+        </div>
+
+    </div><!-- row end -->
+
+</ng-template>

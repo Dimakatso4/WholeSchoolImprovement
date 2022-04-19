@@ -1,0 +1,42 @@
+<div class="row w-60 mx-0 auth-page ml-auto mr-auto justify-content-center">
+    <div class="col-md-12 col-xl-8 mx-auto">
+        <div class="card">
+            <div class="row justify-content-center">
+                <div class="col-md-12 pl-md-0">
+                    <div class="auth-form-wrapper justify-content-center px-4 py-5">
+                        <img src="../assets/images/DepartmentEducationLogo.png ">
+                        <h5 *ngIf="!isDecline" class="text-muted text-center font-weight-normal mb-4 login-text">You
+                            have been nominated
+                            for the {{schoolName | titlecase}} elections taking place on {{electionDate | date:
+                            'dd/MM/YYYY'}}.
+                        </h5>
+                        <br />
+                        <h5 *ngIf="!isDecline" class="text-muted text-center font-weight-normal mb-4 login-text">Please
+                            follow the prompts
+                            to either accept or decline your nomination
+                        </h5>
+                        <h5 *ngIf="isDecline" class="text-muted text-center font-weight-normal mb-4 login-text">Please
+                            provide with reason for declining the nomination below
+                        </h5>
+                        <textarea *ngIf="isDecline" [(ngModel)]="reason" class="form-control" rows="5" name="reason"
+                            [ngClass]="{'is-invalid': isFormSubmitted && reason == '' }"
+                            placeholder="Type here"></textarea>
+                        <p *ngIf="isFormSubmitted && reason == '' " class="invalid-feedback">
+                            Reason for declining is required</p>
+                        <br>
+                        <div *ngIf="isDecline" class="row justify-content-center">
+                            <button class="btn btn-primary mt-2 " (click)="Submit()">Submit</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-danger mt-2 " (click)="Cancel()">Cancel</button>
+                        </div>
+                        <div *ngIf="!isDecline" class="row justify-content-center">
+                            <button class="btn btn-primary mt-2 " (click)="Accept()">Accept</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-danger mt-2 " (click)="Decline()">Decline</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

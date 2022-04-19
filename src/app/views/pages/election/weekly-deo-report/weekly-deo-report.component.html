@@ -1,0 +1,400 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Elections</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Weekly District Officer Report</li>
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-3">Weekly District Officer Report:</h3>
+        <h5 style="color: #ac965e;">{{userDistrictName}}</h5>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-center align-items-baseline mb-2">
+            <h4 class="card-title text-center">Summary 1</h4>
+        </div>
+    </div>
+    <div class="col-md-12 grid-margin stretch-card">
+        <!-- <div class="card"> -->
+            <!-- <div class="card-body"> -->
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr class="bg-secondary">
+                                <th class="text-white" style="max-width: 150px;">Total No. of<br>schools</th>
+                                <th class="text-white">Appointment of DEO</th>
+                                <th colspan="2" class="text-white">Appointment of DETs</th>
+                                <th colspan="2" class="text-white">Appointment of SETs</th>
+                                <th class="text-white">Pairing of <br>Schools</th>
+                                <th colspan="2" class="text-white">Election Schedule (Dates)</th>
+                                <th class="col-auto"></th>
+
+                            </tr>
+                            <tr style="background-color: #597ba1;">
+                                <th class="text-white"></th>
+                                <th class="text-white"></th>
+                                <th class="text-white">No</th>
+                                <th class="text-white">Letters</th>
+                                <th class="text-white">No</th>
+                                <th class="text-white">Letters</th>
+                                <th class="text-white"></th>
+                                <th class="text-white">Submitted</th>
+                                <th class="text-white">Outstanding</th>
+                                <th class="text-white"></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let dash of deodashboard; let i = index">
+                                <td>{{dash.noOfSchools}}</td>
+                                <td>{{dash.appointmentOfDEOPercentage}}</td>
+                                <td>{{dash.appointmentOfDEONumber}}</td>
+                                <td>{{dash.appointmentOfDEOLetters}}</td>
+                                <td>{{dash.appointmentOfSETNumber}}</td>
+                                <td>{{dash.appointmentOfSETLetters}}</td>
+                                <td>{{dash.pairingOfSchools}}</td>
+                                <td>{{dash.electionScheduleSubmitted}}</td>
+                                <td>{{dash.electionScheduleOustanding}}</td>
+                                <td>
+                                    <button class="btn btn-primary" (click)="openXlModal(xlModal)" (click)="view(i)">View</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div><!-- col end -->
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-center align-items-baseline">
+            <h4 class="card-title text-center">Summary 2</h4>
+        </div>
+    </div>
+    <div class="col-md-12 grid-margin stretch-card">
+        <!-- <div class="card"> -->
+            <!-- <div class="card-body"> -->
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="bg-secondary">
+                                <th class="text-white">School per <br>District</th>
+                                <th class=" text-white">Handover Narrative<br> Report submission</th>
+                                <th colspan="2" class="text-white">Training of DETs</th>
+                                <th colspan="2" class="text-white">Training of SETs</th>
+                                <th class="text-white">Phase 2 Handover<br>Completed</th>
+                                <th class="text-white"></th>
+                            </tr>
+                            <tr style="background-color: #597ba1;">
+                                <th class="text-white"></th>
+                                <th class="text-white"></th>
+                                <th class="text-white">Date</th>
+                                <th class="text-white">Total Attendance</th>
+                                <th class="text-white">Date</th>
+                                <th class="text-white">Total Attendance</th>
+                                <th class="text-white"></th>
+                                <th class="text-white"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let dash of deodashboard; let i = index">
+                                <td>{{dash.noOfSchools}}</td>
+                                <td>{{dash.handoverNarrativeReportSubmission}}</td>
+                                <td>{{dash.trainingDETDate | date:'YYYY-MM-dd'}}</td>
+                                <td>{{dash.trainingDETTotalAttedance}}</td>
+                                <td>{{dash.trainingSETDate | date:'YYYY-MM-dd'}}</td>
+                                <td>{{dash.trainingDETTotalAttedance}}</td>
+                                <td>{{dash.phase2HandoverCompleted}}</td>
+                                <td>
+                                    <button class="btn btn-primary" (click)="openXlModal(xlModal)" (click)="view(i)">View</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+</div>
+<ng-template #xlModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="page-title">DISTRICT ELECTORAL OFFICERS WEEKLY REPORTING </h6>
+                            <hr style="margin-bottom: 50px;">
+                            <form (submit)="saveReport()" [formGroup]="validationForm">
+                                <div class="row" style="margin-top: 1.3rem">
+                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="district">District</label>
+                                        <select [(ngModel)]="districtCode" formControlName="districtCode" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.districtCode.errors}"
+                                        required> 
+                                        <option value="" hidden disabled selected>Select District</option>
+                                            <option *ngFor="let dist of allDistricts" value = {{dist.code}}>
+                                                {{dist.districtName}}
+                                            </option>
+                                        </select>
+                                        <p *ngIf="isCreateFormSubmitted && createForm.districtCode.errors?.required"
+                                                        class="invalid-feedback">District required</p>
+                                    </div>
+                                </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="float-right" for="school">Total Number of Schools</label>
+                                            <div class="input-group date time-picker" id="handoverDateTime">
+                                                <input type="text" [(ngModel)]="totalSchools" class="form-control"
+                                                    formControlName="totalSchools"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.totalSchools.errors}"
+                                                    required>
+                                                <p *ngIf="isCreateFormSubmitted && createForm.totalSchools.errors?.required"
+                                                    class="invalid-feedback">Total Number of Schools required</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="appointment">Appointment of District electoral officer</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="appointmentOfOfficer" class="form-control"
+                                                formControlName="appointmentOfOfficer"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.appointmentOfOfficer.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.appointmentOfOfficer.errors?.required"
+                                                class="invalid-feedback">Appointment of District electoral officer
+                                                required</p>
+                                            <p *ngIf="isCreateFormSubmitted && createForm.appointmentOfOfficer.errors?.min"
+                                                class="invalid-feedback">Percenatge Can not be less than 0</p>
+                                            <p *ngIf="isCreateFormSubmitted && createForm.appointmentOfOfficer.errors?.max"
+                                                class="invalid-feedback">Percenatge Can not exceed 100%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center" style="margin-top: 1.3rem">
+                                    <h6 class="content-align-center">
+                                        Appointment of District Electoral Team (DET)
+                                    </h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">No.</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="DETNo" class="form-control"
+                                                formControlName="DETNo"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.DETNo.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.DETNo.errors?.required"
+                                                class="invalid-feedback">Appointment of District Electoral Team (DET) No
+                                                required</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label class="float-right" for="nameOf">Letters</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="DETLetters" formControlName="DETLetters"
+                                                class="form-control datetimepicker-input"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.DETLetters.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.DETLetters.errors?.required"
+                                                class="invalid-feedback">Appointment of District Electoral Team (DET)
+                                                Letters required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center" style="margin-top: 1.3rem">
+                                    <h6 class="content-align-center">
+                                        Appointment of School Electoral Team (SET)
+                                    </h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">No.</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="SETNo"
+                                                class="form-control datetimepicker-input" formControlName="SETNo"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.SETNo.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.SETNo.errors?.required"
+                                                class="invalid-feedback">Appointment of School Electoral Team (DET) No
+                                                required</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label class="float-right" for="nameOf">Letters</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="SETLetters" class="form-control"
+                                                formControlName="SETLetters"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.SETLetters.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.SETLetters.errors?.required"
+                                                class="invalid-feedback">Appointment of School Electoral Team (SET)
+                                                Letters required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">Pairing of Schools</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="schoolPairing"
+                                                class="form-control datetimepicker-input"
+                                                formControlName="schoolPairing"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.schoolPairing.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.schoolPairing.errors?.required"
+                                                class="invalid-feedback">Pairing of Schools required</p>
+                                            <p *ngIf="isCreateFormSubmitted && createForm.schoolPairing.errors?.min"
+                                                class="invalid-feedback">Percenatge Can not be less than 0</p>
+                                            <p *ngIf="isCreateFormSubmitted && createForm.schoolPairing.errors?.max"
+                                                class="invalid-feedback">Percenatge Can not exceed 100%</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">Handover Narrative Report Submission</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="handOverNarrative"
+                                                class="form-control datetimepicker-input"
+                                                formControlName="handOverNarrative"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.handOverNarrative.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.handOverNarrative.errors?.required"
+                                                class="invalid-feedback">Handover Narrative Report Submission required
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center" style="margin-top: 1.3rem">
+                                    <h6 class="content-align-center">
+                                        Election Schedule (Dates for election)
+                                    </h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">Submitted</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="submitted"
+                                                class="form-control datetimepicker-input" formControlName="submitted"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.submitted.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.submitted.errors?.required"
+                                                class="invalid-feedback">Election Schedule (Dates for election)
+                                                Submitted required</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label class="float-right" for="nameOf">Outstanding</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="outstanding"
+                                                class="form-control datetimepicker-input" formControlName="outstanding"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.outstanding.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.outstanding.errors?.required"
+                                                class="invalid-feedback">Election Schedule (Dates for election)
+                                                Outstanding required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center" style="margin-top: 1.3rem">
+                                    <h6 class="content-align-center">
+                                        Training of DETs
+                                    </h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">Date</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="date" [(ngModel)]="DETDate"
+                                                class="form-control datetimepicker-input" formControlName="DETDate"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.DETDate.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.DETDate.errors?.required"
+                                                class="invalid-feedback">Training of DETs Date required</p>
+                                            <p *ngIf="isCreateFormSubmitted && createForm.DETDate.errors?.pattern"
+                                                class="invalid-feedback">Date format is not accurate please use date
+                                                picker for a more accurate date presentation</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label class="float-right" for="nameOf">Total Attendance</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="DTEAttendance"
+                                                class="form-control datetimepicker-input"
+                                                formControlName="DTEAttendance"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.DTEAttendance.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.DTEAttendance.errors?.required"
+                                                class="invalid-feedback">Training of DETs Total Attendance required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center" style="margin-top: 1.3rem">
+                                    <h6 class="content-align-center">
+                                        Training of SETs
+                                    </h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">Date</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="date" [(ngModel)]="SETDate"
+                                                class="form-control datetimepicker-input" formControlName="SETDate"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.SETDate.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.SETDate.errors?.required"
+                                                class="invalid-feedback">Training of SETs Date required</p>
+                                            <p *ngIf="isCreateFormSubmitted && createForm.SETDate.errors?.pattern"
+                                                class="invalid-feedback">Date format is not accurate please use date
+                                                picker for a more accurate date presentation</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label class="float-right" for="nameOf">Total Attendance</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="STEAttendance"
+                                                class="form-control datetimepicker-input"
+                                                formControlName="STEAttendance"
+                                                onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.STEAttendance.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.STEAttendance.errors?.required"
+                                                class="invalid-feedback">Training of SETs Total Attendance required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="nameOf">Phase 2 handover completed</label>
+                                        <div class="input-group date time-picker" id="handoverDateTime">
+                                            <input type="text" [(ngModel)]="phase2"
+                                                class="form-control datetimepicker-input" formControlName="phase2"
+                                                [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.phase2.errors}">
+                                            <p *ngIf="isCreateFormSubmitted && createForm.phase2.errors?.required"
+                                                class="invalid-feedback">Phase 2 handover completed required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="margin-top: 1.3rem;">
+                                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                    <!-- <button class="btn btn-light" (click)="modal.close('by: close icon')" aria-label="Close">Cancel</button>-->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>

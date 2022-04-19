@@ -1,0 +1,146 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Disputes</a></li>
+        <li class="breadcrumb-item"><a routerLink="/disputes/list">List</a></li>
+        <li class="breadcrumb-item active" aria-current="page">View</li>
+    </ol>
+</nav>
+<h1 class="page-title">Disputes</h1>
+<hr style="margin-bottom: 50px;">
+<div class="row">
+    <div class="col-md-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-header">
+                Lodge Election Dispute
+            </div>
+            <div class="card-body">
+                <form class="forms-sample">
+                    <div class="row" style="margin-bottom: 1rem;">
+                        <div class="col-md-12">
+                            <h6>Personal Information</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentname">Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="parentname" name="parentname"
+                                    id="parentname" autocomplete="off" readonly placeholder="Type here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentsurname">Surname</label>
+                                <input type="text" class="form-control" [(ngModel)]="parentsurname" name="parentsurname"
+                                    id="parentsurname" autocomplete="off" readonly placeholder="Type here">
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentcellnumber">Contact Number</label>
+                                <input type="text" class="form-control" [(ngModel)]="parentcellnumber"
+                                    name="parentcellnumber" id="parentcellnumber" autocomplete="off" readonly
+                                    placeholder="Type here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentemail">Email Address</label>
+                                <input type="text" class="form-control" [(ngModel)]="parentemail" name="parentemail"
+                                    id="parentemail" autocomplete="off" readonly placeholder="Type here">
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                    <div class="row" style="margin-bottom: 1rem; margin-top: 1rem;">
+                        <div class="col-md-12">
+                            <h6>School Information</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="schoolname">School Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="schoolname" name="schoolname"
+                                    id="schoolname" autocomplete="off" readonly placeholder="Type here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="district">District</label>
+                                <input type="text" class="form-control" [(ngModel)]="district" name="district"
+                                    id="district" autocomplete="off" readonly placeholder="Type here">
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="disputeOfficialName">Name of Official</label>
+                                <input type="text" class="form-control" [(ngModel)]="officialname" name="officialname"
+                                    id="disputeOfficialName" autocomplete="off" readonly placeholder="Type here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="officialtitle">Title of Official</label>
+                                <input type="text" class="form-control" [(ngModel)]="officialtitle" name="officialtitle"
+                                    id="officialtitle" autocomplete="off" readonly placeholder="Type here">
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                    <div class="row" style="margin-top: 1.6rem;">
+                        <div class="col-md-12">
+                            <h6 style="margin-bottom: 0.5rem;">Dispute Timeline</h6>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 2rem;">
+                        <div class="col-md-12">
+                            <ul class="timeline" style="margin-bottom: 2rem;">
+                                <li class="event start-point"><small class="text-primary">{{datelogged | date: 'YYYY-MM-dd
+                                        hh:mm'}}</small>
+                                    <h6 style="margin-bottom: 0.8rem;" class="text-dark">{{parentname | titlecase}}
+                                        {{parentsurname | titlecase}}</h6>
+                                    <p>{{details}}</p>
+                                </li>
+                                <li class="event" *ngFor="let feedback of feedbacks">
+                                    <small class="text-primary">{{feedback.createdDate | date: 'YYYY-MM-dd
+                                        hh:mm'}}</small>
+                                    <h6 style="margin-bottom: 0.8rem;">{{feedback.firstname | titlecase}}
+                                        {{feedback.surname | titlecase}}</h6>
+                                    <p>{{feedback.feedback}}</p>
+                                </li>
+                                <li *ngIf="status == 'closed' && closedDate" class="event end-point"><small class="text-primary">{{closedDate | date: 'YYYY-MM-dd
+                                        hh:mm'}}</small>
+                                    <h5 style="margin-bottom: 0.8rem;" class="text-danger"><b>Closed</b></h5>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div *ngIf="userRole == assignedto && assignedto != 'Parent'" class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="disputeDetails">Feedback</label>
+                                <textarea class="form-control" id="feedback" rows="8" [(ngModel)]="feedback"
+                                [ngClass]="{'is-invalid': isDisputeFormSubmitted && !feedback}"
+                                    name="feedback" placeholder="Type here" required></textarea>
+                                    <p *ngIf="isDisputeFormSubmitted && !feedback"
+                                        class="invalid-feedback">Your feedback is required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" *ngIf="userRole == assignedto && assignedto != 'Parent'" (click)="Resolve()"
+                        class="btn btn-success mr-2">Resolve</button>
+                    <button type="submit" *ngIf="assignedto == 'Parent' && createdBy == loggedInUserId"
+                        class="btn btn-success mr-2" (click)="close()">Close</button>
+                    <button class="btn btn-danger"
+                        *ngIf="assignedto == 'Parent' && userRole == 'PARENT'  && createdBy == loggedInUserId "
+                        (click)="Appeal()">Appeal</button>
+                    <button class="btn btn-danger" *ngIf="userRole == assignedto && canEscalate" (click)="Escalate()">Escalate</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

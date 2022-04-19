@@ -1,0 +1,823 @@
+
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Management Plan</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">Management Plan</h2>
+        <hr>
+    </div>
+</div>
+<!--style-->
+
+
+<!-- Button trigger modal -->
+
+<div class="row" >
+    <div class="col-md-12">
+        <button class="btn btn-primary float-right" [routerLink]="['/add-management']">Add New Management Plan</button>
+    </div>
+</div>
+
+<br>
+
+<div class="row" >
+  <div class="col-md-12">
+      <button class="btn btn-primary float-right" [routerLink]="['/terms']">Add New Annual Terms</button>
+  </div>
+</div>
+
+<br>
+
+
+
+
+ 
+
+
+  <!--modal create-->
+   <!--modal create-->
+   <div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="bg-secondary">
+                    <tr>
+                        <th class="text-white">Document Name</th>
+                        <th class="text-white">Date Published</th>
+                        <th class="text-white">Published By</th>
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2021 Management Plan</td>
+                        <td>03/02/2021</td>
+                        <td>Head Office Managing Director</td>
+                       <td>&nbsp;&nbsp;
+                        <a (click)="openEditModel1(editModel1)"><i class="mdi mdi-eye text-dark"></i></a>
+                        &nbsp;&nbsp;
+                        <a (click)="openEditModel3(editModel3)"><i class="mdi mdi-download text-dark"></i></a>
+
+                    </td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+
+  <!--buttons-->
+  
+  <!--new table-->
+  <ng-template #editModel1 let-modal>
+    <div class="card-header bg-secondary">
+      <h6 class="card-title text-white" style="margin-bottom: 0;">Create Management Plan</h6>
+  </div>
+  
+    <div class="row" >
+      <div class="col-md-12">
+          <button class="btn btn-primary float-left" [routerLink]="['/review']">Add New Management</button>
+      </div>
+  </div>
+  
+  <br>
+<div class="row mt-4">
+  <div class="col-md-12">
+      <div class="table-responsive">
+          <table  datatable  class="table table-hover">
+    <thead class="bg-secondary">
+        <tr>
+            <th class="text-white">Plan Id</th>
+            <th class="text-white">Activity Name</th>
+            <th class="text-white">Responsibility</th>
+            <th class="text-white">Start Date</th>
+            <th class="text-white">End Date</th>
+            <th class="text-white">Status</th>
+            <th class="text-white">Action</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+                <td>1</td>
+                <td>Revised SIP submission</td>
+                <td>Principal</td>
+                <td>20/02/2021</td>
+                <td>25/02/2021</td>
+                <td>
+                  <span 
+                  class="badge badge-danger" >Request Update</span>
+                </td>
+                <td>  
+                  
+                 
+                    &nbsp;&nbsp;
+                    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+                  
+                </td>
+        </tr>
+        <!--new row-->
+        <tr>
+          <td>2</td>
+          <td>Conduct SWOT Analysis</td>
+          <td>Principal + School SIT</td>
+          <td>15/09/2021</td>
+          <td>25/09/2021</td>
+          <td>
+            <span 
+            class="badge badge-danger" >Request Update</span>
+          </td>
+          <td>
+            &nbsp;&nbsp;
+            <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+      </td>
+  </tr>
+  <!--new rown-->
+  <tr>
+    <td>3</td>
+    <td>Generate APIP Summative Report</td>
+    <td>HO</td>
+    <td>28/02/2021</td>
+    <td>28/02/2021</td>
+    <td>
+      <span 
+      class="badge badge-success" > Plan  Approved</span>
+    </td>
+    <td>
+      &nbsp;&nbsp;
+      <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!---new rown-->
+<tr>
+  <td>4</td>
+  <td>Declaration of Underperfoming Schools</td>
+  <td>HO</td>
+  <td>15/01/2021</td>
+  <td>25/02/2021</td>
+  <td>
+    <span 
+    class="badge badge-danger" >Request Update</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>5</td>
+  <td>Evaluation of APIP to District</td>
+  <td>District Circuit Management</td>
+  <td>13/02/2021</td>
+  <td>25/02/2021</td>
+  <td>
+    <span 
+    class="badge badge-success" >Approved Plan</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>6</td>
+  <td>Development of APIP Provincial Report</td>
+  <td>POS:SIP Sub-Director</td>
+  <td>14/03/2021</td>
+  <td>14/03/2021</td>
+  <td>
+    <span 
+    class="badge badge-success" >Approved Plan</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>7</td>
+  <td>IWSE/SSE Process</td>
+  <td>Principal + school SIT co-ordinator </td>
+  <td>08/09/2021</td>
+  <td>10/09/2021</td>
+  <td>
+    <span 
+    class="badge badge-danger" >Request Update</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!-- new row-->
+<tr>
+  <td>8</td>
+  <td>Complete SSE</td>
+  <td>Principal</td>
+  <td>17/02/2021</td>
+  <td>25/02/2021</td>
+  <td>
+    <span 
+    class="badge badge-danger" >Request Update</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>9</td>
+  <td>SDP submission to District</td>
+  <td>Principal</td>
+  <td>03/07/2021</td>
+  <td>03/07/2021</td>
+  <td>
+    <span 
+    class="badge badge-success" >Approved Plan</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>10</td>
+  <td>APIP Progress</td>
+  <td>POS:SIP Sub-Directorate</td>
+  <td>11/06/2021</td>
+  <td>19/07/2021</td>
+  <td>
+    <span 
+    class="badge badge-success" >Approved Plan</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>11</td>
+  <td>Develop SIP</td>
+  <td>Principal + co-ordinator</td>
+  <td>10/10/2021</td>
+  <td>25/10/2021</td>
+  <td>
+    <span 
+    class="badge badge-warning" >Pending Plan</span>
+  </td>
+
+  
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel3)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>12</td>
+  <td>Feedback on SIP to schools</td>
+  <td>District Circuit Management Teams + DMT units</td>
+  <td>03/11/2021</td>
+  <td>04/11/2021</td>
+  <td>
+    <span 
+    class="badge badge-warning" >Pending Plan</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!--new row-->
+<tr>
+  <td>13</td>
+  <td>SIP submission to Districts</td>
+  <td>Principal + co-ordinator</td>
+  <td>04/11/2021</td>
+  <td>14/11/2021</td>
+  <td>
+    <span 
+    class="badge badge-warning" >Pending plan</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+<!-- new row-->
+<tr>
+  <td>14</td>
+  <td>Complete SSE</td>
+  <td>Principal</td>
+  <td>15/01/2021</td>
+  <td>25/02/2021</td>
+  <td>
+    <span 
+    class="badge badge-warning" >Pending Plan</span>
+  </td>
+  <td>
+    &nbsp;&nbsp;
+    <a (click)="openEditModel2(editModel2)"><i class="mdi mdi-pencil text-dark"></i></a>
+</td>
+</tr>
+    </tbody>
+    </table>
+   
+      </div>
+  </div>
+</div>
+<!--table-->
+<button type="submit" (click)="logDispute()" class="btn btn-primary mr-2">Submit Management Plan</button>
+
+<button type="submit"  (click)="logDispute()" class="btn btn-primary mr-2">Publish Management Plan</button>
+  </ng-template>
+  <!--modal create-->
+  
+   <ng-template #editModel let-modal>
+    <div class="card-header bg-secondary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Create Activity</h6>
+    </div>
+    
+<div class="card-body">
+    <form [formGroup]="requiredForm" novalidate>
+        <div class="row" style="margin-top: 1.3rem">
+            <div class="col-md-12">
+                <h6 class="card-title" style="font-weight: 700">Activity Plan
+                </h6>
+            </div>
+       </div>  
+       <!--inputs-->
+       <div class="row">  
+       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="year">Year
+                <input type="date" class="form-control" formControlName="year"   >
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['year'].invalid && requiredForm.controls['year'].touched" >
+                <div *ngIf="requiredForm.controls['year'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+      <!---drop down-->
+    
+      <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="activity">Activity Name</label>
+            <select (change)="selectInput($event)" 
+            class="form-control"  formControlName="activityName">
+                <option value="" hidden disabled selected>Please select one</option>
+                <option value="SSE"> Complete SSE</option>
+                <option value="DIP">Schedule SIP</option>
+                <option value="DIP">Follow Up DIP</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+    <!--if statement-->
+    <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="activity">Activity Name</label>
+          <input type="text" class="form-control"  formControlName="activityName" required> 
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+
+
+      <!--responsible person-->
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="  responsiblePerson">Responsible Person:</label>
+            <div class="input-group " >
+                <input type="text" class="form-control" formControlName="responsiblePerson" required>
+            </div>
+        </div>
+        <div *ngIf="requiredForm.controls['responsiblePerson'].invalid && requiredForm.controls['responsiblePerson'].touched" >
+            <div *ngIf="requiredForm.controls['responsiblePerson'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+</div><!--row end-->
+    <!--date-->
+    <div class="row">  
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" startDate">Start Date
+                <input type="date" class="form-control" formControlName="startDate">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['startDate'].invalid && requiredForm.controls['startDate'].touched" >
+                <div *ngIf="requiredForm.controls['startDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+    <!---->
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" endDate">End Date
+                <input type="date" class="form-control" formControlName="endDate">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['endDate'].invalid && requiredForm.controls['endDate'].touched" >
+                <div *ngIf="requiredForm.controls['endDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+</div><!--row end-->
+    <!--end date-->
+    
+    
+       <!--button-->
+       <button type="submit"  (click)="logDispute()" class="btn btn-primary mr-2">Submit</button>
+       <button class="btn btn-light" (click)="modal.close('by: close icon');">Cancel</button>
+    </form>
+</div><!-- row end -->
+ </ng-template>
+
+
+   <!-- new-modal view-->
+   <ng-template #editModel4 let-modal>
+    <div class="card-header bg-secondary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">View  Activity Plan</h6>
+    </div>
+    
+<div class="card-body">
+    <form [formGroup]="requiredForm" novalidate>
+        <div class="row" style="margin-top: 1.3rem">
+            <div class="col-md-12">
+                <h6 class="card-title" style="font-weight: 700">Activity Plan
+                </h6>
+            </div>
+       </div>  
+       <!--inputs-->
+       <div class="row">  
+       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="year">Year:
+                <input type="date" class="form-control" formControlName="year"   >
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['year'].invalid && requiredForm.controls['year'].touched" >
+                <div *ngIf="requiredForm.controls['year'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+      <!---drop down-->
+    
+      <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="activity">Activity Name:</label>
+            <select (change)="selectInput($event)" 
+            class="form-control"  formControlName="activityName"   >
+                <option value="" hidden disabled selected>Please select one</option>
+                <option value="SSE">SSE</option>
+                <option value="DIP">SIP</option>
+                <option value="DIP">DIP</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+    <!--if statement-->
+    <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="activity">Activity Name:</label>
+          <input type="text" class="form-control"  formControlName="activityName"   > 
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+
+
+      <!--responsible person-->
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="  responsiblePerson">Responsible Person:</label>
+            <div class="input-group " >
+                <input type="text" class="form-control" formControlName="responsiblePerson"   >
+            </div>
+        </div>
+        <div *ngIf="requiredForm.controls['responsiblePerson'].invalid && requiredForm.controls['responsiblePerson'].touched" >
+            <div *ngIf="requiredForm.controls['responsiblePerson'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+</div><!--row end-->
+    <!--date-->
+    <div class="row">  
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" startDate">Start Date:
+                <input type="date" class="form-control" formControlName="startDate"   >
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['startDate'].invalid && requiredForm.controls['startDate'].touched" >
+                <div *ngIf="requiredForm.controls['startDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+    <!---->
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" endDate">End Date:
+<<<<<<< HEAD
+                <input type="date" class="form-control" formControlName="endDate"  >
+=======
+                <input type="date" class="form-control" formControlName="endDate"   >
+>>>>>>> main
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['endDate'].invalid && requiredForm.controls['endDate'].touched">
+                <div *ngIf="requiredForm.controls['endDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+</div><!--row end-->
+    <!--end date-->
+    
+    
+       <!--button-->
+      
+       <button class="btn btn-light" (click)="modal.close('by: close icon');">Cancel</button>
+    </form>
+</div><!-- row end -->
+ </ng-template>
+ <!--new modal update-->
+ <ng-template #editModel2 let-modal>
+    <div class="card-header bg-secondary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Update  Activity Plan</h6>
+    </div>
+    
+<div class="card-body">
+    <form [formGroup]="requiredForm" novalidate>
+        <div class="row" style="margin-top: 1.3rem">
+            <div class="col-md-12">
+                <h6 class="card-title" style="font-weight: 700">Activity Plan
+                </h6>
+            </div>
+       </div>  
+       <!--inputs-->
+       <div class="row">  
+       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="year">Year
+                <input type="date" class="form-control" formControlName="year">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['year'].invalid && requiredForm.controls['year'].touched" >
+                <div *ngIf="requiredForm.controls['year'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+      <!---drop down-->
+    
+      <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="activity">Activity Name</label>
+            <select (change)="selectInput($event)" 
+            class="form-control"  formControlName="activityName">
+                <option value="" hidden  selected>Please select one</option>
+                <option value="SSE">SSE</option>
+                <option value="DIP">SIP</option>
+                <option value="DIP">DIP</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+    <!--if statement-->
+    <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="activity">Activity Name</label>
+          <input type="text" class="form-control"  formControlName="activityName" required> 
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+
+
+      <!--responsible person-->
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="  responsiblePerson">Responsible Person:</label>
+            <div class="input-group " >
+                <input type="text" class="form-control" formControlName="responsiblePerson" required>
+            </div>
+        </div>
+        <div *ngIf="requiredForm.controls['responsiblePerson'].invalid && requiredForm.controls['responsiblePerson'].touched" >
+            <div *ngIf="requiredForm.controls['responsiblePerson'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+</div><!--row end-->
+    <!--date-->
+    <div class="row">  
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" startDate">Start Date
+                <input type="date" class="form-control" formControlName="startDate">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['startDate'].invalid && requiredForm.controls['startDate'].touched" >
+                <div *ngIf="requiredForm.controls['startDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+    <!---->
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" endDate">End Date
+                <input type="date" class="form-control" formControlName="endDate">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['endDate'].invalid && requiredForm.controls['endDate'].touched" >
+                <div *ngIf="requiredForm.controls['endDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+</div><!--row end-->
+    <!--end date-->
+    
+    
+       <!--button-->
+       <button type="submit"  (click)="logDispute()" class="btn btn-primary mr-2">Update</button>
+       <button class="btn btn-light" (click)="modal.close('by: close icon');">Cancel</button>
+    </form>
+</div><!-- row end -->
+ </ng-template>
+  <!-- new-modal Review-->
+  <ng-template #editModel3 let-modal>
+    <div class="card-header bg-secondary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Review Activity Plan</h6>
+    </div>
+    
+<div class="card-body">
+    <form [formGroup]="requiredForm" novalidate>
+        <div class="row" style="margin-top: 1.3rem">
+            <div class="col-md-12">
+                <h6 class="card-title" style="font-weight: 700">Activity Plan
+                </h6>
+            </div>
+       </div>  
+       <!--inputs-->
+       <div class="row">  
+       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="year">Year
+                <input type="date" class="form-control" formControlName="year">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['year'].invalid && requiredForm.controls['year'].touched" >
+                <div *ngIf="requiredForm.controls['year'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+      <!---drop down-->
+    
+      <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="activity">Activity Name</label>
+            <select (change)="selectInput($event)" 
+            class="form-control"  formControlName="activityName">
+                <option value="" hidden  selected>Please select one</option>
+                <option value="SSE">SSE</option>
+                <option value="DIP">SIP</option>
+                <option value="DIP">DIP</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+    <!--if statement-->
+    <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="activity">Activity Name</label>
+          <input type="text" class="form-control"  formControlName="activityName" required> 
+        </div>
+        <div *ngIf="requiredForm.controls['activityName'].invalid && requiredForm.controls['activityName'].touched" >
+            <div *ngIf="requiredForm.controls['activityName'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+
+
+      <!--responsible person-->
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="  responsiblePerson">Responsible Person</label>
+            <div class="input-group " >
+                <input type="text" class="form-control" formControlName="responsiblePerson" required>
+            </div>
+        </div>
+        <div *ngIf="requiredForm.controls['responsiblePerson'].invalid && requiredForm.controls['responsiblePerson'].touched" >
+            <div *ngIf="requiredForm.controls['responsiblePerson'].errors.required">
+            field is required.
+          </div>
+        </div>
+    </div>
+</div><!--row end-->
+    <!--date-->
+    <div class="row">  
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" startDate">start Date
+                <input type="date" class="form-control" formControlName="startDate">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['startDate'].invalid && requiredForm.controls['startDate'].touched" >
+                <div *ngIf="requiredForm.controls['startDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+    <!---->
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for=" endDate">End Date
+                <input type="date" class="form-control" formControlName="endDate">
+              </label>
+            </div>
+            <div *ngIf="requiredForm.controls['endDate'].invalid && requiredForm.controls['endDate'].touched" >
+                <div *ngIf="requiredForm.controls['endDate'].errors.required">
+                field is required.
+              </div>
+            </div>
+    </div>
+</div><!--row end-->
+    <!--comments-->
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="comments">Comments</label>
+            <textarea class="form-control" formControlName="comments"
+               rows="8" placeholder="Type here"
+              ></textarea>
+            
+        </div>
+        
+    </div>
+    
+    
+       <!--button-->
+       <button type="submit" (click)="logDispute()" class="btn btn-primary mr-2">Upprove</button>
+       <button type="submit"  (click)="logDispute()" class="btn btn-primary mr-2">Request Update</button>
+       <button class="btn btn-light" (click)="modal.close('by: close icon');">Cancel</button>
+    </form>
+</div><!-- row end -->
+ </ng-template>
+
+  
+      

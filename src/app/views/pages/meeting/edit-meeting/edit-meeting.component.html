@@ -1,0 +1,132 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Edit Meeting</a></li>
+
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-6 stretch-card">
+        <div class="card">
+            <div class="card">
+                <div class="card-header">
+                    Edit-Meeting
+                </div>
+                <div class="card-body">
+                    <div class="row" style="margin-bottom: 1rem;">
+                        <div class="col-md-12">
+                            <h6>Meeting Information</h6>
+                        </div>
+                    </div>
+                    <form (submit)="saveMeeting()" [formGroup]="validationForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="name">Title</label>
+                            <input type="text" class="form-control" [(ngModel)]="title" name="title" id="title" value={{editData.title}}
+                                autocomplete="off" placeholder="Type here" formControlName="title" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.title.errors}" required>
+                            <p *ngIf="isCreateFormSubmitted && createForm.title.errors?.required"
+                            class="invalid-feedback">Meeting Title required</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- Col -->
+                            <div class="form-group">
+                                <label class="control-label">Start Date</label>
+                                <div class="input-group">
+                                    <input type="datetime-local" onkeydown="return false" class="form-control" name="startDate" [(ngModel)]="startDate"  
+                                        formControlName="startDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.startDate.errors}" required>
+                                <p *ngIf="isCreateFormSubmitted && createForm.startDate.errors?.required"
+                                class="invalid-feedback">Start date required</p>
+                                <p *ngIf="isCreateFormSubmitted && createForm.startDate.errors?.pattern"
+                                class="invalid-feedback">Date format is not accurate please use date picker for a more accurate date presentation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- Col -->
+                            <div class="form-group">
+                                <label class="control-label">End Date</label>
+                                <div class="input-group">
+                                    <input type="datetime-local" onkeydown="return false" class="form-control" name="endDate" [(ngModel)]="endDate" 
+                                        formControlName="endDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.endDate.errors}" required>
+                                        <p *ngIf="isCreateFormSubmitted && createForm.endDate.errors?.required"
+                                        class="invalid-feedback">End date required</p>
+                                        <p *ngIf="isCreateFormSubmitted && createForm.endDate.errors?.pattern"
+                                        class="invalid-feedback">Date format is not accurate please use date picker for a more accurate date presentation</p>      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="name">Venue</label>
+                            <input type="text" class="form-control" [(ngModel)]="venue" name="venue" id="venue" value={{editData.venue}}
+                                autocomplete="off" placeholder="Type here" formControlName="venue" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.venue.errors}" required>
+                            <p *ngIf="isCreateFormSubmitted && createForm.venue.errors?.required"
+                            class="invalid-feedback">Venue required</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="name">Description</label>
+                            <input type="text" class="form-control" [(ngModel)]="description" name="description" value={{editData.description}}
+                                id="description" autocomplete="off" placeholder="Type here" formControlName="description" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.description.errors}" required>
+                            <p *ngIf="isCreateFormSubmitted && createForm.description.errors?.required"
+                            class="invalid-feedback">Description time required</p>    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="names">Attendants</label>
+                                <ng-select
+                                    [items]="atendents"
+                                    [multiple]=true
+                                    [searchable]="true"
+                                    bindLabel="fullName"
+                                    placeholder="Select people"
+                                    [(ngModel)]="selectedPeople"
+                                    formControlName="selectedPeople"
+                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.selectedPeople.errors}" required>
+                                </ng-select>
+                                <p *ngIf="isCreateFormSubmitted && createForm.selectedPeople.errors?.required"
+                                class="invalid-feedback">Attendants required</p>
+                                <div class="mt-2">
+                                    <p class="text-muted">Attendants:</p>
+                                    <ul>
+                                    <li  class="text-danger" data-feather="user-plus" *ngFor="let item of selectedPeople">{{item.fullName}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="name">Minutes</label>
+                            <textarea class="form-control" [(ngModel)]="minutes" id="minutes" name="minutes" rows="4"
+                                cols="50" formControlName="minutes" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.minutes.errors}" required>
+                            </textarea>
+                            <p *ngIf="isCreateFormSubmitted && createForm.minutes.errors?.required"
+                            class="invalid-feedback">Minutes required</p>
+                        </div>
+                    </div>
+                    <br>
+
+                    <h6 class="card-title">Meeting </h6>
+
+                    <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+                        (success)="onUploadSuccess($event)"></div>
+                    <button class="btn btn-secondary mt-2 d-block ml-auto"
+                        (click)="resetDropzoneUploads()">Reset</button>
+
+
+                    <button (click)="saveMeeting()" type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

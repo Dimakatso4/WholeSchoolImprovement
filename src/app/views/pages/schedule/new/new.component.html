@@ -1,0 +1,83 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">Schedule</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Propose Date</li>
+  </ol>
+</nav>
+<h1 class="page-title">Date of Election</h1>
+<h5 class="page-title text-secondary">{{schoolName | titlecase}}</h5>
+<hr style="margin-bottom: 50px;">
+<div class="row">
+  <div class="col-md-8 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <h6 class="card-title">Proposed Date and Time</h6>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- Col -->
+            <div class="form-group">
+              <label class="control-label">Date and Time</label>
+              <input [min]="todaysDate" onkeydown="return false" type="datetime-local" [disabled]="!isMemoActive"
+                (click)="fieldChange()" placeholder="yyyy-mm-dd hh:mm" class="form-control datetimepicker-input"
+                [(ngModel)]="ScheduledDate" name="ScheduledDate" [ngClass]="{'is-invalid': isFormSubmitted && Invalid}">
+              <p *ngIf="isFormSubmitted && Invalid" class="invalid-feedback">Date and time required</p>
+
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+
+            <div class="form-group">
+              <label class="control-label">Alternative Date and Time</label>
+              <input [min]="todaysDate" onkeydown="return false" type="datetime-local"
+                class="form-control datetimepicker-input" name="alternativeDate" [(ngModel)]="alternativeDate">
+            </div>
+            <!-- <div class="form-group">
+              <label class="control-label">Alternative Date and Time</label>
+              <input [min]="todaysDate" onkeydown="return false" type="datetime-local" [disabled]="!isMemoActive"
+                class="form-control datetimepicker-input" [(ngModel)]="alternativeDate"
+                name="alternativeDate">
+
+            </div> -->
+          </div>
+        </div>
+
+
+        <!-- EMAIL BODY -->
+        <!-- <div hidden class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="name">Description</label>
+              <textarea rows="13" cols="30" class="form-control" id="description" placeholder="Type here">Good day {{deoFullname}}
+
+{{schoolName | titlecase}} has sent their propose date for the upcoming election, please login into the system to finish scheduling the election.
+
+Regards.
+{{principal | titlecase}}
+                      </textarea>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- Col -->
+            <div class="form-group text-right">
+              <button type="button" [disabled]="!isMemoActive" class="btn btn-primary submit"
+                (click)="saveElection()">Save</button>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <!-- Col -->
+            <div class="form-group">
+              <button type="button" [disabled]="!isMemoActive" class="btn btn-light submit"
+                (click)="cancelElection()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

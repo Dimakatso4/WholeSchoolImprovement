@@ -1,0 +1,1200 @@
+ <nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">SGB</a></li>
+        <li class="breadcrumb-item" aria-current="page">Handover</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-xl-12 bg-primary text-white headingStyle2">
+        <h2 class="page-title">School Governing Body Handover<br><span class="text-warning">{{schoolname}}</span></h2>
+    </div>
+</div>
+
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-warning bg-primary  headingStyle2" >Handover Checklist</h4>
+                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" (click)="toggle()">Click To View Handover Documents</button>
+                        </div>
+                        <br>
+                        <div class="row" *ngIf="show">
+                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                <div  class="table-responsive">
+                                    <table role="table"  class="table table-hover">
+                                        <thead class="bg-secondary text-white">
+                                            <tr>
+                                                <th  class="tableheadStyle text-white">Document Type</th>
+                                                <th  class="tableheadStyle text-white">Document</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor=" let doc of documentList">
+                                                    <td>{{doc.reportType}}</td>
+                                                    <td><a href="{{doc.documentPath}}" target="_blank">{{doc.title}}</a></td>                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                         <br>
+                         
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="schoolName">School Name</label>
+                                    <input readonly type="text" class="form-control" [(ngModel)]="schoolname" name="schoolname" id="schoolname" autocomplete="off" placeholder="Type here"  #requried="ngModel" required>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="emis">EMIS No.</label>
+                                    <input readonly type="text" class="form-control" [(ngModel)]="emisNumber" id="emisNumber" placeholder="Type here">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="district">District</label>
+                                    <input readonly type="text" class="form-control" [(ngModel)]="districtName" id="districtName" placeholder="Type here">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label for="handoverDateTime">Time</label>
+                                <div class="input-group date time-picker" id="handoverDateTime" data-target-input="nearest">
+                                    <input readonly type="text" class="form-control datetimepicker-input"  data-target="#handoverDateTime" value="{{todaysDate | date: 'YYYY-MM-dd HH:mm'}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 1.3rem">
+                            <div class="col-md-12">
+                                <h6 class="card-title">Legislation</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>1. The south african school act No. 84 of 1996 as ammended (SASA)</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation1SouthAfricanSchoolAct"  name="optionsRadios1"  value=true >
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation1SouthAfricanSchoolAct"   name="optionsRadios1"  value=false >
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>2. Provincial Education Act</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation2ProvincialEducationAct"  name="optionsRadios2" id="optionsRadios2" value=true>
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation2ProvincialEducationAct"  name="optionsRadios2" id="optionsRadios2" value=false >
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>3. Provincial regulations related to the governing bodies of public schools</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation3GoverningBodiesOfPublicSchools"  name="optionsRadios3" id="optionsRadios3"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation3GoverningBodiesOfPublicSchools"  name="optionsRadios3" id="optionsRadios3"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>4. National norms and standards for school funding (General notice 869 of 2006</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation4GeneralNotice869of2006" name="optionsRadios4" id="optionsRadios4"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation4GeneralNotice869of2006" name="optionsRadios4" id="optionsRadios4"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>5. Provincial regulations regarding the misconduct of learners at public schools and disciplinary proceedings</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation5MisconductOfLearners" name="optionsRadios5" id="optionsRadios5"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation5MisconductOfLearners" name="optionsRadios5" id="optionsRadios5"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>6. National regulation for exemption of parents from the payment of school fees (General Notice 1149 of 2006)</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation6GeneralNotice1149of2006" name="optionsRadios6" id="optionsRadios6"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation6GeneralNotice1149of2006" name="optionsRadios6" id="optionsRadios6"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>7. National regulation for exemption of parents from the payment of school fees (General Notice 1149 of 2006)</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation7GoverningBodiesOfPublicSchools" name="optionsRadios7" id="optionsRadios7"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation7GoverningBodiesOfPublicSchools" name="optionsRadios7" id="optionsRadios7"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>8. The constitution of the school governing body</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation8ConstitutionOfSGB" name="optionsRadios8" id="optionsRadios8"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation8ConstitutionOfSGB" name="optionsRadios8" id="optionsRadios8"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>9. Provincial code of conduct for SGBs</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation9ProvincialCodeOfConductForSGBs" name="optionsRadios9" id="optionsRadios9"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation9ProvincialCodeOfConductForSGBs" name="optionsRadios9" id="optionsRadios9"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>10. The vision and mission statement of the school</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation10VisionAndMissionStatement" name="optionsRadios10" id="optionsRadios10"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation10VisionAndMissionStatement" name="optionsRadios10" id="optionsRadios10"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>11. Action plans for the following year based on the schools development plan</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation11ActionPlansForFollowingYear" name="optionsRadios11" id="optionsRadios11"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="legislation11ActionPlansForFollowingYear" name="optionsRadios11" id="optionsRadios11"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 1.3rem">
+                            <div class="col-md-12">
+                                <h6 class="card-title">Policies</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>1. Admission policy</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies1Admission" name="optionsRadios12" id="optionsRadios12"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies1Admission" name="optionsRadios12" id="optionsRadios12"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>2. Policy regarding school sport and cultural activities</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies2SchoolSportAndCulturalActivities" name="optionsRadios13" id="optionsRadios13"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies2SchoolSportAndCulturalActivities" name="optionsRadios13" id="optionsRadios13"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>3. Policy regarding the use of school buildings and facilities by non-school community members</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies3UseOfSchoolBuildingsAndFacilities" name="optionsRadios14" id="optionsRadios14"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies3UseOfSchoolBuildingsAndFacilities" name="optionsRadios14" id="optionsRadios14"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>4. Policy on occupational health and safety</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies4OccupationalHealthAndSafety" name="optionsRadios15" id="optionsRadios15"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies4OccupationalHealthAndSafety" name="optionsRadios15" id="optionsRadios15"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>5. Religion policy</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies5Religion" name="optionsRadios16" id="optionsRadios16"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies5Religion" name="optionsRadios16" id="optionsRadios16"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>6. Language policy</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies6Language" name="optionsRadios17" id="optionsRadios17"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies6Language" name="optionsRadios17" id="optionsRadios17"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>7. HIV and AIDS policy</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies7HIVandAIDS" name="optionsRadios18" id="optionsRadios18"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies7HIVandAIDS" name="optionsRadios18" id="optionsRadios18"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>8. Code of Conduct for learners</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies8CodeOfConductForLearners" name="optionsRadios19" id="optionsRadios19"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies8CodeOfConductForLearners" name="optionsRadios19" id="optionsRadios19"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>9. School's policy regarding payment of school fees and the school's sliding scale for determining partial exemption</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies9PaymentOfSchoolFeesAndSchoolSlidingScale" name="optionsRadios20" id="optionsRadios20"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="policies9PaymentOfSchoolFeesAndSchoolSlidingScale" name="optionsRadios20" id="optionsRadios20"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 1.3rem">
+                            <div class="col-md-12">
+                                <h6 class="card-title">Financial Resources</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>1. Minute Book</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial1MinuteBook" name="optionsRadios21" id="optionsRadios21" value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial1MinuteBook"  name="optionsRadios21" id="optionsRadios21" value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>2. Copy of assets register of school</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial2CopyofAssetsRegister"  name="optionsRadios22" id="optionsRadios22"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial2CopyofAssetsRegister"  name="optionsRadios22" id="optionsRadios22"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>3. Cash Book</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial3CashBook"  name="optionsRadios23" id="optionsRadios23"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial3CashBook"  name="optionsRadios23" id="optionsRadios23"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>4. Receipt Book (Current)</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="financial4ReceiptBookCurrentSerial"  id="serialNumber" autocomplete="off" placeholder="Serial Number">
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial4ReceiptBookCurrent"  name="optionsRadios24" id="optionsRadios24"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial4ReceiptBookCurrent"  name="optionsRadios24" id="optionsRadios24"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>5. Receipt Book(s) (Completed)</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="financial5ReceiptBookCompletedSerial"  id="serialNumber" autocomplete="off" placeholder="Serial Number">
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial5ReceiptBookCompleted"  name="optionsRadios25" id="optionsRadios25"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial5ReceiptBookCompleted"  name="optionsRadios25" id="optionsRadios25"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>6. Cheque Book (Current)</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="financial6ChequeBookCurrentSerial"  id="serialNumber" autocomplete="off" placeholder="Serial Number">
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial6ChequeBookCurrent"  name="optionsRadios26" id="optionsRadios26"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial6ChequeBookCurrent"  name="optionsRadios26" id="optionsRadios26"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>7. Cheque Book(s) (Completed)</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="financial7ChequeBookCompletedSerial"  id="serialNumber" autocomplete="off" placeholder="Serial Number">
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial7ChequeBookCompleted"  name="optionsRadios27" id="optionsRadios27"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial7ChequeBookCompleted"  name="optionsRadios27" id="optionsRadios27"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>8. Petty Cash</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="financial8PettyCashSerial"  id="serialNumber" autocomplete="off" placeholder="Amount">
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial8PettyCash"  name="optionsRadios28" id="optionsRadios28"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial8PettyCash"  name="optionsRadios28" id="optionsRadios28"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>9. Bank statements for period 1 January to 30 June of current financial year</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial9BankStatementsforPeriod1Januaryto30June"  name="optionsRadios29" id="optionsRadios29"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial9BankStatementsforPeriod1Januaryto30June"  name="optionsRadios29" id="optionsRadios29"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>10. Documentary proof of investment (if any) e.g. MEC Permission</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial10DocumentaryProofOfInvestment"  name="optionsRadios30" id="optionsRadios30"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial10DocumentaryProofOfInvestment"  name="optionsRadios30" id="optionsRadios30"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>11. List of NGOs/partners approved by district and operating in schools</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial11ListofNGOsPartnersApproved"  name="optionsRadios31" id="optionsRadios31"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial11ListofNGOsPartnersApproved"  name="optionsRadios31" id="optionsRadios31"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>12. Copy of the 10th school day statistics</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial12CopyofThe10thSchoolDayStatistics"  name="optionsRadios32" id="optionsRadios32"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial12CopyofThe10thSchoolDayStatistics"  name="optionsRadios32" id="optionsRadios32"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>13. Copies of contracts of all staff employed by the public school</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial13CopiesofContractsofAllStaffEmployed"  name="optionsRadios33" id="optionsRadios33"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial13CopiesofContractsofAllStaffEmployed"  name="optionsRadios33" id="optionsRadios33"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>14. Audited financial statements for period 1 January to 31 December of previous year</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial14AuditedFinancialStatementsforPeriod1Januaryto31December"  name="optionsRadios34" id="optionsRadios34"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial14AuditedFinancialStatementsforPeriod1Januaryto31December"  name="optionsRadios34" id="optionsRadios34"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>15. School's financial policy</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial15SchoolFinancialPolicy"  name="optionsRadios35" id="optionsRadios35"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial15SchoolFinancialPolicy"  name="optionsRadios35" id="optionsRadios35"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>16. Approved school budget for current financial year</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial16ApprovedSchoolBudgetforCurrentFinancialYear"  name="optionsRadios36" id="optionsRadios36"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial16ApprovedSchoolBudgetforCurrentFinancialYear"  name="optionsRadios36" id="optionsRadios36"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>17. Resolution to charge school fees (if applicable)</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial17ResolutionToChargeSchoolFees"  name="optionsRadios37" id="optionsRadios37"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="financial17ResolutionToChargeSchoolFees" name="optionsRadios37" id="optionsRadios37"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 1.3rem">
+                            <div class="col-md-12">
+                                <h6 class="card-title">Learner Performance</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>1. Copies of analysis of results of previous 3 years (Grade 1 to 12)</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner1CopiesofAnalysisOfResultsOfPrevious3Years" name="optionsRadios38" id="optionsRadios38"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner1CopiesofAnalysisOfResultsOfPrevious3Years"  name="optionsRadios38" id="optionsRadios38"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>2. Strategy to improve learner performance</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner2StrategyToImproveLearnerPerformance"  name="optionsRadios39" id="optionsRadios39"value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner2StrategyToImproveLearnerPerformance" name="optionsRadios39" id="optionsRadios39"value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>3. School's development Plan (2018)</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner3SchoolDevelopmentPlan"  name="optionsRadios40" id="optionsRadios40" value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner3SchoolDevelopmentPlan" name="optionsRadios40" id="optionsRadios40" value=false checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>4. School's improvement plan (Current year)</p>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner4SchoolImprovementPlan"  name="optionsRadios41" id="optionsRadios41" value=true checked="">
+                                            <i class="input-frame"></i>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" [(ngModel)]="learner4SchoolImprovementPlan"  name="optionsRadios41" id="optionsRadios41" value=false  checked="">
+                                            <i class="input-frame"></i>
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="isUploadShown" class="container-fluid"  id="divshow" >
+                            <div  class="row" style="margin-top: 1.3rem">
+                                <div class="col-md-12">
+                                    <h6 class="card-title">Supporting Documents</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <dropzone class="dropzone-container" 
+                                              [config]="config" class="dropzone"  
+                                              [message]="'Click or drag files here to upload'" 
+                                              (error)="onUploadError($event)"
+                                              (success)="onComplete($event)">
+                                    </dropzone>
+                                    <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Remove All</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="isListShown" class="container-fluid"  id="divshow" >
+                            <div  class="row" style="margin-top: 1.3rem">
+                                <div class="col-md-12">
+                                    <h6 class="card-title">Uploaded Handover Reports</h6>
+                                </div>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                      <th>Report</th>
+                                      <th>Title</th>
+                                    </tr>
+                                  </thead>
+                                <tbody>
+                                  <tr *ngFor="let document of documentList">
+                                    <td>{{document.reportType}}</td>
+                                    <td><a href="{{document.documentPath}}" target="_blank">{{document.title}}</a></td>                                
+                                  </tr>
+                                  <div *ngIf="noRecordsElection" class="card justify-content-center">
+                                    <div class="card-body">
+                                      <h5 class="text-danger">
+                                        Please upload any document related to this election.
+                                      </h5>
+                                    </div>
+                                  </div>
+                                </tbody>
+                                </table>
+                        </div>
+
+                        <div class="container-fluid"  id="divshow" >
+                            <div class="card-footer" style="margin-top: 1.3rem;">
+                                <button type="submit" class="btn btn-primary mr-2"  (click)="saveHandoverData()">Submit</button>
+                                <button class="btn btn-light">Cancel</button>
+                            </div>
+                        </div>
+
+                        
+                        <!-- Modal -->
+                        <ng-template #basicModal let-modal>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Select Handover Report Type</h5>
+                                <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                               
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="narrativeReport" value="Narrative Report" >
+                                                <i class="input-frame"></i>
+                                                <p>A narrative report, which reports on projects in the school in the past three years</p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="auditedFinancialStatementsOfThePastThreeYears" value="Audited Financial Statements of the Past Three Years" >
+                                                <i class="input-frame"></i>
+                                                <p>Audited Financial Statements of the past three years</p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="schoolDevelopmentPlanningReport" value="School Development Planning Report">
+                                                <i class="input-frame"></i>
+                                                <p>School Development Planning Report</p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="schoolImprovementPlanningReport" value="School Improvement Planning Report">
+                                                <i class="input-frame"></i>
+                                                <p>School Improvement Planning Report</p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="theCurriculumReport" value="The Curriculum Report">
+                                                <i class="input-frame"></i>
+                                                <p>The Curriculum report</p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="anyOutstandingOngoingProjects" value="Any Outstanding Ongoing Projects">
+                                                <i class="input-frame"></i>
+                                                <p>Any Outstanding/Ongoing Projects</p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" [(ngModel)]="reportType"  name="report" id="allContractsInTheSchoolAndTheirDueDates" value="All Contracts in the School and Their Due Dates">
+                                                <i class="input-frame"></i>
+                                                <p>All contracts in the school and their due dates</p>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+     
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeAddExpenseModal (click)="modal.close('by: close button')">Close</button>
+                                <button type="button" class="btn btn-primary" (click)="onUpload($event)">Save changes</button>
+                            </div>
+                            </ng-template>
+                            <!-- Close result -->
+                            <p *ngIf="basicModalCloseResult != ''" class="mt-2">{{basicModalCloseResult}}</p>
+                            
+                   
+                </div>
+            </div>
+        </div>
+
+    </div>
+ 

@@ -1,0 +1,492 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Library</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">Library</h3>
+        <hr>
+    </div>
+</div>
+
+<div>
+ 
+    <br />
+    <div #content class="content">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <!-- <div class="card"> -->
+            <!-- <div class="card"> -->
+            <!-- <div class="card-body"> -->
+            <div class="table-responsive">
+                <table role="table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <th hidden class="tableheadStyle text-white">No</th>
+                            <th class="tableheadStyle text-white">Document Name</th>
+                            <th class="tableheadStyle text-white">Area of Evaluation</th>
+                            <th class="tableheadStyle text-white">Contact Person</th>
+                            <th class="tableheadStyle text-white">Document Status</th>
+                            <th class="tableheadStyle text-white">Date Last Amended</th>
+                            
+                            <th class="tableheadStyle text-white">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let document of documents; let i = index">
+                            <th hidden> {{i+1}}</th>
+                            <th> {{document.documentName}}</th>
+                            <th> {{document.focusArea}}</th>
+                            <th> {{document.email}}</th>
+                            
+                            <th> {{document.status}}</th>
+                            <th> {{document.dateLastAmended | date: 'YYYY-MM-dd &nbsp; HH:mm'}}</th>
+
+                            <!-- <th>{{document.uploadedDate | date: 'YYYY-MM-dd &nbsp; HH:mm'}}</th> -->
+                            <th>
+                                <a title="Download" target="_blank" href="{{document.documentPath}}"><i
+                                        class="mdi mdi-download text-dark"></i></a>
+                                &nbsp;
+                                <a title="View" (click)="viewDocument(viewModel,document)"><i
+                                        class="mdi mdi-eye text-success"></i></a>
+                              
+
+
+                                <!-- <a><i class="mdi mdi-pencil text-dark" (click)="viewDocument(editDocument, i)"></i></a> -->
+                                <!-- <a><i  title="Delete" class="mdi mdi-delete text-dark" (click)="removeDocument(i)"></i></a>  -->
+                                <!-- <a target="_//////////// -->
+
+
+                                <!-- <button type="button" class="btn btn-primary mr-2"
+                                                (click)="viewDocument(Modal, i)">View</button> -->
+                                <!-- &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-primary mr-2">Edit</button> -->
+                            </th>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div class="d-flex justify-content-center ">
+
+                    <div *ngIf="noDocuments">
+                        <div class="card-body">
+                            <p class="card-title text-danger text-center">No policy document uploaded
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+        </div>
+    </div>
+    </div>
+    <div *ngIf ="isPageLoading" class ="text-center">
+        <div  class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+    <button [disabled]="isPageLoading" class="btn btn-primary float-left" (click)="convertToPDF()"><i class="mdi mdi-briefcase-download"></i>Export/Print</button>
+
+</div>
+
+
+<ng-template #Modal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Upload Policy Document</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="docsTitle" >Document Name<span class="required-asterisk">*</span></label>
+                            <input type="text" name="docsTitle" required
+                                placeholder="Enter here to change the title of your document" id="docsTitle"
+                                [(ngModel)]="docsTitle" class="form-control"
+                                [ngClass]="{'is-invalid': isFormSubmitted && !docsTitle}">
+
+                            <!-- <span *ngIf="docsTitle.invalid && docsTitle.touched" class="error">Document Name field is required</span> -->
+                        </div>
+                        <p *ngIf="isFormSubmitted && !docsTitle" class="error">Document Name field is required</p>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="docNum" >Document Number<span class="required-asterisk">*</span></label>
+                            <input type="number" name="docNum" id="docNum" required class="form-control"
+                                [(ngModel)]="docNum" [ngClass]="{'is-invalid': isFormSubmitted && !docNum}">
+                            <!-- <span *ngIf="docNum.invalid && docNum.touched" class="error">Document Number field is required</span> -->
+                        </div>
+                        <p *ngIf="isFormSubmitted && !docNum" class="error">Document Number field is required</p>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <!--start-->
+                            <label for="docDesc">Document Description<span class="required-asterisk">*</span></label>
+                            <input type="text" id="docDesc" required class="form-control" [(ngModel)]="docDesc"
+                                [ngClass]="{'is-invalid': isFormSubmitted && !docDesc}">
+                            <!-- <span *ngIf="docDesc.invalid && docDesc.touched" class="error">Document Description field is required</span> -->
+                        </div>
+                        <p *ngIf="isFormSubmitted && !docDesc" class="error">Document Description field is required</p>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="docArea" >Area of Evaluation<span class="required-asterisk">*</span></label>
+                            <select name="area" id="docArea" required [(ngModel)]="docArea" 
+                                [ngClass]="{'is-invalid': isFormSubmitted && !docArea}">
+                                <option [value]="undefined" disabled hidden>Please select one</option>
+                                <option *ngFor="let areaOfevaluationdatas of areaOfevaluationdata"
+                                    [value]=areaOfevaluationdatas.manageAreaOfEvalutionID>
+                                    {{ areaOfevaluationdatas.focusArea }}</option>
+                            </select>
+                        </div>
+                        <!-- <span *ngIf="docArea.invalid && docArea.touched" class="error">Area of the Document field is required</span> -->
+                        <p *ngIf="isFormSubmitted && !docArea" class="error">Area of Evaluation field is required</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="docSavedby" >Document Saved By<span class="required-asterisk">*</span></label>
+                            <input type="text" id="docSavedby" class="form-control" required [(ngModel)]="username"
+                                readonly>
+                        </div>
+                    </div>
+                    <!--<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="contDirect" class="required">Contact Person</label>
+                            <input type="text" id="contDirect" placeholder="Search for director name" required
+                                [(ngModel)]="contDirect" class="form-control"
+                                [ngClass]="{'is-invalid': isFormSubmitted && !contDirect}"> -->
+                    <!-- <span *ngIf="contDirect.invalid && contDirect.touched" class="error">Contact Director field is required</span> -->
+                    <!--</div>
+                        <p *ngIf="isFormSubmitted && !contDirect" class="error">Contact Person field is required</p>
+                    </div>-->
+
+                    <!--========new contact ============-->
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="contDirect" >Contact Person<span class="required-asterisk">*</span></label>
+                            <ng-select [items]="users" bindLabel="fullName" bindValue="userId"
+                                placeholder="type to search" [(ngModel)]="contDirect" >
+                            </ng-select>
+                            
+                            <!-- <span *ngIf="contDirect.invalid && contDirect.touched" class="error">Contact Director field is required</span> -->
+                        </div>
+                        <p *ngIf="isFormSubmitted && !contDirect" class="error">Contact Person field is required</p>
+                    </div>
+
+                    <!--========new contact ============-->
+
+                    <!-- </div> -->
+                    <!-- <div class="row"> -->
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="status" >Document Status<span class="required-asterisk">*</span></label>
+                            <select name="status" id="status" #status (change)="onOptionsSelected(status.value)"
+                                required [(ngModel)]="Docstatus" placeholder="Please select one"
+                                [ngClass]="{'is-invalid': isFormSubmitted && !Docstatus}">
+                                <option [value]="undefined" disabled hidden>Please select one</option>
+                                <option *ngFor="let docStatus of docStatusData"
+                                    [value]=docStatus.status>
+                                    {{ docStatus.status }}</option>
+                            </select>
+                        </div>
+                        <p *ngIf="isFormSubmitted && !Docstatus" class="error">Document Status field is required</p>
+                    </div>
+
+                    <!--======new reported by==========-->
+                    <div id="docApprovedBy" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" id="docApprovedBy">
+                            <label for="docApprovedBy" >Document Approved By<span class="required-asterisk">*</span></label>
+                            <ng-select [items]="users" bindLabel="fullName" bindValue="userId"
+                            placeholder="type to search" [(ngModel)]="docApprovedBy">
+                        </ng-select>
+                            <!-- <span *ngIf="docApprovedPerson.invalid && docApprovedPerson.touched" class="error">Document Approved by field is required</span> -->
+                        </div>
+                        <p *ngIf="isFormSubmitted && !docApprovedBy" class="error">Document Approved by field is
+                            required</p>
+                    </div>
+                    <!--======new reported by==========-->
+
+
+                    <div id="docApproveDate" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" id="docApproveDate">
+                            <label for="docApproveDate" >Document Approved Date<span class="required-asterisk">*</span></label>
+                            <!--<input type="date" id="docApproveDate" class="form-control">-->
+                            <input onkeydown="return false" type="date" [max]="getToday()" class="form-control  datetimepicker-input"
+                                name="docApproveDate" [(ngModel)]="docApproveDate" id="docApproveDate" required 
+                                [ngClass]="{'is-invalid': isFormSubmitted && !docApproveDate}" >
+                            <!-- <span *ngIf="docApprovedDate.invalid && docApprovedDate.touched" class="error">Document Approved Date field is required</span> -->
+                        </div>
+                        <p *ngIf="isFormSubmitted && !docApproveDate" class="error">Document Approved Date field is
+                            required</p>
+                    </div>
+                    <!-- <div id="docLastApproved" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" id="docLastApproved">
+                            <label for="docLastApproved" >Document Date Last Approved<span class="required-asterisk">*</span></label>
+                            <input type="date" id="docLastApproved" class="form-control" [(ngModel)]="docLastApproved"
+                            [ngClass]="{'is-invalid': isFormSubmitted && !docLastApproved}" > -->
+                            <!-- <span *ngIf="DocDateLast.invalid && DocDateLast.touched" class="error">Document Date last approved field is required</span> -->
+                        <!-- </div>
+                        <p *ngIf="isFormSubmitted && !docLastApproved" class="error">Document Date last approved field
+                            is required</p>
+                    </div> -->
+                    <!-- </div> -->
+                    <!-- <div class="row"> -->
+                    <div id="docReviewDate" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" id="docReviewDate">
+                            <label for="docReviewDate" >Document Review Date<span class="required-asterisk">*</span></label>
+                            <input type="date" id="docReviewDate" class="form-control" [(ngModel)]="docReviewDate" [min]="getToday()"
+                            [ngClass]="{'is-invalid': isFormSubmitted && !docReviewDate}">
+                            <!-- <span *ngIf="docNextReview.invalid && docNextReview.touched" class="error">Document Review Date field is required</span> -->
+                        </div>
+                        <p *ngIf="isFormSubmitted && !docReviewDate" class="error">Document Review Date field is
+                            required</p>
+                    </div>
+                    <div id="docRelpolicy" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="docRelpolicy" >Document Related Policies<span class="required-asterisk">*</span></label>
+                            <ng-select [items]="documentNames" [multiple]=true [closeOnSelect]="false"
+                                bindLabel="documentName" placeholder="Please select" [(ngModel)]="docRelpolicy"
+                                required>
+                            </ng-select>
+                            <p *ngIf="isFormSubmitted && !docRelpolicy" class="error">Document Related policies field is
+                                required</p>
+                        </div>
+
+                    </div>
+
+                    <!-- </div> -->
+                    <br />
+                </div>
+                <!--Matondzi request-->
+                <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label >Upload Document<span class="required-asterisk">*</span></label>
+                    <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)" (success)="onUploadSuccess($event)" 
+                    [ngClass]="{'is-invalid': isFormSubmitted && docPath == ''}"></div>
+                </div>
+                <p *ngIf="isFormSubmitted && docPath =='' " class="error">Please upload document</p>
+            </div>
+        </div>
+
+                <div class="row">
+                    <button class="btn btn-primary mt-2 " (click)="UploadNewDocument()">Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-danger mt-2 " (click)="resetDropzoneUploads()">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+
+<!--View document information modal-->
+<ng-template #viewModel let-modal>
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">View Policy Document</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!-- <div class="row"> -->
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dname" >Document Name<span class="required-asterisk">*</span></label>
+                            <input type="text" id="dname" class="form-control" readonly>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dnum" >Document Number<span class="required-asterisk">*</span></label>
+                            <input type="text" id="dnum" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="description" >Document Description<span class="required-asterisk">*</span></label>
+                            <input type="text" id="description" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="darea" >Area of Evaluation<span class="required-asterisk">*</span></label>
+                            <input type="text" id="darea" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="savedby" >Document Saved By<span class="required-asterisk">*</span></label>
+                            <input type="text" id="savedby" class="form-control" readonly [(ngModel)]="documentSavedBy">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="cperson" >Contact Person<span class="required-asterisk">*</span></label>
+                            <input type="text" id="cperson" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="cperson" >Contact Person Email<span class="required-asterisk">*</span></label>
+                            <input type="text" id="cpersonemail" class="form-control" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="dstatus">Document Status<span class="required-asterisk">*</span></label>
+                            <input type="text" id="dstatus" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div id="apprb" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" id="dapprovedby">
+                        <div class="form-group" id="dapprovedby">
+                            <label id="dapprovedby">Document Approved By<span class="required-asterisk">*</span></label>
+                            <input type="text" id="dapprovedby" class="form-control" readonly [(ngModel)]="documentApprovedBy">
+                        </div>
+                    </div>
+
+                    <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" id="dapprovdate">
+                        <div class="form-group" id="dapprovdate">
+                            <label id="dapprovdate">Document Approved Date<span class="required-asterisk">*</span></label>
+                            <input type="text" id="dapprovdate" class="form-control" readonly value="{{documentApprovedDate| date: 'YYYY-MM-dd'}}">
+                        </div>
+                    </div>
+                    <!-- <div id="lastdate" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label >Document Date Last Approved<span class="required-asterisk">*</span></label>
+                            <input type="text" id="ddatelastapproved" class="form-control" readonly>
+                        </div>
+                    </div> -->
+                    <div id="rev" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label >Document Review Date<span class="required-asterisk">*</span></label>
+                            <input type="text" id="dreviewdate" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div id ="rel" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="drelpolicies" >Document Related Policies</label>
+                            <input type="text" id="drelpolicies" class="form-control" readonly>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <div class="form-group">
+                    <label >Uploaded Document<span class="required-asterisk">*</span></label>
+                    <input type="text" id="fileUpload" class="form-control" readonly>
+                </div> -->
+                <!-- <div id="doc" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+                    <!-- <div class="form-group"> -->
+                        <!-- <label>Uploaded Document<span class="required-asterisk">*</span></label><br> -->
+                        <a  id="fileUpload" href="{{documentPath}}"  title="Click To View Document Uploaded" target="_new">View Document</a>
+                    <!-- </div> -->
+                <!-- </div> -->
+                <div class="row float-right">
+                    <button class="btn btn-warning mt-2 " (click)="resetDropzoneUploads()">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- col -->
+    <!-- </div> -->
+</ng-template>
+
+<ng-template #DocumentHistoryModal let-modal>
+
+    <div class="modal-header bg-primary text-white headingStyle3">
+        <h5 class="modal-title text-white" id="exampleModalLabe2">Document History</h5>
+        <button type="button" class="close text-white" (click)="resetDropzoneUploads()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table role="table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+            <thead class="bg-secondary text-white">
+                <tr>
+                    
+                    <th class="tableheadStyle text-white">Document Name</th>
+                    
+                    <th class="tableheadStyle text-white">Contact Person</th>
+                    <th class="tableheadStyle text-white">Document Status</th>
+
+                    <th class="tableheadStyle text-white">Date Last Amended</th>
+                    <th class="tableheadStyle text-white">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let document of documenthistory; let i = index">
+                    
+                    <th> {{document.documentName}}</th>
+                    
+                    <th> {{document.contactDirector}}</th>
+                    <th> {{document.status}}</th>
+
+                    <th> {{document.dateLastAmended}}</th>
+                    <!-- <th>{{document.uploadedDate | date: 'YYYY-MM-dd &nbsp; HH:mm'}}</th> -->
+                    <th>
+                        <a title="Download" target="_blank" href="{{document.documentPath}}"><i
+                                class="mdi mdi-download text-dark"></i></a>
+                        &nbsp;
+                        <a title="View" (click)="viewDocument(viewModel,document)"><i
+                                class="mdi mdi-eye text-success"></i></a>
+                        &nbsp;
+                        <a title="History"><i class="mdi mdi-time text-danger"
+                                (click)="updateDocumentStatus(i)"></i></a>
+                        &nbsp;
+                        <a title="Delete"><i class="mdi mdi-delete text-danger"
+                                (click)="updateDocumentStatus(i)"></i></a>
+                    </th>
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="d-flex justify-content-center ">
+
+            <div *ngIf="noDocuments">
+                <div class="card-body">
+                    <p class="card-title text-danger text-center">No policy document uploaded
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</ng-template>

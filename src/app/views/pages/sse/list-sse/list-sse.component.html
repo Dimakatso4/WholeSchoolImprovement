@@ -1,0 +1,78 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">List SSE</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">List SSE</h3>
+        <hr>
+    </div>
+</div>
+<div>
+    <br />
+</div>
+
+
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+
+            
+            <div class="table-responsive table-hover">
+                <table class="table" name="perishableTableList">
+                    <thead>
+                        <tr>
+                            <th class="header-label" style="color:black; font-size:12px;">Area of Evaluation</th>
+                            <th class="header-label" style="color:black; font-size:12px;">Component</th>
+                            <th class="header-label" style="color:black; font-size:12px;">KPI</th>
+                            <th class="header-label" style="color:black; font-size:12px;">Rating</th>
+                            <th class="header-label" style="color:black; font-size:12px;">Comment</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let instrument of instrumentTool; let i = index;trackBy: customQuantity">
+
+
+                            <td>{{instrument.areaOfEvaluationName}}</td>
+                            <td>
+
+                                <div>&nbsp;{{instrument.componentName}}</div>
+
+
+                            </td>
+                            <td>
+
+                                <div>&nbsp;{{instrument.statusId}}</div>
+
+
+                            </td>
+                            <td>
+                                <select [(ngModel)]='perishableList[i].isQualityWrong' (change)="selectIn($event)"
+                                    class="form-control" formControlName="status" style="max-width: fit-content;">
+                                    <option value="" hidden disabled selected>Please select one</option>
+                                    <option value="false">Poor</option>
+                                    <option value="true">Good</option>
+
+                                </select>
+
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div>
+                <button class="btn btn-primary mt-2 " (click)="SubmitDeliveryResults()">Download</button>
+                &nbsp;&nbsp;
+                <button class="btn btn-primary mt-2 " (click)="SubmitDeliveryResults()">Print</button>
+
+            </div>
+        </div> <!-- col -->
+    </div>
+

@@ -1,0 +1,47 @@
+<div class="row w-100 mx-0 auth-page">
+  <div class="col-md-8 col-xl-6 mx-auto">
+    <div class="card">
+      <div class="row justify-content-center">
+        <div class="col-md-8 pl-md-0">
+          <div class="auth-form-wrapper px-4 py-5">
+            <img src="../assets/images/DepartmentEducationLogo.png ">
+            <h5 class="text-muted font-weight-normal mb-4 text-center">Voter Verification</h5>
+            <p class="text-center">Please enter your I.D Number below</p>
+            <p class="text-center">to verify your identity</p>
+            <br>
+            <form class="forms-sample" [formGroup]="form">
+              <div class="form-group">
+                <label for="exampleInputEmail1">ID Number</label>
+                <input type="text" formControlName="idNumber" mask="0000000000000" required class="form-control"
+                  [ngClass]="{'is-invalid': isFormSubmitted && getForm.idNumber.errors || isFormSubmitted && error}" 
+                  id="idNumber" (keyup)="fieldChange()" maxlength="13">
+                <!-- <div *ngIf="error" class="error_text">
+                  <p class="invalid">Invalid ID number please try again</p>
+                </div> -->
+                <p *ngIf="isFormSubmitted && getForm.idNumber.errors?.required && !error" class="invalid-feedback">
+                  ID number required</p>
+                <p *ngIf="isFormSubmitted && error" class="invalid-feedback">
+                  ID number not registered</p>
+                <p *ngIf="isFormSubmitted && !getForm.idNumber.errors?.maxlength && !getForm.idNumber.errors?.required && !error" class="invalid-feedback">
+                  ID number must have 13 digits</p>
+
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-md-4">
+                  <!-- <button type="submit" class="btn btn-primary" >Submit</button> -->
+                  <input type="button" (click)="getOtp()" class="btn btn-primary" value="Submit" />
+                </div>
+                <div class="col-4">
+                  <!-- <button class="btn btn-danger" (click)="election($event)">Cancel</button> -->
+                  <input type="button" (click)="cancel()" class="btn btn-danger" value="Cancel" />
+                </div>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

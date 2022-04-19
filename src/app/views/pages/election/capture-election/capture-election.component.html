@@ -1,0 +1,195 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Election</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Election</li>
+    </ol>
+</nav>
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-title">Scheduled Election</h6>
+            <button class="btn btn-primary float-right" (click)="create()">Created Election</button>
+            <br />
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Start Date</th>
+                            <th>Start Time</th>
+                            <th>End Date</th>
+                            <th>End Time</th>
+                            <th>Total Votes Needed</th>
+                            <th>Total Votes Cast</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let training of data;let i = index">
+                            <th>{{training.description}}</th>
+                            <th>{{training.startDate}}</th>
+                            <th>{{training.startTime}}</th>
+                            <th>{{training.endDate}}</th>
+                            <th>{{training.endTime}}</th>
+                            <th>{{training.totalVotesNeeded}}</th>
+                            <th>{{training.totalVotesCast}}</th>
+                            <th>
+                                <button class="btn btn-primary" (click)="results()">Results</button>
+                            </th>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div class="d-flex justify-content-center ">
+
+                    <div *ngIf="data == 0">
+                        <div class="card-body">
+                            <p class="card-title text-danger text-center">No scheduled training</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--     EDIT TRAINING MODAL       -->
+<!-- <ng-template #editModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editModal">Edit Election</h5>
+        <button type="button" class="close" (click)="modal.close('by: close icon');" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <form (ngSubmit)="saveCandidate()" [formGroup]="validationForm">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="name">Training name</label>
+                                    <input type="text" class="form-control" [(ngModel)]="description" name="description"
+                                        id="description" placeholder="Type here" #requried="ngModel"
+                                        formControlName="description"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.description.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.description.errors?.required"
+                                        class="invalid-feedback">Training name Required</p>
+                                        
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="name">Start Date</label>
+                                    <input type="text" class="form-control" [(ngModel)]="electionScheduleStartDate"
+                                        name="electionScheduleStartDate" id="electionScheduleStartDate"
+                                        autocomplete="off" placeholder="Type here" #requried="ngModel"
+                                        formControlName="parentname"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                
+                                    </div>
+
+                                <div class="col-md-6">
+                                    <label for="name">End Date</label>
+                                    <input type="text" class="form-control" [(ngModel)]="electionScheduleEndDate"
+                                        name="electionScheduleEndDate" id="electionScheduleEndDate" autocomplete="off"
+                                        placeholder="Type here" #requried="ngModel" formControlName="parentname"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                        
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="name">Start Time</label>
+                                    <input type="text" class="form-control" [(ngModel)]="electionScheduleStartDate"
+                                        name="electionScheduleStartDate" id="electionScheduleStartDate"
+                                        autocomplete="off" placeholder="Type here" #requried="ngModel"
+                                        formControlName="parentname"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                        
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="name">End Time</label>
+                                    <input type="text" class="form-control" [(ngModel)]="electionScheduleEndDate"
+                                        name="electionScheduleEndDate" id="electionScheduleEndDate" autocomplete="off"
+                                        placeholder="Type here" #requried="ngModel" formControlName="parentname"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                        
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="name">Start Time</label>
+                                    <input type="text" class="form-control" [(ngModel)]="electionScheduleStartDate"
+                                        name="electionScheduleStartDate" id="electionScheduleStartDate"
+                                        autocomplete="off" placeholder="Type here" #requried="ngModel"
+                                        formControlName="parentname"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                        
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="name">End Time</label>
+                                    <input type="text" class="form-control" [(ngModel)]="electionScheduleEndDate"
+                                        name="electionScheduleEndDate" id="electionScheduleEndDate" autocomplete="off"
+                                        placeholder="Type here" #requried="ngModel" formControlName="parentname"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                        
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="name">Total Votes Needed</label>
+                                    <input type="text" class="form-control" [(ngModel)]="totalVotesNeeded"
+                                        name="totalVotesNeeded" id="totalVotesNeeded" autocomplete="off"
+                                        placeholder="Type here" #requried="ngModel"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                        
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="name">Total Votes Cast</label>
+                                    <input type="text" class="form-control" [(ngModel)]="totalVotesCast"
+                                        name="totalVotesCast" id="totalVotesCast" autocomplete="off"
+                                        placeholder="Type here" #requried="ngModel"
+                                        [ngClass]="{'is-invalid': isDisputeFormSubmitted && Form.parentname.errors}">
+                                    <p *ngIf="isDisputeFormSubmitted && Form.parentname.errors?.required"
+                                        class="invalid-feedback">First name Required</p>
+                                        
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row">
+                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                <button class="btn btn-light" (click)="modal.close('by: close icon')">Cancel</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template> -->

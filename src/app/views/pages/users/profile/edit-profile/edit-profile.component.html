@@ -1,0 +1,90 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink=".">Edit Profile</a></li>
+
+    </ol>
+  </nav>
+  <div class="card-body" >
+    <div class="col-md-20 stretch-card">
+      <div class="card">
+        <div class="card">
+           
+            <div class="card-body">
+                    <div class="row" style="margin-bottom: 1rem;">
+                        <div class="col-md-12">
+                            <h6>Personal Information</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text"  class="form-control"  [(ngModel)]="firstname" name="name" id="name" autocomplete="off" placeholder="Type here" #requried="ngModel" required>
+                                <!-- <p class="text-danger mt-1" *ngIf="requried?.errors?.required">required error</p> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Surname">Surname</label>
+                                <input type="text" class="form-control" [(ngModel)]="surname" name="surname" id="surname" autocomplete="off" placeholder="Type here"  #requried="ngModel" required>
+                                <!-- <p class="text-danger mt-1" *ngIf="requried?.errors?.required">required error</p> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <input type="text"  class="form-control"  [(ngModel)]="gender" name="gender" id="gender" autocomplete="off" placeholder="Type here" #requried="ngModel" required>
+                                <!-- <p class="text-danger mt-1" *ngIf="requried?.errors?.required">required error</p> -->
+                            </div>
+                        </div>
+                        <div  class="col-md-6">
+                            <div class="form-group">
+                                <label for="idNumber">Id Number</label>
+                                <input type="text" class="form-control" [(ngModel)]="idNumber" name="idNumber" id="idNumber" autocomplete="off" placeholder="Type here"  #requried="ngModel" required>
+                                <!-- <p class="text-danger mt-1" *ngIf="requried?.errors?.required">required error</p> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nationality">Nationality</label>
+                                <input type="text" class="form-control" [(ngModel)]="nationality" name="nationality" id="nationality" autocomplete="off" placeholder="Type here"  #requried="ngModel" required>
+                                <!-- <p class="text-danger mt-1" *ngIf="requried?.errors?.required">required error</p> -->
+                            </div>
+                        </div>
+                    </div>
+                   
+                   
+                   
+                    
+                    <div class="row" style="margin-bottom: 1rem; margin-top: 1rem;">
+                        <div class="col-md-12">
+                            <h6>Contact Information</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cellNumber">Contact Number</label>
+                                <input type="text" class="form-control" [(ngModel)]="cellNumber" id="cellNumber" autocomplete="off" placeholder="Type here" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="emailAddress">Email Address</label>
+                                <input type="email" class="form-control"  [(ngModel)]="emailAddress"  id="emailAddress" autocomplete="off" placeholder="Type here" >
+                            </div>
+                        </div>
+                    </div>
+  
+
+        
+                    <button type="submit" class="btn btn-primary mr-2" (click)="updateUserInfo()">Submit</button>
+                    <button class="btn btn-light"  (click)="cancel()" >Cancel</button>
+              
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

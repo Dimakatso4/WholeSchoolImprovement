@@ -1,0 +1,545 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">Schedule</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Schedule Election</li>
+  </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+  <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+    <h2>Schedule Election For {{bannerTitle | titlecase}}</h2>
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <!-- <div class="card"> -->
+    <!-- <div class="card-body"> -->
+    <div class="table-responsive table-wrap">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+        <thead class="bg-secondary text-white">
+          <tr>
+            <th hidden class="text-white"></th>
+            <th class="text-white">School</th>
+            <th class="text-white">Proposed Date</th>
+            <th class="text-white">Aternative Date</th>
+            <th class="text-white">Status</th>
+            <th class="text-white">Date Captured</th>
+            <th class="text-white">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let election of elections; let i = index">
+            <td hidden>{{election.id}}</td>
+            <td>{{election.schoolName | titlecase}}</td>
+            <td>{{election.schoolProposedDate | date:'YYYY-MM-dd'}} </td>
+            <td>
+              <span
+                *ngIf="election.alternativeDate && election.alternativeDate != 'undefined' && election.alternativeDate != 'null'">
+                {{election.alternativeDate | date:'YYYY-MM-dd'}}
+              </span>
+            </td>
+            <td>
+              <!--{{election.status}} -->
+              <span *ngIf="election.status == 'Pending DEO Review'">Election Date Proposed</span>
+              <span *ngIf="election.status == 'Pending DEO Confirmation'">Suggested Date Selected</span>
+              <span *ngIf="election.status == 'Pending SEO Review'">Proposed Date Declined</span>
+              <span
+                *ngIf="election.status == 'Election Scheduled' && election.scheduleDate > todaysDate || election.status == 'Election Scheduled.' && election.scheduleDate > todaysDate">Scheduling
+                Complete</span>
+              <span
+                *ngIf="election.status == 'Election Scheduled' && election.scheduleDate < todaysDate || election.status == 'Election Scheduled.' && election.scheduleDate < todaysDate">Election
+                Complete</span>
+            </td>
+            <td>{{election.dateTimeCaptured | date:'YYYY-MM-dd'}}</td>
+            <td class="text-center">
+              <a *ngIf="election.status != 'Election Scheduled' || election.status != 'Election Scheduled.'"><i
+                  class="mdi mdi-pencil text-dark" (click)="openLgModal(lgModal, i)"></i></a>
+              <!-- <a *ngIf="election.status == 'Election Scheduled' || election.status != 'Election Scheduled.'"><i class="mdi mdi-eye text-dark"
+                  (click)="openViewModal(viewModal, i)"></i></a> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-center ">
+
+        <div *ngIf="noElections">
+          <div class="card-body">
+            <p class="card-title text-danger text-center">No scheduled election</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+  </div><!-- col end -->
+</div><!-- row end -->
+
+
+<ng-template #lgModal let-modal>
+  <!-- <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Schedule Election For {{schoolName | titlecase}}</h5>
+    <button type="button" class="close" (click)="modal.close('by: close icon');" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> -->
+
+  <div class="modal-header bg-primary text-white headingStyle2">
+    <h4 class="modal-title text-white" id="exampleModalLabel">Schedule Election For {{schoolName | titlecase}}</h4>
+    <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- <div class="sidebar-header float-right">
+    <a routerLink="/dashboard" class="sidebar-brand">
+      <img src="../assets/images/DepartmentEducationLogo_alt.png">
+    </a>
+  </div> -->
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="control-label">Name and Surname</label>
+                  <input type="text" class="form-control" readonly [(ngModel)]="schoolPrincipal"
+                    placeholder="Name not found">
+                </div>
+              </div>
+
+            </div><!-- Row -->
+
+
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- Col -->
+                <div class="form-group">
+                  <label class="control-label">District</label>
+                  <input type="text" class="form-control" placeholder="District not found" readonly
+                    [(ngModel)]="districtName" name="districtName">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <!-- Col -->
+                <div class="form-group">
+                  <label class="control-label">School</label>
+                  <input type="text" class="form-control" readonly placeholder="School not found"
+                    [(ngModel)]="schoolName" name="schoolName">
+                </div>
+              </div>
+            </div>
+
+            <h6 class="card-title">Proposed Date and Time</h6>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- Col -->
+                <div class="form-group">
+                  <label class="control-label">Date and Time</label>
+                  <input [min]="todaysDate" type="text" readonly placeholder="yyyy-mm-dd hh:mm" class="form-control"
+                    [(ngModel)]="dateProposed" name="dateProposed">
+                </div>
+              </div>
+              <div *ngIf="alternativeDate && alternativeDate != 'undefined' && alternativeDate != 'null' "
+                class="col-sm-6">
+                <!-- Col -->
+                <div class="form-group">
+                  <label class="control-label">Alternative Date and Time</label>
+                  <input [min]="todaysDate" type="text" readonly placeholder="yyyy-mm-dd hh:mm" class="form-control"
+                    [(ngModel)]="alternativeDate" name="alternativeDate">
+                </div>
+              </div>
+            </div>
+
+
+
+            <form (ngSubmit)="saveElection()" [formGroup]="validationForm">
+              <label class="control-label">Do you accept the proposed date and
+                time?</label>
+              <div class="row" *ngIf="status == 'Pending DEO Review'">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" formControlName="acceptPropsedDate"
+                      [(ngModel)]="acceptPropsedDate" (click)="fieldChange('Yes')" name="acceptPropsedDate" value="Yes">
+                    <i class="input-frame"></i>
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" formControlName="acceptPropsedDate"
+                      [(ngModel)]="acceptPropsedDate" (click)="fieldChange('No')" name="acceptPropsedDate" value="No">
+                    <i class="input-frame"></i>
+                    No
+                  </label>
+                </div>
+              </div>
+              <p *ngIf="acceptPropsedDate == '' && isFormSubmitted && status == 'Pending DEO Review'" class="invalid">
+                Please select your answer</p>
+
+
+              <div class="row form-group"
+                *ngIf="status == 'Pending Principal Review' || status == 'Pending SEO Review' || status == 'Pending DEO Confirmation'">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" formControlName="suggestDate" readonly
+                      name="suggestDate" value="Yes">
+                    <i class="input-frame"></i>
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" formControlName="suggestDate" readonly
+                      name="suggestDate" value="No">
+                    <i class="input-frame"></i>
+                    No
+                  </label>
+                </div>
+              </div>
+
+
+              <label
+                *ngIf="alternativeDate && alternativeDate != 'undefined' && alternativeDate != 'null' && acceptPropsedDate == 'Yes'"
+                class="control-label">Which proposed date do you accept?</label>
+              <div
+                *ngIf="alternativeDate && alternativeDate != 'undefined' && alternativeDate != 'null' && acceptPropsedDate == 'Yes'">
+                <div class="row">
+                  <div class="form-check form-check">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" formControlName="dateSelected"
+                        [(ngModel)]="dateSelected" name="dateSelected" [value]="dateProposed">
+                      <i class="input-frame"></i>
+                      {{dateProposed | date:'YYYY-MM-dd hh:mm a'}}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-check form-check">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" formControlName="dateSelected"
+                        [(ngModel)]="dateSelected" name="dateSelected" [value]="alternativeDate">
+                      <i class="input-frame"></i>
+                      {{alternativeDate | date:'YYYY-MM-dd hh:mm a'}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <p *ngIf="alternativeDate && alternativeDate != 'undefined' && alternativeDate != 'null' && acceptPropsedDate == 'Yes' && !dateSelected && isFormSubmitted"
+                class="invalid">Please select date</p>
+
+              <hr />
+
+              <h6 *ngIf="acceptPropsedDate == 'No' && status == 'Pending DEO Review'" class="card-title">Suggest a Date
+              </h6>
+              <div *ngIf="acceptPropsedDate == 'No' && status == 'Pending DEO Review'" class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <!-- <label class="control-label">Name</label> -->
+                    <input [min]="todaysDate" type="datetime-local" class="form-control" [(ngModel)]="deoSuggestedDate1"
+                      name="deoSuggestedDate1" (click)="fieldChange(acceptPropsedDate)"
+                      formControlName="deoSuggestedDate1" 
+                      [ngClass]="{'is-invalid': noSuggestedDate && isFormSubmitted && status == 'Pending DEO Review' && acceptPropsedDate == 'No'}">
+                    <p *ngIf="noSuggestedDate && isFormSubmitted && status == 'Pending DEO Review' && acceptPropsedDate == 'No'"
+                      class="invalid-feedback">Date
+                      required
+                    </p>
+                  </div>
+                </div><!-- Col -->
+              </div><!-- Row -->
+              <div *ngIf="acceptPropsedDate == 'No' && status == 'Pending DEO Review'" class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <!-- <label class="control-label">Surname</label> -->
+                    <input [min]="todaysDate" type="datetime-local" class="form-control" [(ngModel)]="deoSuggestedDate2"
+                      name="deoSuggestedDate2" (click)="fieldChange(acceptPropsedDate)"
+                      formControlName="deoSuggestedDate2" 
+                      [ngClass]="{'is-invalid': noSuggestedDate && isFormSubmitted && status == 'Pending DEO Review' && acceptPropsedDate == 'No'}">
+                    <p *ngIf="noSuggestedDate && isFormSubmitted && status == 'Pending DEO Review' && acceptPropsedDate == 'No'"
+                      class="invalid-feedback">Date
+                      required</p>
+                  </div>
+                </div><!-- Col -->
+              </div><!-- Row -->
+
+
+
+              <h6 *ngIf="status == 'Pending SEO Review' || status == 'Pending Principal Review' " class="card-title">
+                Suggested Dates</h6>
+              <div *ngIf=" status == 'Pending SEO Review' || status == 'Pending Principal Review'" class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <!-- <label class="control-label">Name</label> -->
+                    <input [min]="todaysDate" type="datetime-local" class="form-control" [(ngModel)]="deoSuggestedDate1"
+                      name="deoSuggestedDate1" readonly formControlName="deoSuggestedDate1">
+                  </div>
+                </div><!-- Col -->
+              </div><!-- Row -->
+              <div *ngIf="status == 'Pending SEO Review'  || status == 'Pending Principal Review'" class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <!-- <label class="control-label">Surname</label> -->
+                    <input type="datetime-local" class="form-control" [(ngModel)]="deoSuggestedDate2"
+                      name="deoSuggestedDate2" readonly formControlName="deoSuggestedDate2">
+                  </div>
+                </div><!-- Col -->
+              </div><!-- Row -->
+
+
+              <h6 *ngIf="status == 'Pending DEO Confirmation'" class="card-title">Date Selected By The School</h6>
+              <div *ngIf="status == 'Pending DEO Confirmation'" class="row">
+                <div class="col-sm-7">
+                  <!-- Col -->
+                  <div *ngIf="selectedElection.deoSuggestedDate1" class="form-check">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" formControlName="dateSelectedBySchool"
+                        [(ngModel)]="dateSelectedBySchool" name="dateSelectedBySchool"
+                        value="{{selectedElection.deoSuggestedDate1}}">
+                      <i class="input-frame"></i>
+                      {{selectedElection.deoSuggestedDate1 | date:'YYYY-MM-dd hh:mm a'}}
+                    </label>
+                  </div>
+                  <div *ngIf="selectedElection.deoSuggestedDate2" class="form-check">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" formControlName="dateSelectedBySchool"
+                        [(ngModel)]="dateSelectedBySchool" name="dateSelectedBySchool"
+                        value="{{selectedElection.deoSuggestedDate2}}">
+                      <i class="input-frame"></i>
+                      {{selectedElection.deoSuggestedDate2 | date:'YYYY-MM-dd hh:mm a'}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row" *ngIf="status == 'Pending DEO Review' ">
+                <div class="col-sm-12">
+                  <!-- Col -->
+                  <div class="form-group">
+                    <label class="control-label">Comment</label>
+                    <textarea class="form-control" formControlName="deoComment" [(ngModel)]="deoComment"
+                      name="deoComment" placeholder="Type here" rows="7"></textarea>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row"
+                *ngIf="status == 'Pending SEO Review' || status == 'Pending Principal Review' || status == 'Pending DEO Confirmation'">
+                <div class="col-sm-12">
+                  <!-- Col -->
+                  <div class="form-group">
+                    <label class="control-label">Comment</label>
+                    <textarea class="form-control" formControlName="deoComment" [(ngModel)]="deoComment"
+                      name="deoComment" readonly placeholder="No comment" rows="7"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="form-group">
+                <label class="control-label">>Alternative Date and Time</label>
+                <input [min]="todaysDate"  type="datetime-local"
+                    class="form-control datetimepicker-input" name="alternativeDate" [(ngModel)]="alternativeDate"
+                    formControlName="alternativeDate">
+            </div> -->
+              <div *ngIf="dateSelected && acceptPropsedDate == 'Yes' || status == 'Pending DEO Confirmation'">
+                <h6 class="card-title">PRE ELLECTION ACTIVITIES</h6>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Nomination Date</label>
+                      <input [min]="todaysDateOnly" type="date" class="form-control datetimepicker-input"
+                        [(ngModel)]="nominationDate" name="nominationDate" formControlName="nominationDate"
+                        
+                        [ngClass]="{'is-invalid': isFormSubmitted && Form.nominationDate.errors}">
+                      <p *ngIf="isFormSubmitted && Form.nominationDate.errors?.required" class="invalid-feedback">
+                        Nomination date required</p>
+                    </div>
+                  </div><!-- Col -->
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Campaigning Date</label>
+                      <input [min]="todaysDateOnly" type="date" class="form-control datetimepicker-input"
+                        [(ngModel)]="campaigningDate" name="campaigningDate" formControlName="campaigningDate"
+                        
+                        [ngClass]="{'is-invalid': isFormSubmitted && Form.campaigningDate.errors}">
+                      <p *ngIf="isFormSubmitted && Form.campaigningDate.errors?.required" class="invalid-feedback">
+                        Campaigning date required</p>
+                    </div>
+                  </div><!-- Col -->
+                </div><!-- Row -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Election Date</label>
+                      <input [min]="todaysDateOnly" type="date" class="form-control datetimepicker-input"
+                        [(ngModel)]="electionDate" name="electionDate" formControlName="electionDate"
+                        
+                        [ngClass]="{'is-invalid': isFormSubmitted && Form.electionDate.errors}">
+                      <p *ngIf="isFormSubmitted && Form.electionDate.errors?.required" class="invalid-feedback">
+                        Election date required</p>
+                    </div>
+                  </div><!-- Col -->
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Handover Date</label>
+                      <input [min]="todaysDateOnly" type="date" class="form-control datetimepicker-input"
+                        [(ngModel)]="handoverDate" name="handoverDate" formControlName="handoverDate"
+                        
+                        [ngClass]="{'is-invalid': isFormSubmitted && Form.handoverDate.errors}">
+                      <p *ngIf="isFormSubmitted && Form.handoverDate.errors?.required" class="invalid-feedback">
+                        Handover date required</p>
+                    </div>
+                  </div><!-- Col -->
+                </div><!-- Row -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Office-bearers Submission Date</label>
+                      <input [min]="todaysDateOnly" type="date" class="form-control datetimepicker-input"
+                        [(ngModel)]="officeBearerSubmissionDate" name="officeBearerSubmissionDate"
+                        formControlName="officeBearerSubmissionDate" 
+                        [ngClass]="{'is-invalid': isFormSubmitted && Form.officeBearerSubmissionDate.errors}">
+                      <p *ngIf="isFormSubmitted && Form.officeBearerSubmissionDate.errors?.required"
+                        class="invalid-feedback">
+                        Office-bearers submission date required</p>
+                    </div>
+                  </div><!-- Col -->
+                </div><!-- Row -->
+
+                <div >
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="control-label">ASSIGN MONITORS</label>
+                        <ng-select [items]="districtMonitors" [multiple]=true [closeOnSelect]="monitorCount == 1"
+                          [searchable]="true" bindLabel="fullName" placeholder="Please assign monitors"
+                          [(ngModel)]="assignMonitors" formControlName="assignMonitors"
+                          [ngClass]="{'is-invalid': isFormSubmitted && Form.assignMonitors.errors}">
+                        </ng-select>
+                        <p *ngIf="isFormSubmitted && Form.assignMonitors.errors?.required" class="invalid-feedback">
+                          Monitor required</p>
+                      </div>
+
+                    </div><!-- Col -->
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="control-label">ASSIGN OBSERVERS</label>
+                        <ng-select [items]="districtObservers" [multiple]=true [closeOnSelect]="observerCount == 1"
+                          [searchable]="true" bindLabel="fullName" placeholder="Please assign observers"
+                          [(ngModel)]="assignObservers" formControlName="assignObservers"
+                          [ngClass]="{'is-invalid': isFormSubmitted && Form.assignObservers.errors}">
+                        </ng-select>
+                        <p *ngIf="isFormSubmitted && Form.assignObservers.errors?.required" class="invalid-feedback">
+                          Observer required</p>
+                      </div>
+                    </div><!-- Col -->
+                  </div><!-- Row -->
+
+                  <div *ngIf="!isSchoolPaired">
+                    <h6 class="card-title">SCHOOL PAIRING</h6>
+                    <div class="row">
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">School</label>
+                          <input type="text" class="form-control" formControlName="selectedSchoolName" readonly
+                            [(ngModel)]="selectedSchoolName" placeholder="School not found">
+                        </div>
+                      </div><!-- Col -->
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Principal</label>
+                          <input type="text" class="form-control" formControlName="schoolPrincipal" readonly
+                            [(ngModel)]="schoolPrincipal" placeholder="Name not found">
+                        </div>
+                      </div><!-- Col -->
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">School Electoral Officer</label>
+                          <input type="text" class="form-control" formControlName="electoralOfficer" readonly
+                            [(ngModel)]="electoralOfficer" placeholder="Please select paired school">
+                        </div>
+                      </div><!-- Col -->
+                    </div>
+                    <div class="row">
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Paired School</label>
+                          <select [(ngModel)]="pairedSchool" (change)="pairSchool(pairedSchool)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.pairedSchool.errors}"
+                            formControlName="pairedSchool">
+                            <option value="" hidden disabled selected>Please select one</option>
+                            <option *ngFor="let school of schools; let i = index" 
+                              value="{{school.emisCode}},{{school.institutionName}}">
+                              {{school.institutionName}}
+                            </option>
+                          </select>
+                          <p *ngIf="isFormSubmitted && Form.pairedSchool.errors?.required" class="invalid-feedback">School required</p>
+
+                          <!-- <input type="text" class="form-control" formControlName="pairedSchool" [(ngModel)]="pairedSchool" placeholder="type her"> -->
+                        </div>
+                      </div><!-- Col -->
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Principal</label>
+                          <input type="text" class="form-control" formControlName="electoralOfficer" readonly
+                            [(ngModel)]="electoralOfficer" placeholder="Please select paired school">
+                        </div>
+                      </div><!-- Col -->
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">School Electoral Officer</label>
+                          <input type="text" class="form-control" formControlName="schoolPrincipal" readonly
+                            [(ngModel)]="schoolPrincipal" placeholder="Name not found">
+                        </div>
+                      </div><!-- Col -->
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </form>
+
+
+
+
+            <div class="row" *ngIf="status == 'Pending DEO Review' || status == 'Pending DEO Confirmation'">
+              <div class="col-sm-6">
+                <!-- Col -->
+                <div class="form-group text-right">
+                  <button type="button" class="btn btn-primary submit" (click)="saveElection()">Save</button>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <!-- Col -->
+                <div class="form-group">
+                  <button type="button" class="btn btn-light submit"
+                    (click)="modal.close('by: close icon');">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

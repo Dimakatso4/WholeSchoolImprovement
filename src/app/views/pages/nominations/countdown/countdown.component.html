@@ -1,0 +1,54 @@
+<div class="row w-100 mx-0 auth-page ml-auto mr-auto">
+
+  <div class="col-md-8 col-xl-6 mx-auto">
+    <div *ngIf="pageLoadComplete" class="card">
+      <div class="row justify-content-center">
+        <div class="col-md-8 pl-md-0">
+          <div class="auth-form-wrapper px-4 py-5">
+            <img src="../assets/images/DepartmentEducationLogo.png ">
+            <p *ngIf="false" class="text-center">Election scheduled to start on</p>
+            <p class="text-center">Nomination scheduled to start on</p>
+            <br>
+            <h5 class="text-muted font-weight-normal mb-4 text-center"> {{scheduleDate | date:'dd MMMM YYYY'}}</h5>
+
+            <div *ngIf="nominationFlag == 'IsNotStarted'">
+              <p class="text-center">Time left until election starts</p>
+              <div class="row text-center">.
+                <div class="col-2">
+                  <h3 class="text-primary">{{month}}</h3>
+                  <label *ngIf="month < 2" for="month">Month</label>
+                  <label *ngIf="month > 1" for="month">Months</label>
+                </div>
+                <div class="col-3">
+                  <h3 class="text-primary">{{days}}</h3>
+                  <label *ngIf="days < 2" for="Days">Day</label>
+                  <label *ngIf="days > 1" for="Days">Days</label>
+                </div>
+                <div class="col-3">
+                  <h3 class="text-primary">{{hours}}</h3>
+                  <label *ngIf="hours < 2" for="Hours">Hour</label>
+                  <label *ngIf="hours > 1" for="Hours">Hours</label>
+                </div>
+                <div class="col-3">
+                  <h3 class="text-primary">{{minutes}}</h3>
+                  <label *ngIf="minutes < 2" for="Minutes">Minute</label>
+                  <label *ngIf="minutes > 1" for="Minutes">Minutes</label>
+                </div>
+
+              </div>
+            </div>
+            <div *ngIf="nominationFlag == 'IsCompleted'">
+              <h5 class="text-muted font-weight-normal mb-4 text-center">Nomination complete.</h5>
+            </div>
+            <div *ngIf="nominationFlag == 'HasStarted'">
+              <h5 class="text-muted font-weight-normal mb-4 text-center">Nomination inprogress.</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row justify-content-center text-center">
+    </div>
+  </div>
+</div>

@@ -1,0 +1,259 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Elections</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Weekly District Officer Report</li>
+    </ol>
+</nav>
+<h4 class="page-title">Weekly District Officer Report</h4>
+<hr style="margin-bottom: 40px;">
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-center align-items-baseline">
+                <h4 class="card-title text-center">Summary</h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr >
+                            <th class="text-dark" style="background-color: #c4c3d0;"></th>
+                            <th class=" text-dark" style="background-color: #fadadd;">NUMBER OF<br>SCHOOLS</th>
+                            <th class="text-dark" style="background-color: #ffe5b4;">ELECTIONS<br>CONDUCTED</th>
+                            <th  class="text-dark"  style="background-color: #8ab9f1;">Standard<br>MODE OF<br>ELECTION</th>
+                            <th  class="text-dark" style="background-color: #d0f0c0;">Full day<br>MODE OF<br>ELECTION</th>
+                            <th  colspan="4"class="text-dark" style="background-color: #ffa500;">STATUS OF ELECTIONS</th>
+                            <th  colspan="2"class="text-dark" style="background-color: #cec8ef;">DISPUTES</th>
+                        </tr>
+                        <tr>
+                            <th class="text-dark" style="background-color:#c4c3d0;">Districts</th>
+                            <th class="text-dark" style="background-color: #fadadd;">Total no per<br>District</th>
+                            <th class="text-dark" style="background-color: #ffe5b4;">Conducted<br>Elections</th>
+                            <th class="text-dark" style="background-color: #8ab9f1;">Standard</th>
+                            <th class="text-dark" style="background-color: #d0f0c0;">Full day</th>
+                            <th class="text-dark" style="background-color: #ffa500;">ELECTED<br>THROUGH<br>BALLOT</th>
+                            <th class="text-dark" style="background-color:#F0F0F0;">DULY<br>ELECTED</th>
+                            <th class="text-dark" style="background-color:#F0F0F0;">SUCCESSFULLY<br>ELECTED</th>
+                            <th class="text-dark" style="background-color:#F0F0F0;">NO<br>QUARUM</th>
+                            <th class="text-dark" style="background-color: #cec8ef;">DISPUTE/S<br>(only if Yes)</th>
+                            <th class="text-dark" style="background-color: #cec8ef;">RESOLVED<br>/NOT<br>RESOLVED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dash of peodashboard; let i = index">
+                            <td  style="background-color:#c4c3d0;">{{dash.noOfSchools}}</td>
+                            <td style="background-color: #fadadd;">{{dash.handoverNarrativeReportSubmission}}</td>
+                            <td style="background-color: #ffe5b4;">{{dash.trainingDETDate | date:'YYYY-MM-dd'}}</td>
+                            <td style="background-color: #8ab9f1;">{{dash.trainingDETTotalAttedance}}</td>
+                            <td>{{dash.trainingSETDate | date:'YYYY-MM-dd'}}</td>
+                            <td>{{dash.trainingDETTotalAttedance}}</td>
+                            <td>{{dash.phase2HandoverCompleted}}</td>
+                            <td>
+                                <button class="btn btn-primary"
+                                    style="background-color: #ac965e; border-color: #ac965e;"
+                                    (click)="openXlModal(xlModal)" (click)="view(i)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ng-template #xlModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="page-title">DISTRICT ELECTORAL OFFICERS WEEKLY REPORTING </h6>
+                            <hr style="margin-bottom: 50px;">
+                            <form (submit)="createPEOReport()"  [formGroup]="validationForm">
+                                <div class="row">
+                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="district">District</label>
+                                            <select [(ngModel)]="districtCode" formControlName="districtCode" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.districtCode.errors}" required> 
+                                                <option value="" hidden disabled selected>Select District</option>
+                                                <option *ngFor="let dist of allDistricts" value = {{dist.code}}>
+                                                    {{dist.districtName}}
+                                                </option>
+                                            </select>
+                                            <p *ngIf="isCreateFormSubmitted && createForm.districtCode.errors?.required" class="invalid-feedback">District required</p>
+                                        </div>
+                                    </div> 
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="school">Total Schools Per District</label>
+                                            <div class="input-group date time-picker" id="totalPerDistrict">
+                                                <input type="text" [(ngModel)]="totalPerDistrict" class="form-control"
+                                                    formControlName="totalPerDistrict"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.totalPerDistrict.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                    required>
+                                                <p *ngIf="isCreateFormSubmitted && createForm.totalPerDistrict.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="appointment">Conducted Elections</label>
+                                            <div class="input-group date time-picker" id="handoverDateTime">
+                                                <input type="text" [(ngModel)]="conductedElections" id="conductedElections"
+                                                    class="form-control" formControlName="conductedElections"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.conductedElections.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.conductedElections.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+                                
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">Standard</label>
+                                            <div class="input-group date time-picker" id="standard">
+                                                <input type="text" [(ngModel)]="standard" class="form-control" formControlName="standard"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.standard.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.standard.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">Full Day</label>
+                                            <div class="input-group date time-picker" id="fullDay">
+                                                <input type="text" [(ngModel)]="fullDay" formControlName="fullDay"
+                                                    class="form-control datetimepicker-input"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.fullDay.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.fullDay.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+            
+                                <hr style="margin-bottom: 2.6rem;"><!-- Section End -->
+            
+                                <div class="row" style="margin-top: 1.3rem">
+                                    <div class="col-md-12">
+                                        <h6 class="card-title" style="font-weight: 700">Status Of Elections
+                                        </h6>
+                                    </div>
+                                </div><!-- row end -->
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">Elected Through Ballot</label>
+                                            <div class="input-group date time-picker" id="electedThroughBallot">
+                                                <input type="text" [(ngModel)]="electedThroughBallot" class="form-control datetimepicker-input"
+                                                    formControlName="electedThroughBallot"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.electedThroughBallot.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.electedThroughBallot.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">Duly Elected</label>
+                                            <div class="input-group date time-picker" id="dulyElected">
+                                                <input type="text" [(ngModel)]="dulyElected" class="form-control"
+                                                    formControlName="dulyElected"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.dulyElected.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.dulyElected.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">Successfully Elected</label>
+                                            <div class="input-group date time-picker" id="successfullyElected">
+                                                <input type="text" [(ngModel)]="successfullyElected"
+                                                    class="form-control datetimepicker-input" formControlName="successfullyElected"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.successfullyElected.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.successfullyElected.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">No Quarum</label>
+                                            <div class="input-group date time-picker" id="noQuarum">
+                                                <input type="text" [(ngModel)]="noQuarum"
+                                                    class="form-control datetimepicker-input" formControlName="noQuarum"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.noQuarum.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.noQuarum.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+            
+                                <hr style="margin-bottom: 2.6rem;"><!-- Section End -->
+            
+                                <div class="row" style="margin-top: 1.3rem">
+                                    <div class="col-md-12">
+                                        <h6 class="card-title" style="font-weight: 700">Disputes</h6>
+                                    </div>
+                                </div><!-- row end -->
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">Dispute/s (only if Yes)</label>
+                                            <div class="input-group date time-picker" id="Disputes">
+                                                <input type="text" [(ngModel)]="Disputes" class="form-control datetimepicker-input"
+                                                    formControlName="Disputes"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.Disputes.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.Disputes.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="nameOf">Resolved/Not Resolved</label>
+                                            <div class="input-group date time-picker" id="Resolution">
+                                                <input type="text" [(ngModel)]="Resolution"
+                                                    class="form-control datetimepicker-input" formControlName="Resolution"
+                                                    [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.Resolution.errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                                <p *ngIf="isCreateFormSubmitted && createForm.Resolution.errors?.required"
+                                                    class="invalid-feedback">This field is required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+                                <hr><!-- Section End -->
+            
+                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                <button class="btn btn-light">Cancel</button>
+                            </form>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>

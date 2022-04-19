@@ -1,0 +1,86 @@
+.invalid {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.glow {
+    text-align: center;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+  @-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 10px #004b98, 0 0 20px #004b98, 0 0 30px #004b98, 0 0 40px #004b98, 
+                   0 0 50px #004b98, 0 0 60px #004b98, 0 0 70px #004b98;
+    }
+    to {
+      text-shadow: 0 0 20px #004b98, 0 0 30px #004b98, 0 0 40px #004b98, 0 0 50px #004b98,
+                   0 0 60px #004b98, 0 0 70px #004b98, 0 0 80px #004b98;
+    }
+  }
+  
+ 
+
+  // @-webkit-keyframes blink-animation {
+//     to {
+//         color:yellow;
+//     }
+// }
+
+// a {
+//     // background-color: #1c87c9;
+//     -webkit-border-radius: 60px;
+//     border-radius: 60px;
+//     border: none;
+//     color: #eeeeee;
+//     // cursor: pointer;
+//     display: inline-block;
+//     // font-family: sans-serif;
+//     // font-size: 20px;
+//     padding: 10px 10px;
+//     text-align: center;
+//     text-decoration: none;
+//   }
+//   @keyframes glowing {
+//     0% {
+//     //   background-color: #282f3a;
+//     //   box-shadow: 0 0 5px #004b98;
+//     text-shadow: #004b98;
+//     // color: #004b98;
+//     }
+//     50% {
+//     //   background-color: #282f3a;
+//     //   box-shadow: 0 0 5px #004b98;
+//     text-shadow: #004b98;
+//     }
+//     100% {
+//     //   background-color: #282f3a;
+//     //   box-shadow: 0 0 5px #004b98;
+//     text-shadow: #004b98;
+//     }
+//   }
+//   .flash {
+//     animation: glowing 1300ms infinite;
+//   }
+
+
+
+// .blink {
+//     animation: blink-animation 1s steps(5, start) infinite;
+//     -webkit-animation: blink-animation 1s steps(5, start) infinite;
+// }
+
+// @keyframes blink-animation {
+//     to {
+//         color:yellow; 
+//     }
+// }
+
+// @-webkit-keyframes blink-animation {
+//     to {
+//         color:yellow;
+//     }
+// }

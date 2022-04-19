@@ -1,0 +1,510 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Management Plan</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2"> Add Management Plan</h2>
+        <hr>
+    </div>
+</div>
+<!--button-->
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary float-right" (click)="openEditModel(editModel)">Add New Activity</button>
+    </div>
+   
+</div>
+
+<!--table-->
+<div class="row mt-4" >
+  
+    <div class="col-md-12">
+        <div class="table-responsive table-wrap" >
+            <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" id="datatable" class="table table-hover ">
+                <thead class="bg-secondary">
+                    <tr>
+                      <!--<th class="text-white">plan Number</th>-->  
+                        <th class="text-white">Activity Name</th>
+                        <th class="text-white">Responsibility</th>
+                        <th class="text-white">Start Date</th>
+                        <th class="text-white">End Date</th>
+                        <th class="text-white">Status</th>
+                        <th class="text-white">comment</th>
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let e of lis;">
+                        <!-- <td>{{i+1}}</td>
+                       <td>{{e.planID}}</td>-->
+                        <td>{{ e.activityName }}</td>
+                        <td>{{ e.responsibility }}</td>
+                        <td>{{ e.startDate }}</td>
+                        <td>{{ e.endDate }}</td>
+                        
+                        <!--<td ><span class="badge badge-warning" >{{ e.status }}</span></td> -->
+                        
+                        <td><span *ngIf="e.status =='Approve'" class="btn btn-success mr-2">Item Approved</span>
+                            <span  *ngIf="e.status=='Approved'" class="btn btn-warning  mr-2" >Pending Approval</span>
+
+                            <span *ngIf="e.status =='Plan Approved'" class="btn btn-warning mr-2">Pending Approval</span>
+                            <span *ngIf="e.status =='Update'" class="btn btn-warning mr-2">Pending Approval</span>
+                            <span *ngIf="e.status =='ApproveTick'" class="btn btn-warning mr-2">Pending Approval</span>
+                            <span *ngIf="e.status =='RequestTick'" class="btn btn-warning mr-2">Pending Approval</span>
+
+                            <span *ngIf="e.status =='Pending Approval'" class="btn btn-warning mr-2">Pending Approval</span>
+                           
+                           <span *ngIf="e.status=='Request Update'" class="btn btn-danger mr-2">Request Update</span>
+                            <span *ngIf="e.status =='Item logged'" class="btn btn-primary mr-2">Item  logged</span>
+                            <span *ngIf="e.status =='selected'" class="btn btn-primary mr-2">Item  logged</span>
+                        </td>
+
+                        <td>
+                            &nbsp;&nbsp;
+                            <a (click)="openEditModel4(editModel4,e.planID)"><i class="mdi mdi-chat text-danger"></i></a>
+                            &nbsp;&nbsp;
+                            <a (click)="openEditModel4(editModel4,e.planID)"><i class="mdi mdi-chat text-danger"></i></a>
+                        </td>
+                        <td>
+                            &nbsp;&nbsp;
+                            <a (click)="openEditModel2(editModel2,e.planID)"><i
+                                    class="mdi mdi-pencil text-primary"></i></a>
+                                    &nbsp;&nbsp;
+                   
+                                    <input *ngIf="e.status =='selected'" type="checkbox" (click)="uncheckBox(e.planID)" checked>
+                                    <input *ngIf="e.status =='Item logged'" type="checkbox" (click)="checkboxTicked(e.planID)">
+                                   
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+           
+               
+              
+          
+       
+    </div>
+    <button  type="submit"  (click)="reviewall()" class="btn btn-primary mr-2 ">Submit All
+    </button>
+    <button   (click)="checkedAll()" class="btn btn-primary mr-2 ">Selected All</button>
+    <button   (click)="Submitchecked()" class="btn btn-primary mr-2 ">Submit Selected</button>
+<button  type="submit"  (click)="publish()" [disabled]="this.disable" class="btn btn-primary mr-2 ">Publish</button>
+</div>
+
+
+<!--testdata-->
+
+
+
+
+
+
+
+<!--create model-->
+<ng-template #editModel let-modal>
+    <div class="card-header bg-secondary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Create Activity</h6>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+           <div class="row" style="margin-top: 1.3rem">
+                <div class="col-md-12">
+                    <h6 class="card-title" style="font-weight: 700">Activity Plan
+                    </h6>
+                </div>
+            </div>
+        
+
+
+            <!----->
+            <div class="row">
+
+                <!---drop down-->
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="activityName">Activity Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                      <select  class="form-control" [(ngModel)]="activityName"
+                            formControlName="activityName" (change)="selectInput($event)"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.activityName.errors}">
+                            <option value="" hidden disabled selected>Please select one</option>
+                            <option *ngFor="let e of ActivityList"  [value]=e.activityName
+                             > {{e.activityName}}</option>
+                            <option value="Other"  selected>other</option>
+                        </select>
+                   
+
+                        <p *ngIf="isFormSubmitted && Form.activityName.errors?.required" class="invalid">Field Required
+                        </p>
+                    </div>
+                </div>
+                <!--if statement-->
+                <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="newActityName">Activity Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="text" class="form-control" [(ngModel)]="newActityName"
+                            formControlName="newActityName"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.newActityName.errors}">
+
+                        <p *ngIf="isFormSubmitted && Form.newActityName.errors?.required" class="invalid">Field Required
+                        </p>
+                    </div>
+                </div>
+
+
+              
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                    
+                        <label for="responsibility">Responsible Person
+                            <span class="required-asterisk">*</span>
+                        </label>
+                     
+                          
+                    
+                        <ng-select [items]="responsiblePersons" [multiple]=true [closeOnSelect]="false" bindLabel="responsiblePerson"
+                        placeholder="Please select" formControlName="responsibility" [(ngModel)]="responsibility"
+                        required>
+
+                    </ng-select>
+                       
+               
+                            <p *ngIf="isFormSubmitted && Form.responsibility.errors?.required" class="invalid">Field
+                                Required</p>
+                    
+                    </div>
+
+                </div>
+            </div>
+            <!--row end-->
+            <!--date-->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                          <label for="startDate">Start Date 
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="date" [min]="todayDate" id="day" class="form-control" [(ngModel)]="startDate"
+                            formControlName="startDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Form.startDate.errors?.required" class="invalid">Date Required</p>
+                    </div>
+                  
+                  
+                </div>
+             
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="endDate">End Date 
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="date" [min]="todayDate" class="form-control" [(ngModel)]="endDate"
+                            formControlName="endDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Form.endDate.errors?.required" class="invalid">Date Required</p>
+                    </div>
+                </div>
+            </div>
+            <!--row end-->
+            <!--radio button-->
+
+            <!--button-->
+            <button type="submit" (change)="show(show)" class="btn btn-primary mr-2">Submit</button>
+            <button class="btn btn-light" (click)="modal.close('by: close icon');">Cancel</button>
+        </form>
+    </div><!-- row end -->
+</ng-template>
+
+<!--editModal-->
+<ng-template #editModel2 let-modal>
+    <div class="card-header bg-secondary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Create Activity</h6>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="userForm" (ngSubmit)="updateModal()" >
+          <div class="row" style="margin-top: 1.3rem">
+                <div class="col-md-12">
+                    <h6 class="card-title" style="font-weight: 700">Activity Plan
+                    </h6>
+                </div>
+            </div>
+         
+
+
+            <!----->
+            <div class="row">
+
+                <!---drop down-->
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="activity">Activity Name</label>
+                        <select (change)="selectInput($event)" class="form-control" [(ngModel)]="activityName"
+                        formControlName="activityName"
+                        [ngClass]="{'is-invalid': isFormSubmitted && Form.activityName.errors}">
+                        <option value="" hidden disabled selected>Please select one</option>
+                        <option *ngFor="let e of ActivityList"  [value]=e.activityName
+                         > {{e.activityName}}</option>
+                        <option value="Other"  selected>other</option>
+                    </select>
+               
+
+                        <p *ngIf="isFormSubmitted && Form.activityName.errors?.required" class="invalid">Date required
+                        </p>
+                    </div>
+                </div>
+                <!--if statement-->
+                <div *ngIf="isActivityNameSelected" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="activity">Activity Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="activityName"
+                            formControlName="activityName"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.activityName.errors}">
+
+                        <p *ngIf="isFormSubmitted && Form.activityName.errors?.required" class="invalid">Date required
+                        </p>
+                    </div>
+                </div>
+
+
+                <!--responsible person-->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="responsibility">Responsible Person:</label>
+                       
+                             
+                    
+                            <ng-select 
+                            [items]="responsiblePersons" 
+                            [multiple]=true
+                             [closeOnSelect]="true"
+                              bindLabel="responsiblePerson"
+                              [searchable]="true"
+                            placeholder="Please select"
+                             formControlName="responsibility" 
+                             [(ngModel)]="responsibility"
+                            required>
+    
+                        </ng-select>
+                       
+                    </div>
+
+                </div>
+            </div>
+            <!--row end-->
+            <!--date-->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="startDate">Start Date </label>
+                        <input type="date" [min]="todayDate" class="form-control" [(ngModel)]="startDate"
+                            formControlName="startDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Form.startDate.errors?.required" class="invalid">Date required</p>
+                    </div>
+                </div>
+                <!---->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="endDate">End Date </label>
+                        <input type="date" [min]="todayDate" class="form-control" [(ngModel)]="endDate"
+                            formControlName="endDate"
+                            [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}">
+
+
+                        <p *ngIf="isFormSubmitted && Form.endDate.errors?.required" class="invalid">Date required</p>
+                    </div>
+                </div>
+            </div>
+            <!--row end-->
+            <!--radio button-->
+
+            <!--button-->
+            <button  type="submit"   class="btn btn-primary mr-2">Update</button>
+            <button class="btn btn-light" (click)="modal.close('by: close icon');">Cancel</button>
+        </form>
+    </div><!-- row end -->
+</ng-template>
+
+<!---comment modal-->
+<ng-template #editModel4 let-modal>
+
+
+    <div class="card-body">
+        <form [formGroup]="userForm">
+            <div class="row" style="margin-top: 1.3rem">
+
+            </div>
+            <div class="card-header bg-secondary">
+                <h1 class="card-title text-white" style="margin-bottom: 0;">Review FeedBack</h1>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="comment"></label>
+                    <textarea class="form-control" [(ngModel)]="comment" formControlName="comment" rows="8"
+                        placeholder="Type here"></textarea>
+                </div>
+
+            </div>
+
+        </form>
+    </div><!-- row end -->
+
+</ng-template>
+
+<!--publish MOdal-->
+<ng-template #editModel5 let-modal>
+
+
+    <div class="card-body">
+   
+            <div class="row" style="margin-top: 1.3rem">
+
+            </div>
+            <div class="card-header bg-secondary">
+                <h6 class="card-title text-white" style="margin-bottom: 0;">Management Plan Publish</h6>
+            </div>
+            
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="yearUploaded"></label>
+                    <input class="form-control" [(ngModel)]="yearUploaded" id="yearUploaded"  name="yearUploaded" 
+                        placeholder="Type here">
+                </div>
+
+            </div>
+
+   
+        <button  type="submit"  (click)="publish()" class="btn btn-primary mr-2 ">Publish</button>
+    </div><!-- row end -->
+
+</ng-template>
+<!--create model   District SubActivity-->
+<ng-template #editModel3 let-modal>
+    <div class="card-header bg-secondary">
+        <h6 class="card-title text-white" style="margin-bottom: 0;">Add District Plan</h6>
+    </div>
+    
+<div class="card-body">
+    <form [formGroup]="DistrictForm" >
+      <div class="row" style="margin-top: 1.3rem">
+            <div class="col-md-12">
+                <h6 class="card-title" style="font-weight: 700">Activity Plan
+                </h6>
+            </div>
+       </div>  
+     
+       
+
+       <!----->
+       <div class="row">  
+    
+    
+    
+        <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+              <label for="districtCode">ActivityId</label>
+              <input  
+              class="form-control" [(ngModel)]="districtCode" formControlName="districtCode" [ngClass]="{'is-invalid': isFormSubmitted && Form.districtCode.errors}" > 
+                
+        
+          <p *ngIf="isFormSubmitted && Form.districtCode.errors?.required"
+          class="invalid">Field required</p>
+      </div>
+    </div>
+    <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="managementPlanActivityId">ActivityId</label>
+            <input  
+            class="form-control" [(ngModel)]="managementPlanActivityId" formControlName="managementPlanActivityId" [ngClass]="{'is-invalid': isFormSubmitted && Form.managementPlanActivityId.errors}" > 
+              
+      
+        <p *ngIf="isFormSubmitted && Form.managementPlanActivityId.errors?.required"
+        class="invalid">Field required</p>
+    </div>
+  </div>
+       </div>
+       <div class="row">  
+    
+    
+    
+      <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="subActivity">Activity Name</label>
+            <input  
+            class="form-control" [(ngModel)]="subActivity" formControlName="subActivity" [ngClass]="{'is-invalid': isFormSubmitted && Form.subActivity.errors}" > 
+              
+      
+        <p *ngIf="isFormSubmitted && Form.subActivity.errors?.required"
+        class="invalid">Field required</p>
+    </div>
+  </div>
+    <!--if statement-->
+   
+
+
+      <!--responsible person-->
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div   class="form-group">
+            <label for="responsibility">Responsible Person:</label>
+            <div class="input-group " >
+                <input type="text" class="form-control" [(ngModel)]="responsibility" formControlName="responsibility" [ngClass]="{'is-invalid': isFormSubmitted && Form.responsibility.errors}">
+                <p *ngIf="isFormSubmitted && Form.responsibility.errors?.required"
+                class="invalid">Field required</p>
+            </div>
+        </div>
+       
+    </div>
+</div><!--row end-->
+    <!--date-->
+    <div class="row">  
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="startDate">Start Date    </label>
+                <input type="date" class="form-control" [(ngModel)]="startDate" formControlName="startDate" [ngClass]="{'is-invalid': isFormSubmitted && Form.startDate.errors}">
+           
+         
+            <p *ngIf="isFormSubmitted && Form.startDate.errors?.required"
+            class="invalid">Date required</p>
+    </div>
+  </div>
+    <!---->
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="endDate">End Date  </label>
+                <input type="date" class="form-control" [(ngModel)]="endDate"  formControlName="endDate" [ngClass]="{'is-invalid': isFormSubmitted && Form.endDate.errors}" >
+             
+         
+            <p *ngIf="isFormSubmitted && Form.endDate.errors?.required"
+            class="invalid">Date required</p>
+    </div>
+</div>
+</div><!--row end-->
+
+       <button type="submit" (click)="logDispute()"  class="btn btn-primary mr-2">Submit</button>
+       <button class="btn btn-light" (click)="modal.close('by: close icon');">Cancel</button>
+    </form>
+</div><!-- row end -->
+</ng-template>
+
+
+
+  
+
+  

@@ -1,0 +1,132 @@
+<!-- <div> -->
+<h4 class="card-title text-primary top-navbar">Election Nomination</h4>
+<div class="row justify-content-center">
+  <div class="col-md-6 grid-margin stretch-card">
+
+    <div class="card">
+      <div class="card-body" id="nominations">
+        <h6 class="">NOMINATIONS <span *ngIf="nominationComplete" class="text-success card-description"><i
+              class="mdi mdi-check"></i>completed</span>
+        </h6>
+        <div class="table-responsive">
+          <table datatable [dtTrigger]="nomTrigger" [dtOptions]="dtOptions" id="nomineeDatatable"
+            class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th [hidden]="nominationComplete">Action</th>
+                <th hidden></th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let nominee of nominees; let i = index" id={{nominee.parentID}}>
+                <td>{{nominee.firstName | titlecase}} </td>
+                <td>{{nominee.lastName | titlecase}}</td>
+                <td [hidden]="nominationComplete"></td>
+                <td hidden>{{nominationComplete?'T':'F'}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+          <div class="d-flex justify-content-center ">
+
+            <div *ngIf="false">
+              <div class="card-body">
+                <p class="card-title text-danger text-center">No records found</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body" id="seconds">
+        <h6 class="">SECONDING <span *ngIf="secondingComplete" class="text-success card-description"><i
+              class="mdi mdi-check"></i>completed</span>
+        </h6>
+        <div class="table-responsive">
+          <table datatable [dtTrigger]="secTrigger" [dtOptions]="dtOptions" class="table table-hover"
+            id="secondDatatable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th [hidden]="secondingComplete">Action</th>
+                <th hidden></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let secondee of secondees;let i = index" id={{secondee.parentID}}>
+                <td>{{secondee.firstName | titlecase}} </td>
+                <td>{{secondee.lastName | titlecase}}</td>
+                <td [hidden]="secondingComplete"> </td>
+                <td hidden>{{secondingComplete || secondees.length == 0?'T':'F'}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center ">
+
+            <div *ngIf="false">
+              <div class="card-body">
+                <p class="card-title text-danger text-center">No Parent Nominated yet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row hbtn ml-auto mr-auto">
+</div> -->
+<label *ngIf="nominationComplete && secondingComplete" class="stretch-card text-success justify-content-center">You have
+  already completed the
+  process of nominating and seconding a parent</label>
+
+
+<div class="row">
+  <div class="col-md-4 grid-margin stretch-card"></div>
+
+  <div class="col-md-4 grid-margin stretch-card">
+    <div class="row btn ml-auto mr-auto">
+      <button type="submit"
+        [disabled]="nominationComplete && secondingComplete || nominationComplete && secondees.length == 0"
+        class="btn btn-primary" (click)="saveChanges()">Save</button>
+      &nbsp;&nbsp;&nbsp;
+      <button type="button"
+        [disabled]="nominationComplete && secondingComplete || nominationComplete && secondees.length == 0"
+        (click)="cancell()" class="btn btn-danger">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink=".">Election Nomination</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Nominations & Seconding</li>
+    </ol>
+  </nav> 
+
+<nav class=" navbar">
+  <div class="navbar-content">
+  </div>
+</nav> 
+
+<nav style="border-color: white;" class="sidebar">
+  <div style="border-color: white;" class="sidebar-header bg-white">
+    <a style="border-color: white;" class="sidebar-brand">
+      <img src="../assets/images/DepartmentEducationLogo_bg.png ">
+    </a>
+
+  </div>
+</nav> -->

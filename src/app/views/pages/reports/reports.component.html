@@ -1,0 +1,33 @@
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">WSI Reports</h3>
+        <hr>
+    </div>
+</div>
+<button routerLink="/dashboard" class="btn btn-warning float-right">
+    <- Go Back To Dashboard</button><br>
+        <!-- <div>
+    <marquee width="50%" direction="right">
+        <h5 class="card-title text-success">Reporting </h5>
+      </marquee>
+</div> -->
+<br>
+        <p class="mb-2">
+            <button type="button" class="btn btn-outline-success" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                All Report Links
+            </button>
+        </p>
+        <div id="collapseExample" [ngbCollapse]="isCollapsed">
+            <div class="card">
+                <div class="card-body">
+                    <a href="" class="btn btn-primary" style="margin: 15px;">User Management Report</a>
+                    <a href="https://app.powerbi.com/reportEmbed?reportId=e16a339a-f0ac-4d46-9729-f22494d7c4a3&autoAuth=true&ctid=9168c329-99c4-48a6-aa7f-15f2976bfc12&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWV1cm9wZS1ub3J0aC1iLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0LyJ9" class="btn btn-primary" style="margin: 15px;">School Profiling</a>
+                    <a href="" class="btn btn-primary" style="margin: 15px;">High Performance Areas Report</a>
+                    <a href="" class="btn btn-primary" style="margin: 15px;">Common Challenges Report</a>
+                    <a href="" class="btn btn-primary" style="margin: 15px;">Dashboard Report</a>
+                    <a href="" class="btn btn-primary" style="margin: 15px;">Interventions Report</a>
+                    <a href="" class="btn btn-primary" style="margin: 15px;">User Library Report</a>
+                </div>
+            </div>
+        </div>

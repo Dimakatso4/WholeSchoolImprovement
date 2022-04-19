@@ -1,0 +1,72 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">School Profiling</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">School Profiling</h3>
+        <hr>
+    </div>
+</div>
+<div>
+    <br />
+</div>
+
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+
+
+        <div class="table-responsive table-hover">
+            <table class="table" name="perishableTableList">
+                <thead>
+                    <tr>
+                        <th class="header-label" style="color:black; font-size:12px;">Area of Evaluation</th>
+                        <th class="header-label" style="color:black; font-size:12px;">Score GDE Instrument</th>
+                        <th class="header-label" style="color:black; font-size:12px;">RAG Indicator</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let profile of profilingList; let i = index;">
+
+
+                        <td>{{profile.focusArea}}</td>
+                        <td>{{profile.results}}</td>
+                        
+                        <td>
+                            <div *ngIf="profile.rag === 'RED'"><input class="form-control wd-150"
+                                    [(colorPicker)]="redcolor"
+                                [style.background]="redcolor" /></div>
+
+                        <div *ngIf="profile.rag === 'GREEN'"><input class="form-control wd-150"
+                                [(colorPicker)]="greencolor" [style.background]="greencolor" /></div>
+                            
+                        
+                            <div *ngIf="profile.rag === 'YELLOW'"><input class="form-control wd-150"
+                                [(colorPicker)]="yellowcolor" [style.background]="yellowcolor" /></div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <!--Spinner code-->
+            <div *ngIf="isPageLoading" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <button [disabled]="isPageLoading" class="btn btn-primary mt-2 " (click)="SubmitDeliveryResults()">Download</button>
+            &nbsp;&nbsp;
+            <button [disabled]="isPageLoading" class="btn btn-primary mt-2 " (click)="SubmitDeliveryResults()">Print</button>
+
+        </div>
+    </div> <!-- col -->
+</div>

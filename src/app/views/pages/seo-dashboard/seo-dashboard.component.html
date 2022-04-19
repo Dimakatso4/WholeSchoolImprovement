@@ -1,0 +1,658 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <h4 class="mb-3 mb-md-0">Election Overview</h4>
+</div>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <!-- <thead class="bg-secondary text-white">
+                    <tr>
+                        <th hidden class="tableheadStyle text-white">ID</th>
+                        <th class="tableheadStyle text-white">Notication Date</th>
+                        <th class="tableheadStyle text-white">Due Date</th>
+                        <th class="tableheadStyle text-white">Description</th>
+                        <th class="tableheadStyle text-white">Documents</th>
+                        <th class="tableheadStyle text-white">Receipeints</th>
+                        <th class="tableheadStyle text-white">Action</th>
+                    </tr>
+                </thead> -->
+                <div class="table-responsive table-wrap">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover mb-0">
+                        <thead class="bg-secondary text-white">
+                            <tr>
+                                <th hidden class="tableheadStyle text-white">id</th>
+                                <th class="tableheadStyle text-white">Date Captured</th>
+                                <th class="tableheadStyle text-white ">Nomination Date</th>
+                                <th class="tableheadStyle text-white ">Election Date</th>
+                                <th class="tableheadStyle text-white ">Paired School</th>
+                                <th class="tableheadStyle text-white ">Status</th>
+                                <th class="tableheadStyle text-white ">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let election of elections; let i = index">
+                                <td hidden> {{election.id}}</td>
+                                <td> {{election.dateTimeCaptured | date:'YYYY-MM-dd'}}</td>
+                                <td> {{election.nominationDate | date:'YYYY-MM-dd'}}</td>
+                                <td> {{election.scheduleDate | date:'YYYY-MM-dd'}}</td>
+                                <td> {{election.pairedSchoolname | titlecase}}</td>
+                                <td>
+                                    <span *ngIf="election.status == 'Pending DEO Review'">Election Date Proposed</span>
+                                    <span *ngIf="election.status == 'Pending DEO Confirmation'">Suggested Date
+                                        Selected</span>
+                                    <span *ngIf="election.status == 'Pending SEO Review'">Proposed Date Declined</span>
+                                    <span
+                                        *ngIf="election.status == 'Election Scheduled' && election.scheduleDate > currentDate || election.status == 'Election Scheduled.' && election.scheduleDate > currentDate">Scheduling
+                                        Complete</span>
+                                    <span
+                                        *ngIf="election.status == 'Election Scheduled' && election.scheduleDate < currentDate || election.status == 'Election Scheduled.' && election.scheduleDate < currentDate">Election
+                                        Complete</span>
+                                </td>
+                                <td class="text-center">
+                                    <a
+                                        *ngIf="election.status != 'Election Scheduled' && election.status != 'Election Scheduled.'"><i
+                                            class="mdi mdi-eye text-dark" (click)="openLgModal(lgModal, i)"></i></a>
+                                    <a class="{{seoIndicator(election.status)}}"
+                                        *ngIf="election.status == 'Election Scheduled' || election.status == 'Election Scheduled.'"><i
+                                            class="mdi mdi-eye text-dark" (click)="openViewModal(viewModal, i)"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-center ">
+
+                        <div *ngIf="noElections">
+                            <div class="card-body">
+                                <p class="card-title text-danger text-center">No scheduled election</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-xl-12 stretch-card">
+        <div class="row flex-grow">
+            <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                                <i data-feather="clipboard" class="text-primary icon-xxl d-block mx-auto my-3"></i>
+                            </div>
+                            <div class="w-100">
+                                <h6 class="card-title mb-2">Nominees</h6>
+                                <h3>{{nominees}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                                <i data-feather="inbox" class="text-danger icon-xxl d-block mx-auto my-3"></i>
+                            </div>
+                            <div class="w-100">
+                                <h6 class="card-title mb-2">Total Voters</h6>
+                                <h3>{{totalVoters}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                                <i data-feather="check-square" class="text-success icon-xxl d-block mx-auto my-3"></i>
+                            </div>
+                            <div class="w-100">
+                                <h6 class="card-title mb-2">Votes Cast</h6>
+                                <h3>{{voterCast}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                                <i data-feather="check-square" class="text-warning icon-xxl d-block mx-auto my-3"></i>
+                            </div>
+                            <div class="w-100">
+                                <h6 class="card-title mb-2">Queries</h6>
+                                <h3>{{queries}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #lgModal let-modal>
+    <!-- <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Schedule Election</h5>
+        <button type="button" class="close" (click)="modal.close('by: close icon');" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div> -->
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title text-white" id="exampleModalLabel">Schedule Election</h4>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Name and Surname</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.principalFullname placeholder="Name not found">
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">District</label>
+                                    <input type="text" class="form-control" readonly [value]=selectedElection.district>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">School Name</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.schoolName>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <h6 class="card-title">Proposed Date and Time</h6>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">Date and Time</label>
+                                    <input type="text" placeholder="yyyy-mm-dd hh:mm" class="form-control" readonly
+                                        value="{{selectedElection.schoolProposedDate |  date:'YYYY-MM-dd hh:mm a'}}">
+                                </div>
+                            </div>
+                            <div *ngIf="alternativeDate && alternativeDate != 'undefined' && alternativeDate != 'null' "
+                                class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">Alternative Date and Time</label>
+                                    <input type="text" (click)="fieldChange()" readonly placeholder="yyyy-mm-dd hh:mm"
+                                        class="form-control"
+                                        value="{{selectedElection.alternativeDate |  date:'YYYY-MM-dd hh:mm a'}}">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <h6 class="card-title"
+                            *ngIf="status == 'Pending SEO Review' || status == 'Pending Principal Review'">District
+                            Electoral Officer Suggested Date</h6>
+
+                        <div *ngIf="status == 'Pending SEO Review' || status == 'Pending Principal Review'" class="row">
+                            <div class="col-sm-7">
+                                <!-- Col -->
+                                <div *ngIf="deoSuggestedDate1" class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" [(ngModel)]="dateSelectedBySchool"
+                                            name="dateSelectedBySchool" value="{{deoSuggestedDate1}}"
+                                            [disabled]="proposeDate">
+                                        <i class="input-frame"></i>
+                                        {{deoSuggestedDate1 | date:'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                                <div *ngIf="deoSuggestedDate2" class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" [(ngModel)]="dateSelectedBySchool"
+                                            name="dateSelectedBySchool" value="{{deoSuggestedDate2}}"
+                                            [disabled]="proposeDate">
+                                        <i class="input-frame"></i>
+                                        {{deoSuggestedDate2 | date:'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                            </div>
+                            <p *ngIf="isFormSubmitted && status == 'Pending SEO Review' && !dateSelectedBySchool && !proposeDate"
+                                class="invalid">
+                                Please select one suggested date</p>
+                            <br />
+                            <div class="form-check form-check-flat form-check-primary">
+                                <label class="form-check-label" (click)="declineDate()">
+                                    If you do not accept the dates suggested click the box to propose a date
+                                    <input type="checkbox" [(ngModel)]="proposeDate" class="form-check-input">
+                                    <i class="input-frame"></i>
+                                </label>
+                            </div>
+                            <div *ngIf="proposeDate" class="row">
+                                <div class="col-sm-6">
+                                    <!-- Col -->
+                                    <div class="form-group">
+                                        <label class="control-label">Date and Time</label>
+                                        <input [min]="todaysDate" onkeydown="return false" type="datetime-local"
+                                            placeholder="yyyy-mm-dd hh:mm" class="form-control datetimepicker-input"
+                                            [(ngModel)]="newProposedDate" name="newProposedDate"
+                                            [ngClass]="{'is-invalid': isFormSubmitted && !newProposedDate}">
+                                        <p *ngIf="isFormSubmitted && !newProposedDate" class="invalid">Date and time
+                                            required</p>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Alternative Date and Time</label>
+                                        <input [min]="todaysDate" onkeydown="return false" type="datetime-local"
+                                            class="form-control datetimepicker-input" name="newAlternativeDate"
+                                            [(ngModel)]="newAlternativeDate">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div *ngIf="status == 'Pending DEO Confirmation'" class="row">
+                            <div class="col-sm-7">
+                                <!-- Col -->
+                                <div *ngIf="deoSuggestedDate1" class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" [(ngModel)]="dateSelectedBySchool"
+                                            name="dateSelectedBySchool" disabled value="{{deoSuggestedDate1}}">
+                                        <i class="input-frame"></i>
+                                        {{deoSuggestedDate1 | date: 'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                                <div *ngIf="deoSuggestedDate2" class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" [(ngModel)]="dateSelectedBySchool"
+                                            name="dateSelectedBySchool" disabled value="{{deoSuggestedDate2}}">
+                                        <i class="input-frame"></i>
+                                        {{deoSuggestedDate2 | date: 'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="status == 'Pending SEO Review' || status == 'Pending Principal Review' || status == 'Pending DEO Confirmation'"
+                            class="row">
+                            <div class="col-sm-12">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">Comment</label>
+                                    <textarea class="form-control" readonly [value]=selectedElection.deoComment
+                                        rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row"
+                            *ngIf="userRole == 'PRINCIPAL' && status == 'Pending SEO Review' || userRole == 'PRINCIPAL' && status == 'Pending Principal Review'">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group text-right">
+                                    <button type="button" class="btn btn-primary submit"
+                                        (click)="saveElection()">Save</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-light submit"
+                                        (click)="modal.close('by: close icon');">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+
+
+
+<ng-template #viewModal let-modal>
+    <!-- <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">View Scheduled Election</h5>
+        <button type="button" class="close" (click)="modal.close('by: close icon');" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div> -->
+
+    <div class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title text-white" id="exampleModalLabel">View Scheduled Election</h4>
+        <button type="button" class="close text-white" (click)="modal.close('by: close icon')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Name and Surname</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.principalFullname placeholder="Name not found">
+                                </div>
+                            </div><!-- Col -->
+                        </div><!-- Row -->
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">District</label>
+                                    <input type="text" class="form-control" readonly [value]=selectedElection.district>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">School Name</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.schoolName>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="card-title">Proposed Date and Time</h6>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">Date and Time</label>
+                                    <input type="text" (click)="fieldChange()" readonly placeholder="yyyy-mm-dd hh:mm"
+                                        class="form-control"
+                                        value="{{selectedElection.schoolProposedDate |  date:'YYYY-MM-dd hh:mm a'}}">
+                                </div>
+                            </div>
+                            <div *ngIf="readAlternativeDate && readAlternativeDate != 'undefined' && readAlternativeDate != 'null' "
+                                class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">Alternative Date and Time</label>
+                                    <input type="text" (click)="fieldChange()" readonly placeholder="yyyy-mm-dd hh:mm"
+                                        class="form-control"
+                                        value="{{selectedElection.alternativeDate |  date:'YYYY-MM-dd hh:mm a'}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="control-label">Do you accept the proposed date and
+                            time?</label>
+                        <div class="row">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" disabled
+                                        [(ngModel)]="readAcceptPropsedDate" name="readAcceptPropsedDate" value="Yes">
+                                    <i class="input-frame"></i>
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" [(ngModel)]="readAcceptPropsedDate"
+                                        disabled name="readAcceptPropsedDate" value="No">
+                                    <i class="input-frame"></i>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <label
+                            *ngIf="readAlternativeDate && readAlternativeDate != 'undefined' && readAlternativeDate != 'null' && readAcceptPropsedDate == 'Yes'"
+                            class="control-label">Proposed date accepted by the district officer</label>
+                        <div
+                            *ngIf="readAlternativeDate && readAlternativeDate != 'undefined' && readAlternativeDate != 'null' && readAcceptPropsedDate == 'Yes'">
+                            <div class="row">
+                                <div class="form-check form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" [(ngModel)]="deoSelectedDate"
+                                            name="deoSelectedDate" disabled
+                                            [value]="selectedElection.schoolProposedDate">
+                                        <i class="input-frame"></i>
+                                        {{selectedElection.schoolProposedDate | date:'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-check form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" [(ngModel)]="deoSelectedDate"
+                                            name="deoSelectedDate" disabled [value]="readAlternativeDate">
+                                        <i class="input-frame"></i>
+                                        {{readAlternativeDate | date:'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <h6 *ngIf="readAcceptPropsedDate == 'No'" class="card-title">Date Selected By The School</h6>
+
+
+                        <div class="row" *ngIf="readAcceptPropsedDate == 'No'">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input"
+                                            [(ngModel)]="readdateSelectedBySchool" disabled
+                                            name="readdateSelectedBySchool" value="{{readDeoSuggestedDate1}}">
+                                        <i class="input-frame"></i>
+                                        {{readDeoSuggestedDate1 | date:'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input"
+                                            [(ngModel)]="readdateSelectedBySchool" disabled
+                                            name="readdateSelectedBySchool" value="{{readDeoSuggestedDate2}}">
+                                        <i class="input-frame"></i>
+                                        {{readDeoSuggestedDate2 | date:'YYYY-MM-dd hh:mm a'}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <label class="control-label">Comment</label>
+                                    <textarea class="form-control" readonly [value]=selectedElection.deoComment
+                                        placeholder="No Comment" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h6 class="card-title">PRE ELLECTION ACTIVITIES</h6>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Nomination Date</label>
+                                        <input type="text" class="form-control"
+                                            value="{{selectedElection.nominationDate | date:'YYYY-MM-dd'}}" readonly>
+                                    </div>
+                                </div><!-- Col -->
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Campaigning Date</label>
+                                        <input type="text" class="form-control"
+                                            value="{{selectedElection.campaigningDate | date:'YYYY-MM-dd'}}" readonly>
+                                    </div>
+                                </div><!-- Col -->
+                            </div><!-- Row -->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Elections Date</label>
+                                        <input type="text" class="form-control"
+                                            value="{{selectedElection.electionDate | date:'YYYY-MM-dd'}}" readonly>
+                                    </div>
+                                </div><!-- Col -->
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Handover Date</label>
+                                        <input type="text" class="form-control"
+                                            value="{{selectedElection.handoverDate | date:'YYYY-MM-dd'}}" readonly>
+                                    </div>
+                                </div><!-- Col -->
+                            </div><!-- Row -->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Office-bearers Submission Date</label>
+                                        <input type="text" class="form-control"
+                                            value="{{selectedElection.officeBearersSubmissionDate | date:'YYYY-MM-dd'}}"
+                                            readonly>
+                                    </div>
+                                </div><!-- Col -->
+                            </div><!-- Row -->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">ASSIGNED MONITORS</label>
+                                        <input type="text" class="form-control" [(ngModel)]="readAssignMonitors"
+                                            name="readAssignMonitors" placeholder="Type here" readonly>
+                                    </div>
+                                </div><!-- Col -->
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">ASSIGNED OBSERVERS</label>
+                                        <input type="text" class="form-control" [(ngModel)]="readAssignObservers"
+                                            name="readAssignObservers" placeholder="Type here" readonly>
+                                    </div>
+                                </div><!-- Col -->
+                            </div><!-- Row -->
+
+                        </div>
+
+
+                        <h6 class="card-title">SCHOOL PAIRING</h6>
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">School</label>
+                                    <input type="text" class="form-control" readonly [value]=selectedElection.schoolName
+                                        placeholder="School not found">
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Principal</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.principalFullname placeholder="Name not found">
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">School Electoral Officer</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.seoFullname placeholder="Name not found">
+                                </div>
+                            </div><!-- Col -->
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Paired School</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.pairedSchoolname placeholder="School not found">
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Principal</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.seoFullname placeholder="Name not found">
+                                </div>
+                            </div><!-- Col -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">School Electoral Officer</label>
+                                    <input type="text" class="form-control" readonly
+                                        [value]=selectedElection.principalFullname placeholder="Name not found">
+                                </div>
+                            </div><!-- Col -->
+                        </div>
+
+                        <br />
+
+                        <div class="row" *ngIf="selectedElection.status == 'Election Scheduled' && userRole == 'SEO'">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group text-left">
+                                    <button type="button" class="btn btn-primary" (click)="sendNotice()">Send
+                                        Notice</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="selectedElection.status == 'Election Scheduled.' ">
+                            <div class="col-sm-6">
+                                <!-- Col -->
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-light"
+                                        (click)="modal.close('by: close icon')">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>

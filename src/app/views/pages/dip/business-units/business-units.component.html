@@ -1,0 +1,96 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Districts</a></li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</nav>
+<!-- <h1 class="page-title">SSE Districts</h1> -->
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2>List of all Business Units</h2>
+        <hr>
+    </div>
+</div>
+
+
+<hr style="margin-bottom: 40px;">
+
+<p> </p>
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <!-- <div *ngIf="noDisputes" class="row justify-content-center">
+                <div class="row">
+                    <h4 class="text-danger">There are no sse logged in your Province</h4>
+                </div>
+            </div>
+
+
+             <div *ngIf="!noDisputes" class="table-responsive table-wrap">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="pt-0">District Code</th>
+                            <th class="pt-0">District Name</th>
+                            <th class="pt-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let district of districts; let i = index">
+                            <td>{{district.districtCode}}</td>
+                            <td>{{district.districtName}}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="view(i)">View</button>
+                                &nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-info" (click)="DailyReport(i)">SSE Report</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+
+
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="table-responsive">
+                        <table role="table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                            class="table table-hover">
+                            <thead class="bg-secondary text-white">
+                                <tr>
+
+                                    <!-- <th class="tableheadStyle text-white">District Code</th> -->
+                                    <th class="tableheadStyle text-white">Business Unit</th>
+                                    <th class="tableheadStyle text-white">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let district of districts; let i = index">
+                                    <!-- <td>{{district.districtCode}}</td> -->
+                                    <td>{{district.businessUnit | titlecase}}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm" (click)="viewSchools(district)">View
+                                            DIP</button>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <!-- <button class="btn btn-info btn-sm" (click)="viewSSEReport(district)">SSE
+                                            Report</button> -->
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <!--table-->
+            </div>
+
+            <div *ngIf="isPageLoading" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

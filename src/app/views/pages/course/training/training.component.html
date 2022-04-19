@@ -1,0 +1,747 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Training Invitation</a></li>
+
+    </ol>
+</nav>
+
+<div class="row headingStyle1">
+    <div class="col-md-12 bg-primary text-white headingStyle2" >
+        <h2>Training Invitation Gauteng Department Of Education</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary btn-lg btn-block"  (click)="openXlModal(xlModal)">Create Training Invitation</button>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div  class="table-responsive">
+            <table role="table" datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-hover">
+                <thead  class="bg-secondary text-white">
+                    <tr>
+                        <th hidden class="tableheadStyle text-white">Meeting ID</th>
+                        <th class="tableheadStyle text-white">Trianing Details & Minutes</th>
+                        <th *ngIf="userRole == 'DEO' || userRole == 'SEO' ||userRole== 'PRINCIPAL'" class="tableheadStyle text-white">District Code</th>
+                        <th *ngIf="userRole == 'SEO' || userRole== 'PRINCIPAL'"  class="tableheadStyle text-white">Emis Number</th>
+                        <th class="tableheadStyle text-white">Training</th>
+                        <th class="tableheadStyle text-white">venue</th>
+                       <!-- <th class="tableheadStyle text-white">Description</th>-->
+                        <th class="tableheadStyle text-white">Start Date</th>
+                        <th class="tableheadStyle text-white">Start Time</th>
+                        <th class="tableheadStyle text-white">End Date</th>
+                        <th class="tableheadStyle text-white">End Time</th>
+                        <th class="tableheadStyle text-white">Invited Attendees</th>
+                        <th class="tableheadStyle text-white">documents</th>
+                        <th class="tableheadStyle text-white">Action</th>
+                        <th class="tableheadStyle text-white">Cancel</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let training of data">
+                        <td hidden [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">{{training.id}}</td>
+                        <td>
+                            <a><i class="mdi mdi-book-open-variant"  (click)="getAttenMinutes(training)" (click)="openXlModal(xlModal5)"></i></a>
+                            Training Details & Minutes
+                           <!-- <a><i class="mdi mdi-book-multiple"  (click)="getDocuments(training)" (click)="openXlModal(xlModal3)">documents</i></a><br>
+                            <a><i class="mdi mdi-contacts"  (click)="getAttendees(training)" (click)="openXlModal(xlModal4)"></i>Atendees</a>-->
+                        </td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }" *ngIf="userRole == 'DEO' || userRole == 'SEO' || userRole== 'PRINCIPAL'">{{training.districtCode}}</td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }" *ngIf="userRole == 'SEO' || userRole== 'PRINCIPAL'">{{training.emisCode}}</td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">{{training.title}}</td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">{{training.venue}}</td>
+                        <!--<td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }"><div class="box green">{{training.description}}</div></td>-->
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">{{training.startDate | date: 'YYYY-MM-dd'}}</td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">{{training.startDate | date: 'HH:mm'}}</td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">{{training.endDate | date: 'YYYY-MM-dd'}}</td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">{{training.endDate | date: 'HH:mm'}}</td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">
+                            <a><i class="mdi mdi-contacts"  (click)="getAttendees(training)" (click)="openXlModal(xlModal4)"></i></a>
+                            Atendees
+                        </td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">
+                            <a><i class="mdi mdi-book-multiple"  (click)="getDocuments(training)" (click)="openXlModal(xlModal3)"></i></a>
+                            documents
+                        </td>
+                        <td [ngClass]="{'strikethrough': training.endDate <  todaysDate, 'cancel' : !training.id }">
+                            <a><i class="mdi mdi-pencil" (click)="updateData(training)" (click)="openXlModal(xlModal2)"></i></a>
+                            Update Training
+                        </td>
+                        <td [ngClass]="training.DayPlus <  todaysDate? 'strikethrough' : 'edit'">
+                            <input type="checkbox"  ng-model="checked"  [checked]="!training.id" (change)="training.id=!training.id"class="form-check-input">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create Handover  -->
+<ng-template #xlModal let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+      <h4 class="modal-title text-white" id="exampleModalLabel">Create Training</h4>
+      <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>  
+    </div>
+    <div class="modal-body">
+    
+        <form (submit)="saveMeeting()" [formGroup]="validationForm">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Role</label>
+                        <ng-select
+                            [items]="trainingTypes"
+                            [multiple]=false
+                            [closeOnSelect]="true"
+                            [searchable]="true"
+                            bindLabel="title"
+                            placeholder="Select Invite Type"
+                            [(ngModel)]="inviteType"
+                            formControlName="inviteType" 
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.inviteType.errors}" required>
+                        </ng-select>
+                        <input hidden  type="text" class="form-control" [(ngModel)]="inviteType" formControlName="inviteType" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.inviteType.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.inviteType.errors?.required"
+                                class="invalid-feedback">Invite Type required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="checkbox"  ng-model="checked"  [checked]="show1" (change)="show1=!show1" (change)="handleInputTraing()"
+                                class="form-check-input">
+                            <i class="input-frame"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name" *ngIf="show1">Type Training Or Check above to Select Training</label>
+                        <input  *ngIf="show1" type="text" class="form-control" [(ngModel)]="title"  name="title" id="title" autocomplete="off"  placeholder="Type here" formControlName="title" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.title.errors}" required>
+                        <label for="names"   *ngIf="!show1">Select Training Or Check above to Type Training </label>
+                        <ng-select
+                        *ngIf="!show1"
+                        [items]="training"
+                        [multiple]=false
+                        [closeOnSelect]="true"
+                        [searchable]="true"
+                        bindLabel="title"
+                        placeholder="Select people"
+                        [(ngModel)]="title"
+                        formControlName="title" 
+                        [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.title.errors}" required>
+                        </ng-select>
+                        <p *ngIf="isCreateFormSubmitted && createForm.title.errors?.required"
+                                class="invalid-feedback">Meeting Title required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">Start Date</label>
+                        <input  [min]="todaysDate" onkeydown="return false" type="datetime-local"   class="form-control  datetimepicker-input" name="startDate" [(ngModel)]="startDate" 
+                        formControlName="startDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.startDate.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.startDate.errors?.required"
+                        class="invalid-feedback">Start date required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">End Date</label>
+                        <input  [min]="todaysDate" onkeydown="return false" type="datetime-local" class="form-control datetimepicker-input" name="endDate" [(ngModel)]="endDate" 
+                            formControlName="endDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.endDate.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.endDate.errors?.required"
+                        class="invalid-feedback">End date required</p>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="checkbox"  ng-model="checked"  [checked]="show" (change)="show=!show"  class="form-check-input">  
+                            <i class="input-frame"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" >
+                    <div class="form-group" >
+                        <label for="names"   *ngIf="!show">Select Venue Or Check above to Type Venue</label>
+                        <ng-select
+                        *ngIf="!show"
+                        [items]="venuePresent"
+                        [multiple]=false
+                        [closeOnSelect]="true"
+                        [searchable]="true"
+                        bindLabel="title"
+                        placeholder="Select people"
+                        [(ngModel)]="venue"
+                        formControlName="venue" 
+                        [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.venue.errors}" required>
+                        </ng-select>
+                        <label for="name" *ngIf="show">Type Venue Or UnCheck above to Select Venue</label>
+                        <input *ngIf="show" type="text" class="form-control" [(ngModel)]="venue" name="venue" id="venue" 
+                            autocomplete="off" placeholder="Type here"formControlName="venue" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.venue.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.venue.errors?.required"
+                        class="invalid-feedback">Venue required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Agenda</label>
+                        <textarea  rows="30" cols="30" class="form-control" [(ngModel)]="description" name="description"
+                             autocomplete="off" placeholder="Type here" formControlName="description" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.description.errors}" required>
+                        </textarea>     
+                        <p *ngIf="isCreateFormSubmitted && createForm.description.errors?.required"
+                        class="invalid-feedback">Description time required</p>
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="names">Attendants</label>
+                        <ng-select
+                            [items]="atendents"
+                            [multiple]=true
+                            [closeOnSelect]="true"
+                            [searchable]="true"
+                            bindLabel="fullName"
+                            placeholder="Select people"
+                            [(ngModel)]="selectedPeople"
+                            formControlName="selectedPeople" 
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.selectedPeople.errors}" required>
+                        </ng-select>
+                          <p *ngIf="isCreateFormSubmitted && createForm.selectedPeople.errors?.required"
+                        class="invalid-feedback">Attendants required</p>
+                        <div class="mt-4">
+                            <h4 class="text-muted">Attendants:</h4>
+                            <div  class="table-responsive">
+                                <table role="table" class="table table-hover">
+                                    <thead  class="bg-secondary text-white">
+                                        <tr>
+                                            <th class="tableheadStyle text-white">Name</th>
+                                            <th class="tableheadStyle text-white">Surname</th>
+                                            <th class="tableheadStyle text-white">District Code</th>
+                                            <th class="tableheadStyle text-white">Role</th>
+                                            <th class="tableheadStyle text-white">Emis code</th>
+                                            <th class="tableheadStyle text-white">Check to Delete Attendants</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of selectedPeople">
+                                            <td>{{item.firstname}}</td>
+                                            <td>{{item.surname}}</td>
+                                            <td>{{item.districtCode}}</td>
+                                            <td>{{item.userType}}</td>
+                                            <td>{{item.emisNumber}}</td>
+                                            <td>
+                                                <input type="checkbox"  ng-model="checked"  [checked]="!item.id" (change)="deleteInvitee(item.id)"class="form-check-input">
+                                            </td>
+                                        </tr>    
+                                    </tbody>       
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Attachment(s)</label>
+                        <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+                        <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Clear Documents</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button  class="btn btn-primary mr-2 btn-lg btn-block">Submit</button>
+            </div>
+        </form>
+    </div>
+  </ng-template>
+
+  <!-- Modal -->
+<ng-template #xlModal2 let-modal>
+    <div  class="modal-header bg-primary text-white headingStyle2">
+        <h4 class="modal-title text-white" id="exampleModalLabel">Update Training</h4>
+        <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--- Logo -->
+      <div class="sidebar-header float-right">
+          <a routerLink="/dashboard" class="sidebar-brand">
+              <img src="../assets/images/DepartmentEducationLogo_alt.png">
+          </a>  
+      </div>
+    <div class="modal-body">
+        <form (submit)="editsaveMeeting()" [formGroup]="editvalidationForm">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="checkbox"  ng-model="checked"  [checked]="show1" (change)="show1=!show1"
+                                class="form-check-input">
+                            <i class="input-frame"></i>
+                            Check if Training Type is not in the dropdown search
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label *ngIf="show1" for="edittitle">Type Training Or Check above to Select Training</label>
+                        <input *ngIf="show1" type="text" class="form-control" [(ngModel)]="edittitle"  name="edittitle" id="edittitle" autocomplete="off"  placeholder="Type here" formControlName="edittitle" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.edittitle.errors}" required >
+                        <label for="names"   *ngIf="!show1">Select Training Or Check above to Type Training</label>
+                        <ng-select
+                        *ngIf="!show1"
+                        [items]="venuePresent"
+                        [multiple]=false
+                        [closeOnSelect]="true"
+                        [searchable]="true"
+                        bindLabel="title"
+                        placeholder="Select people"
+                        [(ngModel)]="edittitle"
+                        formControlName="edittitle" 
+                        [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.edittitle.errors}" required>
+                        </ng-select>
+                        <p *ngIf="editisCreateFormSubmitted && editForm.edittitle.errors?.required"
+                                class="invalid-feedback">Meeting Title required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">Start Date</label>
+                        <input [min]="todaysDate" onkeydown="return false" type="datetime-local" class="form-control  datetimepicker-input" name="editstartDate" [(ngModel)]="editstartDate" 
+                        formControlName="editstartDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.editstartDate.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.editstartDate.errors?.required"
+                        class="invalid-feedback">Start date required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Col -->
+                    <div class="form-group">
+                        <label class="control-label">End Date</label>
+                        <input [min]="todaysDate" onkeydown="return false" type="datetime-local" class="form-control datetimepicker-input" name="editendDate" [(ngModel)]="editendDate" 
+                            formControlName="editendDate" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.editendDate.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.editendDate.errors?.required"
+                        class="invalid-feedback">End date required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                            <input type="checkbox"  ng-model="checked"  [checked]="show" (change)="show=!show"
+                                class="form-check-input">
+                            <i class="input-frame"></i>
+                            Check if venue is not in the dropdown search
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" >
+                    <div class="form-group" >
+                        <label for="names"   *ngIf="!show">Type Venue Or Check above to Select Venue</label>
+                        <ng-select
+                        *ngIf="!show"
+                        [items]="venuePresent"
+                        [multiple]=false
+                        [closeOnSelect]="true"
+                        [searchable]="true"
+                        bindLabel="title"
+                        placeholder="Select people"
+                        [(ngModel)]="editvenue"
+                        formControlName="editvenue" 
+                        [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.editvenue.errors}" required>
+                        </ng-select>
+                        <label for="name" *ngIf="show">Type Venue Or Check above to Select Venue</label>
+                        <input *ngIf="show" type="text" class="form-control" [(ngModel)]="editvenue" name="editvenue" id="editvenue" 
+                            autocomplete="off" placeholder="Type here"formControlName="editvenue" [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.editvenue.errors}" required>
+                        <p *ngIf="isCreateFormSubmitted && createForm.editvenue.errors?.required"
+                        class="invalid-feedback">Venue required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Agenda</label>
+                        <textarea type="text" rows="30" cols="30" class="form-control" [(ngModel)]="editdescription" name="editdescription"
+                            id="editdescription" autocomplete="off" placeholder="Type here" formControlName="editdescription" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.editdescription.errors}" required>
+                        </textarea>
+                        <p *ngIf="editisCreateFormSubmitted && editForm.editdescription.errors?.required"
+                        class="invalid-feedback">Description time required</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                       <label for="names">Attendants</label>
+                        <ng-select
+                            [items]="editatendents"
+                            [multiple]=true
+                            [closeOnSelect]="true"                           
+                            [searchable]="true"
+                            bindLabel="fullName"
+                            placeholder="Select people"
+                            name="editselectedPeople"
+                            [(ngModel)]="editselectedPeople"
+                            formControlName="editselectedPeople" 
+                            [ngClass]="{'is-invalid': isCreateFormSubmitted && createForm.editselectedPeople.errors}" required >
+                        </ng-select >
+                        <p *ngIf="isCreateFormSubmitted && createForm.editselectedPeople.errors?.required"
+                        class="invalid-feedback">Attendants required</p>
+                        <div class="mt-4">
+                            <h4 class="text-muted">Attendants:</h4>
+                            <div  class="table-responsive">
+                                <table role="table" class="table table-hover">
+                                    <thead  class="bg-secondary text-white">
+                                        <tr>
+                                            <th class="tableheadStyle text-white">Name</th>
+                                            <th class="tableheadStyle text-white">Surname</th>
+                                            <th class="tableheadStyle text-white">District Code</th>
+                                            <th class="tableheadStyle text-white">Role</th>
+                                            <th class="tableheadStyle text-white">Emis code</th>
+                                            <th class="tableheadStyle text-white">Check to Delete Attendants</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of editselectedPeople">
+                                            <td>{{item.firstname}}</td>
+                                            <td>{{item.surname}}</td>
+                                            <td>{{item.districtCode}}</td>
+                                            <td>{{item.userType}}</td>
+                                            <td>{{item.emisNumber}}</td>
+                                            <td>
+                                                <input type="checkbox"  ng-model="checked"  [checked]="!item.id" (change)="deleteInviteeEdit(item.id)"class="form-check-input">
+                                            </td>
+                                        </tr>    
+                                    </tbody>       
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="minutes">Minutes</label>
+                        <textarea  name="w3review" rows="30" cols="30" type="text" class="form-control" [(ngModel)]="minutes" name="minutes" id="minutes"
+                            autocomplete="off" placeholder="Type here"formControlName="minutes" [ngClass]="{'is-invalid': editisCreateFormSubmitted && editForm.minutes.errors}" required>
+                        </textarea>
+                            <p *ngIf="editisCreateFormSubmitted && editForm.minutes.errors?.required"
+                            class="invalid-feedback">Minutes required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Attachment(s)</label>
+                        <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+                        <button class="btn btn-secondary mt-2 d-block ml-auto" (click)="resetDropzoneUploads()">Clear Documents</button>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <p class="text-muted">Documents:</p>
+                    <ul>
+                    <li  class="text-danger" data-feather="user-plus" *ngFor="let item of editmeetingDocuments">{{item}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button  class="btn btn-primary mr-2 btn-lg btn-block">Submit</button>
+                <!-- <button type="button" class="btn btn-danger mr2">Cancel</button> -->
+            </div>
+        </form>
+    </div>
+  </ng-template>
+
+
+<!-- Modal Create Handover  -->
+<ng-template #xlModal3 let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+      <h4 class="modal-title" id="exampleModalLabel">School Governing Body Election Training Documents</h4>
+      <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>  
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div  class="table-responsive">
+                <table role="table" class="table table-hover">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <th  class="tableheadStyle text-white">Document Title</th>
+                            <th  class="tableheadStyle text-white">Document Upload Date</th>
+                            <th  class="tableheadStyle text-white">Uploaded By</th>
+                            <th  class="tableheadStyle text-white">View</th>
+                            <!--<th  class="tableheadStyle text-white">Download</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let docs of trainingDocuments">
+                            <td><a href={{docs.documentPath}} target="_blank">{{(docs.title)}}</a></td>
+                            <td><a href={{docs.documentPath}} target="_blank">{{docs.uploadedDate | date: 'YYYY-MM-dd'}}</a></td>
+                            <td><a href={{docs.documentPath}} target="_blank">{{docs.fullname}}</a></td>
+                            <td>
+                                <a href={{docs.documentPath}} target="_blank"><i class="mdi mdi-file-download text-dark"></i></a>
+                            </td>
+                            <!--<td>
+                                <a href={{docs.documentPath}}><i class="mdi mdi-file-download text-dark"></i></a>
+                            </td>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+  </ng-template>
+  
+<ng-template #xlModal4 let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+      <h4 class="modal-title" id="exampleModalLabel">School Governing Body Invited Atendees</h4>
+      <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>  
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div  class="table-responsive">
+                <table role="table" class="table table-hover">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <th  class="tableheadStyle text-white">Full Name</th>
+                            <th  class="tableheadStyle text-white">CellNumber</th>
+                            <th  class="tableheadStyle text-white">Email Address</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor=" let att of viewAttendees">
+                            <td>{{(att.firstname)}}  {{att.surname}}</td>
+                            <td>{{att.cellNumber}}</td>
+                            <td>{{att.emailAddress}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+    </div>
+  </ng-template>
+
+  <ng-template #xlModal5 let-modal>
+    <div class="modal-header bg-primary text-white headingStyle2">
+      <h4 class="modal-title  " id="exampleModalLabel">School Governing Body Training Deteails & Minutes</h4>
+      <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!--- Logo -->
+    <div class="sidebar-header float-right">
+        <a routerLink="/dashboard" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo_alt.png">
+        </a>  
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <h6 class="line justify-content-center text-center">Time Lines</h6>
+            <br>
+            <div class="row ">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="minutes">Start Date</label>
+                        <input readonly type="text" class="form-control text-white" value="{{meetingMinutes.startDate | date: 'YYYY-MM-dd'}}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="minutes">Start Time</label>
+                        <input readonly type="text" class="form-control text-white" value="{{meetingMinutes.startDate | date: 'HH:mm'}}">
+                    </div>
+                </div>
+            </div> 
+            <div class="row">     
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="minutes">End Date</label>
+                        <input readonly type="text" class="form-control text-white" value="{{meetingMinutes.endDate | date: 'YYYY-MM-dd'}}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="minutes">End Time</label>
+                        <input readonly type="text" class="form-control text-white" value="{{meetingMinutes.endDate | date: 'HH:mm'}}">
+                    </div>
+                </div>
+            </div> 
+            <br> 
+            <h6 class="line justify-content-center text-center">Meeting Details</h6>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label >Title</label>
+                        <input readonly type="text" class="form-control text-white" value="{{meetingMinutes.title}}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label >Venue</label>
+                        <input readonly type="text" class="form-control text-white" value="{{meetingMinutes.venue}}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">    
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label >Agenda</label>
+                        <textarea readonly rows="30" cols="30" type="text" class="form-control text-white">{{meetingMinutes.description}}</textarea>
+                    </div>
+                </div>
+            </div>  
+            <br> 
+            <h6 class="line justify-content-center text-center">Minutes</h6>
+            <br>
+            <div class="row ">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="minutes">Minutes</label>
+                        <textarea readonly rows="30" cols="30" type="text" class="form-control text-white">{{meetingMinutes.minutes}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <label for="minutes">Documents</label>
+            <div  class="table-responsive">
+                <table role="table" class="table table-hover ">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <th  class="tableheadStyle text-white">Document Title</th>
+                            <th  class="tableheadStyle text-white">Document Upload Date</th>
+                            <th  class="tableheadStyle text-white">Uploaded By</th>
+                            <th  class="tableheadStyle text-white">View</th>
+                            <!--<th  class="tableheadStyle text-white">Download</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let docs of trainingDocuments">
+                            <td><a href={{docs.documentPath}} target="_blank">{{(docs.title)}}</a></td>
+                            <td><a href={{docs.documentPath}} target="_blank">{{docs.uploadedDate | date: 'YYYY-MM-dd HH:mm'}}</a></td>
+                            <td><a href={{docs.documentPath}} target="_blank">{{docs.fullname}}</a></td>
+                            <td>
+                                <a href={{docs.documentPath}} target="_blank"><i class="mdi mdi-file-download text-dark"></i></a>
+                            </td>
+                            <!--<td>
+                                <a href={{docs.documentPath}} download={{(docs.title)}}><i class="mdi mdi-file-download text-dark"></i></a>
+                            </td>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <label for="minutes">Atendees</label>
+            <div  class="table-responsive">
+                <table role="table"  class="table table-hover">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <th  class="tableheadStyle text-white">Full Name</th>
+                            <th  class="tableheadStyle text-white">CellNumber</th>
+                            <th  class="tableheadStyle text-white">Email Address</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor=" let att of viewAttendees">
+                            <td>{{(att.firstname)}}  {{att.surname}}</td>
+                            <td>{{att.cellNumber}}</td>
+                            <td>{{att.emailAddress}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <br>
+            <h6 class="line justify-content-center text-center"></h6>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary btn-lg btn-block"  (click)="modal.close('by: close icon')" (click)="updateData(meetingMinutes)" (click)="openXlModal(xlModal2)">EDIT Training Invitation</button>
+                </div>
+            </div>
+            <h6 class="line justify-content-center text-center"></h6>
+            <h6 class="line justify-content-center text-center"></h6>
+        </div> 
+    </div>
+  </ng-template>
+

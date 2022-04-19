@@ -1,0 +1,117 @@
+<div class="row d-flex justify-content-center">
+    <div class=" col-xl-10 main-content pl-xl-4 pr-xl-5">
+        <h1 class="page-title text-center page-title">Disclaimer</h1>
+        <hr class="just">
+
+        <!-- <p class="mb-3">Please read the following infomation</p> -->
+        <div class="example align-self-center">
+            <div class="perfect-scrollbar-example p-6" [perfectScrollbar]>
+
+                <h6 class="card-title">Introduction</h6>
+                <p>These Website Standard Terms and Conditions written on this webpage shall manage your use of our
+                    website, Webiste Name accessible at Website.com.</p>
+                <br>
+                <p>These Terms will be applied fully and affect to your use of this Website. By using this Website, you
+                    agreed to accept all terms and conditions written in here. You must not use this Website if you
+                    disagree with any of these Website Standard Terms and Conditions.</p>
+                <br>
+                <p>Minors or people below 18 years old are not allowed to use this Website.</p>
+                <br>
+                <h6 class="card-title">Intellectual Property Rights</h6>
+                <p>Other than the content you own, under these Terms, Company Name and/or its licensors own all the
+                    intellectual property rights and materials contained in this Website.</p>
+                <br>
+                <p>You are granted limited license only for purposes of viewing the material contained on this Website.
+                </p>
+                <br>
+                <h6 class="card-title">Restrictions</h6>
+                <p>Certain areas of this Website are restricted from being access by you and Company Name may further
+                    restrict access by you to any areas of this Website, at any time, in absolute discretion. Any user
+                    ID and password you may have for this Website are confidential and you must maintain confidentiality
+                    as well.</p>
+                <br>
+                <h6 class="card-title">Your Content</h6>
+                <p>In these Website Standard Terms and Conditions, “Your Content” shall mean any audio, video text,
+                    images or other material you choose to display on this Website. By displaying Your Content, you
+                    grant Company Name a non-exclusive, worldwide irrevocable, sub licensable license to use, reproduce,
+                    adapt, publish, translate and distribute it in any and all media.</p>
+                <br>
+                <h6 class="card-title">No warranties</h6>
+                <p>This Website is provided “as is,” with all faults, and Company Name express no representations or
+                    warranties, of any kind related to this Website or the materials contained on this Website. Also,
+                    nothing contained on this Website shall be interpreted as advising you.</p>
+                <br>
+                <p>Your Content must be your own and must not be invading any third-party's rights. Company Name
+                    reserves the right to remove any of Your Content from this Website at any time without notice.</p>
+                <br>
+                <h6 class="card-title">No warranties</h6>
+                <p>This Website is provided “as is,” with all faults, and Company Name express no representations or
+                    warranties, of any kind related to this Website or the materials contained on this Website. Also,
+                    nothing contained on this Website shall be interpreted as advising you.</p>
+                <br>
+                <h6 class="card-title">Limitation of liability</h6>
+                <p>In no event shall Company Name, nor any of its officers, directors and employees, shall be held
+                    liable for anything arising out of or in any way connected with your use of this Website whether
+                    such liability is under contract. Company Name, including its officers, directors and employees
+                    shall not be held liable for any indirect, consequential or special liability arising out of or in
+                    any way related to your use of this Website.</p>
+                <br>
+                <h6 class="card-title">Severability</h6>
+                <p>If any provision of these Terms is found to be invalid under any applicable law, such provisions
+                    shall be deleted without affecting the remaining provisions herein.</p>
+                <br>
+                <h6 class="card-title">Variation of Terms</h6>
+                <p>Company Name is permitted to revise these Terms at any time as it sees fit, and by using this Website
+                    you are expected to review these Terms on a regular basis.</p>
+                <br>
+                <h6 class="card-title">Governing Law & Jurisdiction</h6>
+                <p>These Terms will be governed by and interpreted in accordance with the laws of the State of Country,
+                    and you submit to the non-exclusive jurisdiction of the state and federal courts located in Country
+                    for the resolution of any disputes.</p>
+                <br>
+
+
+                <button type="submit" class="btn btn-success mr-2"
+                    (click)="agree()">Agree</button>
+                <button class="btn btn-danger" (click)="decline()">Decline</button>
+            </div>
+        </div>
+        <br>
+
+
+        <!-- <form method="get">
+            <div class="form-group">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]="results" name="optionsRadios"
+                            value="accept">
+                        <i class="input-frame"></i>
+                        Accept
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]="results" name="optionsRadios"
+                            value="decline">
+                        <i class="input-frame"></i>
+                        Decline
+                    </label>
+                </div>
+            </div>
+            <div *ngIf="results == 'decline'" class="form-check">
+                <label class="form-check-label"><i class="input-frame"></i>
+                    Reason for declining
+                </label>
+                <input type="text"  id="reason" placeholder="Type here"> 
+                <input type="text" [(ngModel)]="reason" [ngModelOptions]="{standalone: true}" required
+                    class="form-control" placeholder="Type here" (keypress)="hideError()">
+                <p *ngIf="error" class="text-danger">
+                    Please provide reason for declining
+                </p>
+            </div>
+        </form>
+        <div class="d-flex justify-content-end mt-2">
+            <button class="btn btn-primary" type="submit" (click)="submitResults()">Submit</button>
+        </div> -->
+    </div>
+</div>

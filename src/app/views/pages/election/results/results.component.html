@@ -1,0 +1,60 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">Election</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Results</li>
+  </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h2 class="mb-2">Election Results</h2>
+        <p class="lead">These results will only be final after the election closes.</p>
+        <hr>
+    </div>
+</div>
+
+<!-- 
+<div style="margin-bottom: 40px;"
+    class="row justify-content-center">
+    <h5>
+        Elections captured logged under the school {{schoolTitle | titlecase}}
+    </h5>
+</div> -->
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="bg-secondary text-white">
+                    <tr>
+                        <th class="text-white">Description</th>
+                        <th class="text-white">Start Date</th>
+                        <th class="text-white">End Date</th>
+                        <th class="text-white">Total Votes Needed</th>
+                        <th class="text-white">Total Votes Cast</th>
+                        <th class="text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let election of electionResults;let i = index">
+                        <th>{{election.schoolName}}</th>
+                        <th>{{election.startDate  | date: 'YYYY-MM-dd hh:mm a'}}</th>
+                        <th>{{election.endDate  | date: 'YYYY-MM-dd hh:mm a'}}</th>
+                        <th>{{election.totalVotesNeeded}}</th>
+                        <th>{{election.totalVotesCast}}</th>
+                        <th>
+                        <button type="button" class="btn btn-primary mr-2" (click)="openSaveCandidateModal(i)" >View</button>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center ">
+                <div *ngIf="noElections">
+                    <div class="card-body">
+                        <p class="card-title text-danger text-center">No elections captured for this school</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

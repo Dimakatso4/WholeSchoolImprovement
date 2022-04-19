@@ -1,0 +1,208 @@
+<!-- <nav class="navbar">
+    <a href="" class="sidebar-toggler" (click)="toggleSidebar($event)">
+
+    </a>
+
+</nav>
+-->
+
+<nav class="sidebar">
+    <div class="sidebar-header">
+
+
+        <a routerLink="/" class="sidebar-brand">
+            <img src="../assets/images/DepartmentEducationLogo.png ">
+        </a>
+
+
+    </div>
+</nav>
+
+
+<h4 class="card-title text-primary htitle">Create Profile</h4>
+
+
+<div class="row hform">
+    <!-- <div class="col-md-6 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Register Form</h6>
+
+                <aw-wizard>
+                    <aw-wizard-step stepTitle="step 1">
+                        <div class="form-group row">
+                            <label for="firstName1" class="col-sm-3 col-form-label">First name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="firstName1" placeholder="First name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lastName1" class="col-sm-3 col-form-label">Last name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="lastName1" placeholder="Last name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="userName1" class="col-sm-3 col-form-label">User name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="userName1" placeholder="User name">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="btn btn-primary" type="button" awNextStep>Continue</button>
+                        </div>
+                    </aw-wizard-step>
+                    <aw-wizard-step stepTitle="step 2">
+                        <div class="form-group row">
+                            <label for="email1" class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="email1" autocomplete="off"
+                                    placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="mobileNumber1" class="col-sm-3 col-form-label">Mobile</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" id="mobileNumber1"
+                                    placeholder="Mobile number">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password1" class="col-sm-3 col-form-label">Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="password1" autocomplete="off"
+                                    placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="btn btn-light mr-2" type="button" awPreviousStep>Back</button>
+                            <button class="btn btn-primary" type="button" awNextStep>Continue</button>
+                        </div>
+                    </aw-wizard-step>
+
+                    <aw-wizard-step stepTitle="finish">
+                        <div class="text-center">
+                            <i data-feather="check-circle" appFeatherIcon class="text-success mt-4 mb-2 icon-xxl"></i>
+                            <h3 class="text-muted mb-3">Thank you !</h3>
+                            <p class="w-75 mx-auto mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                elit. Integer ut nulla nunc. Maecenas arcu sem, hendrerit a tempor quis, sagittis
+                                accumsan tellus. In hac habitasse platea dictumst</p>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="btn btn-light mr-2" type="button" awPreviousStep>Back</button>
+                            <button class="btn btn-success" type="button" (click)="finishFunction()">Finish</button>
+                        </div>
+                    </aw-wizard-step>
+                </aw-wizard>
+
+            </div>
+        </div>
+    </div>  -->
+
+    <div class="col-md-6 grid-margin ">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Complete the form to create your profile</h6>
+
+                <form (ngSubmit)="form1Submit()" [formGroup]="validationForm1">
+                    <!-- <p class="text-center">Account Details</p> -->
+                    <div class="form-group row">
+                        <label *ngIf="accountType == 'sgb'" for="userName" class="col-sm-3 col-form-label">ID
+                            Number</label>
+                        <label *ngIf="accountType == 'employee'" for="userName" class="col-sm-3 col-form-label">Persal
+                            Number</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="userName" formControlName="userName"
+                                [ngClass]="{'is-invalid': isForm1Submitted && form1.userName.errors}"
+                                placeholder="Email here" readonly>
+
+                            <div *ngIf="isForm1Submitted && form1.userName.errors?.required" class="invalid-feedback">
+                                Required
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" [(ngModel)]="password" class="form-control" id="password"
+                                formControlName="password"
+                                pattern="^(?=.*[0-9])(?=.*[!@#$%^&*~-])[a-zA-Z0-9!@#$%^&*~-]{8,20}$"
+                                [ngClass]="{'is-invalid': isForm1Submitted && form1.password.errors}"
+                                placeholder="Type here">
+                            <div *ngIf="isForm1Submitted && form1.password.errors?.required" class="invalid-feedback">
+                                Required
+                            </div>
+                            <div *ngIf="isForm1Submitted && form1.password.errors?.pattern" class="invalid-feedback">
+                                <ul>
+                                    Password should be:
+                                    <li>
+                                        A minimum of 8 characters
+                                    </li>
+                                    <li>
+                                        contains atleast 1 UPPERCASE letter
+                                    </li>
+                                    <li>
+                                        contains atleast 1 lowercase letter
+                                    </li>
+                                    <li>
+                                        contains atleast 1 numeric character
+                                    </li>
+                                    <li>
+                                        contains atleast 1 special character
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="confirmpassword" class="col-sm-3 col-form-label">Confirm Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="confirmpassword"
+                                formControlName="confirmpassword" [(ngModel)]="confirmpassword"
+                                [ngClass]="{'is-invalid': isForm1Submitted && form1.confirmpassword.errors || isForm1Submitted && confirmpassword != password}"
+                                placeholder="Type here">
+                            <div *ngIf="isForm1Submitted && form1.confirmpassword.errors?.required"
+                                class="invalid-feedback">
+                                Required
+                            </div>
+                            <div *ngIf="isForm1Submitted && confirmpassword != password" class="invalid-feedback">
+                                Password don't match
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="aboutme" class="col-sm-3 col-form-label">About me</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" [ngModelOptions]="{standalone: true}" class="form-control"
+                                [(ngModel)]="aboutme" placeholder="Type here" rows="5"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group row">
+                        <label for="aboutme" class="col-sm-3 col-form-label">About me</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" class="form-control" id="aboutme" formControlName="aboutme"
+                                [ngClass]="{'is-invalid': isForm1Submitted && form1.aboutme.errors}"
+                                placeholder="Type here" rows="5"></textarea>
+                            <div *ngIf="isForm1Submitted && form1.aboutme.errors?.required"
+                                class="invalid-feedback">
+                                Required
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="d-flex justify-content-center mt-2">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div> <!-- col -->
+
+</div> <!-- row -->

@@ -1,0 +1,121 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Capture DIP Action Plan</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">Capture DIP Action Plan</h3>
+        <hr>
+    </div>
+</div>
+<div>
+    <br />
+</div>
+
+
+
+
+<form _ngcontent-acq-c173="" novalidate="" ng-reflect-form="[object Object]" class="ng-untouched ng-pristine ng-invalid"
+    [formGroup]="validationForm">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label for="docsTitle">School Name</label>
+                            <input type="text" value="Motaung Primary School" name="docNo" class="form-control"
+                                disabled>
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label for="docsTitle">EMIS Number</label>
+                            <input type="text" name="docNo" value="012345698" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label for="docName">District Name</label>
+                            <input type="text" name="docName" value="Fezile Dabi" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                </div>
+                <hr />
+
+            </div>
+            <div>
+            </div>
+            <h4> &nbsp;&nbsp;Capture DIP Action Plan</h4>
+            <div class="table-responsive table-hover">
+                <table class="table" name="perishableTableList">
+                    <thead>
+                        <tr>
+                            <th class="header-label" style="color:black; font-size:12px;">Area of Evaluation</th>
+                            <th class="header-label" style="color:black; font-size:12px;">Component</th>
+                            <th class="header-label" style="color:black; font-size:12px;">KPI</th>
+                            <th class="header-label" style="color:black; font-size:12px;">Rating</th>
+                            <th class="header-label" style="color:black; font-size:12px;">Comment</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let actionPlan of actionPlanList; let i = index;trackBy: customQuantity">
+
+
+                            <td>{{product.foodGroupDescription}}</td>
+                            <td>
+
+                                <div>&nbsp;{{product.productTypeDescription}}</div>
+
+
+                            </td>
+                            <td>
+                                <select [(ngModel)]='perishableList[i].isProductWrong'
+                                    (change)="selectProductTypeInput($event)" class="form-control"
+                                    formControlName="status" style="max-width: fit-content;">
+                                    <option value="" hidden disabled selected>Please select one</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+
+                            </td>
+                            <td>
+                                <select [(ngModel)]='perishableList[i].isQualityWrong' (change)="selectIn($event)"
+                                    class="form-control" formControlName="status" style="max-width: fit-content;">
+                                    <option value="" hidden disabled selected>Please select one</option>
+                                    <option value="false">Poor</option>
+                                    <option value="true">Good</option>
+
+                                </select>
+
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div>
+                <button class="btn btn-primary mt-2 " (click)="SubmitDeliveryResults()">Submit</button>
+                &nbsp;&nbsp;
+                <button class="btn btn-primary mt-2 " (click)="SubmitDeliveryResults()">Save</button>
+                &nbsp;&nbsp;
+                <button class="btn btn-danger mt-2 " (click)="resetDropzoneUploads()">Cancel</button>
+            </div>
+        </div> <!-- col -->
+    </div>
+</form>

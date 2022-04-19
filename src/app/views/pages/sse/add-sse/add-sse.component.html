@@ -1,0 +1,1279 @@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink=".">Capture SSE</a></li>
+        <!-- <li class="breadcrumb-item active" aria-current="page">Results</li> -->
+    </ol>
+</nav>
+
+<div class="row" style="padding-left: 0.75rem; padding-right: 0.75rem;">
+    <div class="col-md-12 bg-primary text-white" style="padding: 20px 12px 12px 12px; margin: 25px 0">
+        <h3 class="mb-2">Capture SSE</h3>
+        <hr>
+    </div>
+</div>
+<div>
+    <br />
+</div>
+
+<button *ngIf="officeLevel == 'District' || officeLevel == 'Head Office'" class="btn btn-primary float-right "
+    routerLink="/sse/school"><i class="mdi mdi-arrow-left"></i> Go Back</button>
+<br />
+<br />
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="docsTitle">School Name</label>
+                        <input type="text" value="{{schoolName | titlecase}}" placeholder="Loading..." name="docNo"
+                            class="form-control" readonly>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="docsTitle">EMIS Number</label>
+                        <input type="text" name="docNo" value="{{emisNumber}}" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="docName">District Name</label>
+                        <input type="text" name="docName" value="{{districtName | titlecase}}" placeholder="Loading..."
+                            class="form-control" readonly>
+                    </div>
+                </div>
+
+            </div>
+
+            <br />
+            <!-- <h4 *ngIf="!isSSEExists || kpiList.length > 0"> &nbsp;&nbsp;Capture SSE</h4>
+            <h4 *ngIf="isSSEExists || kpiList.length == 0"> &nbsp;&nbsp;Captured SSE</h4> -->
+            <h4> &nbsp;&nbsp;
+                {{ isSSEExists?'Captured SSE':'Capture SSE' }}
+            </h4>
+            <br />
+
+            <form name="captureSSEForm" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+
+                <!--             <div class="table-responsive table-hover">
+                    <table class="table" name="perishableTableList">
+                        <thead>
+                            <tr>
+                                <th class="header-label" style="color:black; font-size:12px;">AreaList of Evaluation</th>
+                                <th class="header-label" style="color:black; font-size:12px;">Component</th>
+                                <th class="header-label" style="color:black; font-size:12px;">KPI</th>
+                                <th class="header-label" style="color:black; font-size:12px;">Rating</th>
+                                <th class="header-label" style="color:black; font-size:12px;">Comment</th>
+                            </tr>
+    
+                        </thead>
+                        <tbody>
+    
+                            <tr *ngFor="let kpi of kpiList; let i = index;trackBy: customQuantity">
+    
+    
+                                <td>{{kpi.focusArea}}</td>
+                                <td>
+                                    <div>&nbsp;{{kpi.componentName}}</div>
+    
+                                </td>
+                                <td>
+                                    <div>&nbsp;{{kpi.kpiName}}</div>
+    
+                                </td>
+                                <td>
+                                    <div *ngIf="kpiList[i].rating === 'Yes/No'">
+    
+                                    <select [(ngModel)]='kpiList[i].ratingID' (change)="selectKPIInput($event)"
+                                    name="kpiRating" #kpiRating="ngModel"
+                                        class="form-control" style="max-width: fit-content;">
+                                        <option value="" hidden disabled selected>Please select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                        <option value="N/A">N/A</option>
+                                    </select>
+                                    </div>
+    
+                                    <div *ngIf="kpiList[i].rating === '1-5'">
+                                    <select [(ngModel)]='kpiList[i].ratingID' (change)="selectKPIInput($event)"
+                                        name="kpiRating" #kpiRating="ngModel"
+                                        class="form-control" style="max-width: fit-content;">
+                                        <option value="" hidden disabled selected>Please select</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="4">5</option>
+                                        <option value="N/A">N/A</option>
+                                    </select>
+                                    </div>
+    
+                                </td>
+                               
+                                <td>
+    
+                                    <input type="text" name="kpiComment"
+                                        #kpiComment="ngModel"
+                                        [ngClass]="{'invalid': kpiList[i].rating === '1' && kpiList[i].comment.length===0}"
+                                        [(ngModel)]='kpiList[i].comment' />
+    
+                                </td>
+    
+                                <td>
+    
+                                   <div class="row"
+                                       *ngIf="kpiList[i].ratingID === '2' || kpiList[i].ratingID === '3' ||
+                                       kpiList[i].ratingID === '4' || kpiList[i].ratingID === '5' || kpiList[i].ratingID ===
+                                       'Yes'">
+                                       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                           <div class="form-group">
+                                               <label>Upload Document<span class="required-asterisk">*</span></label>
+                                               <div class="dropzone" [dropzone]="config" (error)="onUploadError($event)"
+                                                   (success)="onUploadSuccess($event,i)"
+                                                   [ngClass]="{'is-invalid': isFormSubmitted && docPath == ''}"></div>
+                                           </div>
+                                           <p *ngIf="isFormSubmitted && docPath =='' " class="error">Please upload document
+                                           </p>
+                                       </div>
+                                   </div>
+    
+                                </td>
+    
+    
+                            </tr>
+    
+                            <div class="table-responsive table-hover" [innerHTML]=dynamicTable></div>
+                        </tbody>
+                    </table>
+                    
+                    
+                </div>
+                <br>
+                <div>
+                    <button class="btn btn-primary mt-2 " type="submit">Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-primary mt-2 " (click)="SaveSSE()">Save</button>
+                    &nbsp;&nbsp;
+    
+                </div>-->
+
+
+
+                <ngb-accordion [closeOthers]="true" *ngFor="let aoe of AreaList; let v = index;trackBy: customQuantity">
+
+                    <ngb-panel title="{{aoe.focusArea}}" style="width: 100%;"
+                        *ngIf="aoe.currentAreaOfEvaluation != aoe.previousAreaOfEvaluation">
+
+
+                        <ng-template ngbPanelContent>
+
+
+                            <span *ngIf="assignedTo == 'School'" (click)="test()"
+                                class="badge badge-primary text-white font-weight-bold float-right">
+                                {{getCompletedKPI(aoe.currentAreaOfEvaluation)}} of
+                                {{getTotalKPI(aoe.currentAreaOfEvaluation)}} Completed
+                            </span>
+
+                            <br />
+
+                            <p *ngIf="assignedTo == 'School'" class="mb-3">
+                                <ngb-progressbar
+                                    type="{{getPercentageCount(aoe.currentAreaOfEvaluation) >= 100?'success':'primary'}}"
+                                    value="{{getPercentageCount(aoe.currentAreaOfEvaluation)}}"
+                                    [striped]="getPercentageCount(aoe.currentAreaOfEvaluation) >= 100?false:true"
+                                    [animated]="true"
+                                    [showValue]="getPercentageCount(aoe.currentAreaOfEvaluation) >= 100?false:true">
+                                    {{getPercentageCount(aoe.currentAreaOfEvaluation) >= 100?'Completed':''}}
+                                </ngb-progressbar>
+                            </p>
+                            <ngb-accordion [closeOthers]="true"
+                                *ngFor="let component of ComponentList; let x = index;trackBy: customQuantity">
+
+                                <ngb-panel title="{{component.componentName}}"
+                                    *ngIf="aoe.currentAreaOfEvaluation == component.currentAreaOfEvaluation"
+                                    style="width: 100%;">
+                                    <ng-template ngbPanelContent>
+
+                                        <ngb-accordion
+                                            *ngFor="let kpi of kpiList; let i = index; trackBy: customQuantity"
+                                            [closeOthers]="true">
+
+                                            <ngb-panel title="{{kpi.kpiName}}" style="width: 100%;"
+                                                *ngIf="component.currentComponent == kpi.currentComponent">
+                                                <ng-template ngbPanelContent>
+
+
+                                                    <i class="mdi mdi-information-outline icon-sm"></i>
+                                                    <label> <b>Legends</b>: (
+                                                        <span placement="top" disabled data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="It is not available, not done, does not exist, does not occur. There is non-compliance. There are major weaknesses that require immediate remedial intervention and action">
+                                                            1 - Needs Urgent Support
+                                                        </span>,
+                                                        <span placement="top" disabled data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="It is available. Some of the aspects are appropriate and some are not. There is non-compliance with with a significant number of minimum requirements. The strengths are outweighed by areas that require development">
+                                                            2 - Needs Improvement
+                                                        </span>,
+                                                        <span placement="top" disabled data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="It is available and appropriate. Majority of the aspects are implemented, comply with legislation and add value to school operations">
+                                                            3 - Acceptable
+                                                        </span>,
+                                                        <span placement="top" disabled data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="It is available, appropriate and implemented. All the aspects are implemented, comply with legislation and add value to school operations">
+                                                            4 - Good
+                                                        </span>,
+                                                        <span placement="top" disabled data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="It is available, appropriate and implemented and effective. All the aspects are implemented, comply with legislation and add value to school operations with clear evidence of innovative practice">
+                                                            5 - Innovative
+                                                        </span> )
+
+                                                    </label>
+
+                                                    <!-- SSE CAPTURED BY THE SCHOOL -->
+                                                    <hr />
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <!-- <th class="header-label" style="color:black; font-size:12px;">KPI
+                                                        </th> -->
+
+                                                                <th class="header-label"
+                                                                    style="color:black; font-size:12px;">
+                                                                    Rating
+                                                                </th>
+                                                                <th class="header-label"
+                                                                    style="color:black; font-size:12px;">
+                                                                    Comment
+                                                                </th>
+                                                                <!-- <th class="header-label" style="color:black; font-size:12px;">Status
+                                                        </th> -->
+                                                                <th class="header-label"
+                                                                    style="color:black; font-size:12px;">Description of
+                                                                    Evidence
+                                                                </th>
+                                                                <th class="header-label" style="color:white">
+                                                                    <!-- Upload -->
+                                                                </th>
+                                                                <th class="header-label" style="color:white">
+                                                                    <!-- IsSIP -->
+                                                                </th>
+                                                                <th class="header-label"
+                                                                    style="color:black; font-size:12px; white-space: pre-wrap">
+                                                                    <!-- <span *ngIf="isSSEExists">Business Unit Comment
+                                                                    </span>
+                                                                    <span *ngIf="false">Circuit Manager Comment
+                                                                    </span>
+                                                                    <span *ngIf="false">Director Comment</span> -->
+                                                                </th>
+
+                                                            </tr>
+
+                                                        </thead>
+                                                        <!--   SCHOOL USER FORM     -->
+                                                        <tbody *ngIf="officeLevel === 'School'">
+
+                                                            <!-- <tr *ngFor="let kpi of kpiList; let i = index; trackBy: customQuantity" -->
+                                                            <tr>
+                                                                <!-- <tr *ngIf="showKPI(aoe, component, kpi)"> -->
+                                                                <!-- 
+                                                        <td>
+                                                            <div style="white-space: pre-wrap">{{kpi.kpiName}}</div>
+                            
+                                                        </td> -->
+                                                                <td>
+                                                                    <!-- 
+                                                                *ngIf="kpi.rating === 'Yes/No' && assignedTo ==
+                            
+                                                                *ngIf="kpi.rating === '1-5' && assignedTo == 'School'"
+                                                             -->
+
+                                                                    <div *ngIf="isSSEExists  && assignedTo != 'School'"
+                                                                        style="white-space: pre-wrap"
+                                                                        class="text-center">{{kpi.response}}</div>
+
+                                                                    <div
+                                                                        *ngIf="kpi.rating === 'Yes/No' && !isSSEExists || kpi.rating === 'Yes/No' && assignedTo == 'School'">
+
+                                                                        <select value='{{kpi.response}}'
+                                                                            (change)="updateComment('response', $event, i)"
+                                                                            [ngClass]="{'is-invalid': isFormSubmitted && !kpiList[i].rating || isFormSubmitted && !kpiList[i].response}"
+                                                                            name="kpiRating" class="form-control">
+                                                                            <option value="" hidden disabled selected>
+                                                                                Please select
+                                                                            </option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                            <option value="N/A">N/A</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div
+                                                                        *ngIf="kpi.rating === '1-5' && !isSSEExists || kpi.rating === '1-5' && assignedTo == 'School'">
+                                                                        <select value='{{kpi.response}}'
+                                                                            (change)="updateComment('response', $event, i)"
+                                                                            [ngClass]="{'is-invalid': isFormSubmitted && !kpiList[i].rating || isFormSubmitted && !kpiList[i].response}"
+                                                                            name="kpiRating" class="form-control">
+                                                                            <option value="" hidden disabled selected>
+                                                                                Please select
+                                                                            </option>
+                                                                            <option value="1">1 (Needs Urgent Support)
+                                                                            </option>
+                                                                            <option value="2">2 (Needs Improvement)
+                                                                            </option>
+                                                                            <option value="3">3 (Acceptable)</option>
+                                                                            <option value="4">4 (Good)</option>
+                                                                            <option value="5">5 (Innovative)</option>
+                                                                            <option value="N/A">N/A</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <p class="invalid-msg"
+                                                                        *ngIf="isFormSubmitted && !kpiList[i].rating || isFormSubmitted && !kpiList[i].response">
+                                                                        Rating is required
+                                                                    </p>
+
+                                                                </td>
+                                                                <td>
+                                                                    <!-- <div class="row"> -->
+                                                                    <!-- <input type="text" name="kpiComment"
+                                                                        placeholder="Type here"
+                                                                        value="{{kpi.schoolComment}}" readonly
+                                                                        *ngIf="assignedTo != 'School'"
+                                                                        class="form-control" />
+                                                                    <input type="text" name="kpievidence"
+                                                                        placeholder="Type here"
+                                                                        value="{{kpi.schoolComment}}"
+                                                                        class="form-control"
+                                                                        *ngIf="assignedTo == 'School'"
+                                                                        (input)="updateComment('school', $event, i)" /> -->
+                                                                    <!-- <p class="invalid-msg "
+                                                                *ngIf="isFormSubmitted && isRatingAbove(kpiList[i].ratingID, kpiList[i].rating)  && !kpiList[i].evidenceDescription">
+                                                                Description is required
+                                                            </p>
+                                                             &nbsp;&nbsp;
+                                                                <input type="checkbox" name="kpiComment" placeholder="Type here"
+                                                                    *ngIf="kpiList[i].ratingID === '5' || kpiList[i].ratingID === '4'"
+                                                                    [ngClass]="{'is-invalid': isFormSubmitted && kpiList[i].ratingID === '1' && !kpiList[i].comment}"
+                                                                    class="form-control" />
+                                                                </div> -->
+
+
+                                                                    <!-- <p class="invalid-msg "
+                                                                *ngIf="kpiList[i].ratingID === '5' || kpiList[i].ratingID === '4'">
+                                                                Comment is required
+                                                            </p> -->
+
+
+                                                                    <textarea name="school" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="assignedTo != 'School'">{{kpi.schoolComment}}</textarea>
+
+
+                                                                    <textarea name="school" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        *ngIf="assignedTo == 'School'" minlength="50"
+                                                                        [ngClass]="{'is-invalid': isFormSubmitted && kpiList[i].ratingID == '1' && !kpi.schoolComment ||
+                                                                                isFormSubmitted && kpiList[i].ratingID == '2' && !kpi.schoolComment ||
+                                                                                isFormSubmitted && kpiList[i].ratingID == 'No' && !kpi.schoolComment}"
+                                                                        (input)="updateComment('school', $event, i)">{{kpi.schoolComment}}</textarea>
+
+                                                                    <p class="invalid-msg"
+                                                                        *ngIf="isFormSubmitted && kpiList[i].ratingID == '1' && !kpi.schoolComment ||
+                                                                        isFormSubmitted && kpiList[i].ratingID == '2' && !kpi.schoolComment ||
+                                                                        isFormSubmitted && kpiList[i].ratingID == 'No' && !kpi.schoolComment">
+                                                                        Comment is required
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <!-- 
+                                                            <input type="text" name="kpiComment" #kpiComment="ngModel"
+                                                                placeholder="Type here"
+                                                                [ngClass]="{'is-invalid': isFormSubmitted && kpiList[i].ratingID === '1' && !kpiList[i].comment}"
+                                                                [(ngModel)]='kpiList[i].comment' class="form-control" />
+                                                            <p class="invalid-msg "
+                                                                *ngIf="isFormSubmitted && kpiList[i].ratingID === '1' && !kpiList[i].comment">
+                                                                Comment is required
+                                                            </p> -->
+                                                                    <!-- <div *ngIf="isSSEExists && assignedTo == 'School'" style="white-space: pre-wrap">
+                                                                &nbsp;{{kpi.evidence}}</div> -->
+                                                                    <!-- <input type="text" name="evidence"
+                                                                        placeholder="Type here" class="form-control"
+                                                                        readonly *ngIf="assignedTo != 'School'"
+                                                                        value='{{kpi.evidenceDescription}}' />
+                                                                    <input type="text" name="evidence"
+                                                                        placeholder="Type here"
+                                                                        (input)="updateComment('evidence', $event, i)"
+                                                                        value="{{kpi.evidenceDescription}}"
+                                                                        [ngClass]="{'is-invalid': isFormSubmitted && kpiList[i].ratingID === '1' && !kpiList[i].evidenceDescription}"
+                                                                        class="form-control"
+                                                                        *ngIf="assignedTo == 'School'" /> -->
+                                                                    <textarea name="evidence" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="assignedTo != 'School'">{{kpi.evidenceDescription}}</textarea>
+
+                                                                    <!-- <label *ngIf="assignedTo == 'School'"
+                                                                        style="font-size: smaller; white-space: pre-wrap">{{kpi.evidenceDescription.length}} characters</label> -->
+                                                                    <textarea name="evidence" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        *ngIf="assignedTo == 'School'" minlength="50"
+                                                                        [ngClass]="{'is-invalid': isFormSubmitted && !kpi.evidenceDescription && kpiList[i].ratingID != '1'
+                                                                        && kpiList[i].ratingID != 'N/A' && kpiList[i].ratingID != 'No'}"
+                                                                        (input)="updateComment('evidence', $event, i)">{{kpi.evidenceDescription}}</textarea>
+
+                                                                    <p class="invalid-msg"
+                                                                        *ngIf="isFormSubmitted && !kpi.evidenceDescription && kpiList[i].ratingID != '1' && kpiList[i].ratingID != 'N/A'">
+                                                                        Evidence description is required
+                                                                    </p>
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    <div *ngIf="kpiList[i].ratingID === '3' || kpiList[i].ratingID === '2' ||                                                     
+                                                                        kpiList[i].ratingID === '4' || kpiList[i].ratingID === '5' ||
+                                                                        kpiList[i].ratingID === 'Yes' || kpi.response === '3' ||
+                                                                        kpi.response === '2' || kpi.response === '4' || kpi.response === '5' 
+                                                                        || kpi.response === 'Yes'">
+                                                                        <!-- <div [hidden]="kpiList[i].ratingID != '2' && kpiList[i].ratingID  != '3' &&
+                                                                     kpiList[i].status == 'Created'  response || kpiList[i].status == 'SSESendForEvidence'
+                                                            kpiList[i].ratingID  != '4' && kpiList[i].ratingID  != '5' && kpiList[i].ratingID  != 'Yes'"> -->
+
+                                                                        <div *ngIf="assignedTo == 'School'"
+                                                                            class="form-group">
+                                                                            <label
+                                                                                style="font-size: smaller; white-space: pre-wrap">Supporting
+                                                                                Document</label>
+                                                                            <div class="dropzone dropzone-container upload-box"
+                                                                                [dropzone]="config"
+                                                                                (error)="onUploadError($event)"
+                                                                                (success)="onUploadSuccess($event,i)"
+                                                                                [ngClass]="{'is-invalid': isFormSubmitted && !docPath}">
+                                                                                <!-- <dropzone class="dropzone dropzone-container"
+                                                                            [dropzone]="config"
+                                                                            (error)="onUploadError($event)"
+                                                                            (success)="onUploadSuccess($event,i)"
+                                                                            [ngClass]="{'is-invalid': isFormSubmitted && !docPath}">
+                                                                        </dropzone> -->
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <!-- <div>
+                                                                    <label
+                                                                        style="font-size: smaller; white-space: pre-wrap">Upload
+                                                                        Supporting Document</label>
+                                                                    <div class="col-md-12">
+                                                                        <dropzone class="dropzone-container" [name]="i"
+                                                                            [id]="i" [config]="config" class="dropzone"
+                                                                            (error)="onUploadError($event)"
+                                                                            [message]="'Click or drag files here to upload'"
+                                                                            (success)="onUploadSuccess($event,i)">
+                                                                        </dropzone>
+                                                                    </div>
+                                                                </div> -->
+
+                                                                        <!--
+                                                                    [message]="'Click or drag files here to upload'" <p *ngIf="(isFormSubmitted && !docPath) && 
+                                                                (kpiList[i].ratingID === '3' || kpiList[i].ratingID === '2' || 
+                                                                kpiList[i].ratingID === '4' || kpiList[i].ratingID === '5' ||
+                                                                kpiList[i].ratingID === 'Yes')" class="error">
+                                                                    Please upload evidence
+                                                                </p> -->
+
+                                                                    </div>
+
+
+                                                                    <!-- <a *ngIf="kpi.documentPath && isSSEExists"
+                                                                        target="_blank" href="{{kpi.documentPath}}"><i
+                                                                            class="mdi mdi-download icon-sm text-dark"></i></a> -->
+
+
+                                                                    <a *ngIf="kpi.documentPath && isSSEExists"
+                                                                        target="_blank" data-toggle="tooltip"
+                                                                        data-placement="bottom"
+                                                                        title="View or download uploaded document"
+                                                                        href="{{kpi.documentPath}}"><i
+                                                                            class="mdi mdi-download icon-sm text-dark"></i></a>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <div>
+                                                                        <!-- <input type="checkbox" name="kpiComment"
+                                                                    class="form-control" /> -->
+
+                                                                        <!-- <a *ngIf="assignedTo != 'School' && kpi.isSip"
+                                                                    style="font-size: smaller; white-space: pre-wrap"
+                                                                    target="_blank"><i
+                                                                        class="mdi mdi-check-circle-outlines text-primary"></i>
+                                                                    Include
+                                                                    in SIP</a> -->
+
+
+                                                                        <input type="checkbox" checked disabled
+                                                                            *ngIf="assignedTo != 'School' && kpi.isSip"
+                                                                            class="form-check-input"><span
+                                                                            style="font-size: smaller; white-space: pre-wrap"
+                                                                            *ngIf="assignedTo != 'School' && kpi.isSip">Include
+                                                                            in
+                                                                            SIP</span>
+
+                                                                        <div *ngIf="assignedTo == 'School' && kpi.response === '5' || 
+                                                                assignedTo == 'School' && kpi.response === 'Yes' || 
+                                                                assignedTo == 'School' && kpi.response === '4' "
+                                                                            class="align-checkbox form-check form-check-flat form-check-primary">
+                                                                            <label class="align-checkbox">
+                                                                                <input type="checkbox"
+                                                                                    [checked]="kpi.isSip"
+                                                                                    [(ngModel)]="kpiList[i].isSip"
+                                                                                    [ngModelOptions]="{standalone: true}"
+                                                                                    class="form-check-input align-checkbox"><i
+                                                                                    class="input-frame"></i>
+                                                                                <span
+                                                                                    style="white-space: pre-wrap">Include
+                                                                                    in SIP</span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                        <!-- <div *ngIf="kpiList[i].ratingID === '5' || kpiList[i].ratingID === 'Yes' || kpiList[i].ratingID === '4'"
+                                                                    class="align-checkbox form-check form-check-flat form-check-primary">
+                                                                    <label class="align-checkbox">
+                                                                        <input type="checkbox"
+                                                                            [(ngModel)]="kpiList[i].isSip"
+                                                                            (click)="updateComment('exception', $event, i)"
+                                                                            class="form-check-input align-checkbox"><i
+                                                                            class="input-frame"></i>
+                                                                        <span style="white-space: pre-wrap"
+                                                                            (click)="updateComment('exception', $event, i)">Include
+                                                                            in SIP</span>
+                                                                    </label>
+                                                                </div> -->
+                                                                        <!-- <input type="checkbox" value="{{kpi.isSip}}"
+                                                                    *ngIf="kpi.response === '5' || kpi.response === 'Yes' || kpi.response === '4' "
+                                                                    class="form-check-input"><span
+                                                                    style="font-size: smaller; white-space: pre-wrap"
+                                                                    *ngIf="kpi.response === '5' || kpi.response === 'Yes' || kpi.response === '4' ">Include
+                                                                    in SIP?</span> 
+                            
+                                                                <input type="checkbox" [(ngModel)]="kpiList[i].isSip"
+                                                                    *ngIf="kpiList[i].ratingID === '5' || kpiList[i].ratingID === 'Yes' || kpiList[i].ratingID === '4'"
+                                                                    class="form-check-input"><span
+                                                                    style="font-size: smaller; white-space: pre-wrap"
+                                                                    *ngIf="kpiList[i].ratingID === '5' || kpiList[i].ratingID === 'Yes' || kpiList[i].ratingID === '4'">Include
+                                                                    in SIP?</span>-->
+
+
+                                                                    </div>
+
+                                                                </td>
+                                                                <td>
+                                                                    <!-- <div style="white-space: pre-wrap">{{kpi.comment}}
+                                                                    </div> -->
+                                                                    <!-- 
+                                                                    <textarea name="kpiComment" cols="10" rows="10"
+                                                                        class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.comment}}</textarea> -->
+
+                                                                </td>
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   BUSINESS UNIT HEAD USER FORM     -->
+                                                        <tbody
+                                                            *ngIf="isBUHead(userRole) && officeLevel=='District' && isSSEExists">
+
+                                                            <tr>
+                                                                <td>
+                                                                    <div style="white-space: pre-wrap"
+                                                                        class="text-center">
+                                                                        {{kpi.response}}</div>
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="school" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.schoolComment}}</textarea>
+
+
+                                                                </td>
+                                                                <td>
+
+
+                                                                    <textarea name="evidence" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.evidenceDescription}}</textarea>
+
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    <a *ngIf="kpi.documentPath" target="_blank"
+                                                                        data-toggle="tooltip" data-placement="bottom"
+                                                                        title="View or download uploaded document"
+                                                                        href="{{kpi.documentPath}}"><i
+                                                                            class="mdi mdi-download icon-sm text-dark"></i></a>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <input type="checkbox" checked disabled
+                                                                        *ngIf="kpi.isSip" class="form-check-input"><span
+                                                                        style="font-size: smaller; white-space: pre-wrap"
+                                                                        *ngIf="kpi.isSip">Include in SIP</span>
+
+                                                                </td>
+
+                                                                <td>
+
+
+                                                                    <!-- <input type="text" name="kpievidence"
+                                                                        placeholder="Type here"
+                                                                        *ngIf="kpi.status != 'SSELogged' && kpi.status != 'SSESendForEvidence'"
+                                                                        class="form-control" readonly
+                                                                        value="{{kpi.comment}}" />
+
+                                                                    <input type="text" name="kpiComment"
+                                                                        value="{{kpi.comment}}" placeholder="Type here"
+                                                                        (input)="updateComment('district', $event, i)"
+                                                                        *ngIf="kpi.status == 'SSELogged' || kpi.status == 'SSESendForEvidence'"
+                                                                        class="form-control" /> -->
+                                                                    <!-- 
+                                                                    <textarea name="kpiComment" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="kpi.status != 'SSELogged' && kpi.status != 'SSESendForEvidence' && kpi.status != 'SendForEvidence'">{{kpi.comment}}BU</textarea>
+
+
+                                                                    <textarea name="kpiComment" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        minlength="50"
+                                                                        *ngIf="kpi.status == 'SSELogged' || kpi.status == 'SSESendForEvidence' || kpi.status == 'SendForEvidence'"
+                                                                        (input)="updateComment('district', $event, i)">{{kpi.comment}}BU</textarea>
+
+                                                                    <p class="invalid-msg " *ngIf="false">
+                                                                        Comment is required
+                                                                    </p> -->
+
+                                                                </td>
+
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   CIRCUIT MANAGER USER FORM     -->
+                                                        <tbody
+                                                            *ngIf="isCircuitManager(userRole) && officeLevel=='District' && isSSEExists">
+
+                                                            <tr>
+
+                                                                <td>
+                                                                    <div style="white-space: pre-wrap"
+                                                                        class="text-center">
+                                                                        {{kpi.response}}</div>
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="school" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.schoolComment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="evidence" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.evidenceDescription}}</textarea>
+
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    <a *ngIf="kpi.documentPath" target="_blank"
+                                                                        data-toggle="tooltip" data-placement="bottom"
+                                                                        title="View or download uploaded document"
+                                                                        href="{{kpi.documentPath}}"><i
+                                                                            class="mdi mdi-download icon-sm text-dark"></i></a>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <input type="checkbox" checked disabled
+                                                                        *ngIf="kpi.isSip" class="form-check-input"><span
+                                                                        style="font-size: smaller; white-space: pre-wrap"
+                                                                        *ngIf="kpi.isSip">Include in SIP</span>
+                                                                    <!-- <p style="white-space: pre-wrap" *ngIf="kpi.status == 'SSELogged' && kpi.isSip">
+                                                                Include in SIP
+                                                            </p> -->
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    <!-- <textarea name="managerComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="kpi.status != 'SSELogged' && kpi.status != 'SSESendForEvidence'">{{kpi.comment}}</textarea>
+
+
+                                                                    <textarea name="managerComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" minlength="50"
+                                                                        *ngIf="kpi.status == 'SSELogged' || kpi.status == 'SSESendForEvidence'"
+                                                                        (input)="updateComment('district', $event, i)">{{kpi.managerComment}}</textarea>
+
+                                                                    <p class="invalid-msg " *ngIf="false">
+                                                                        Comment is required
+                                                                    </p> -->
+
+                                                                </td>
+
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   DISTRICT DIRECTOR USER FORM    -->
+                                                        <tbody
+                                                            *ngIf="userRole=='Director' && officeLevel=='District' && isSSEExists">
+
+                                                            <tr>
+
+                                                                <td>
+                                                                    <div style="white-space: pre-wrap"
+                                                                        class="text-center">
+                                                                        {{kpi.response}}</div>
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="school" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.schoolComment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="school" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.evidenceDescription}}</textarea>
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    <a *ngIf="kpi.documentPath" target="_blank"
+                                                                        data-toggle="tooltip" data-placement="bottom"
+                                                                        title="View or download uploaded document"
+                                                                        href="{{kpi.documentPath}}"><i
+                                                                            class="mdi mdi-download icon-sm text-dark"></i></a>
+
+                                                                </td>
+                                                                <td>
+                                                                    <input type="checkbox" checked disabled
+                                                                        *ngIf="kpi.isSip" class="form-check-input"><span
+                                                                        style="font-size: smaller; white-space: pre-wrap"
+                                                                        *ngIf="kpi.isSip">Include in SIP</span>
+                                                                    <!-- <p style="white-space: pre-wrap" *ngIf="kpi.status == 'SSELogged' && kpi.isSip">
+                                                                Include in SIP
+                                                            </p> -->
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <!-- <div style="white-space: pre-wrap">{{kpi.comment}}
+                                                                    </div> -->
+
+                                                                    <!-- <textarea name="directorComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" readonly
+                                                                        *ngIf="kpi.status != 'SSEApproved'"
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;">{{kpi.directorComment}}</textarea>
+
+                                                                    <textarea name="directorComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" minlength="50"
+                                                                        *ngIf="kpi.status == 'SSEApproved' || kpi.status == 'SSESendForEvidence'"
+                                                                        (input)="updateComment('district', $event, i)">{{kpi.directorComment}}</textarea> -->
+
+
+                                                                </td>
+
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   HEAD OFFICE USER FORM     -->
+                                                        <tbody *ngIf="officeLevel=='Head Office' && isSSEExists">
+
+                                                            <tr>
+
+                                                                <!-- <td>
+                                                            <div style="white-space: pre-wrap">&nbsp;{{kpi.kpiName}}</div>
+                            
+                                                        </td> -->
+                                                                <td>
+                                                                    <div style="white-space: pre-wrap"
+                                                                        class="text-center">
+                                                                        {{kpi.response}}</div>
+                                                                </td>
+                                                                <td>
+                                                                    <!-- <div style="white-space: pre-wrap">
+                                                                        &nbsp;{{kpi.schoolComment}}
+                                                                    </div> -->
+
+                                                                    <textarea name="schoolComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.schoolComment}}</textarea>
+
+
+
+                                                                </td>
+                                                                <td>
+                                                                    <!-- <div style="white-space: pre-wrap">
+                                                                        &nbsp;{{kpi.evidenceDescription}}</div> -->
+
+
+                                                                    <textarea name="evidenceDescription"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.evidenceDescription}}</textarea>
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    <a *ngIf="kpi.documentPath" target="_blank"
+                                                                        data-toggle="tooltip" data-placement="bottom"
+                                                                        title="View or download uploaded document"
+                                                                        href="{{kpi.documentPath}}"><i
+                                                                            class="mdi mdi-download icon-sm text-dark"></i></a>
+
+                                                                </td>
+                                                                <td>
+                                                                    <input type="checkbox" checked disabled
+                                                                        *ngIf="kpi.isSip" class="form-check-input"><span
+                                                                        style="font-size: smaller; white-space: pre-wrap"
+                                                                        *ngIf="kpi.isSip">Include in SIP</span>
+                                                                    <!-- <p style="white-space: pre-wrap" *ngIf="kpi.status == 'SSELogged' && kpi.isSip">
+                                                                Include in SIP
+                                                            </p> -->
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <!-- <input type="text" name="kpievidence" placeholder="Type here"
+                                                                class="form-control" readonly *ngIf="false"
+                                                                value='{{kpi.comment}}' />
+                                                            <input type="text" name="kpiComment" value='{{kpi.comment}}'
+                                                                placeholder="Type here"
+                                                                (input)="updateComment('district', $event, i)"
+                                                                *ngIf="kpi.status == 'SSELogged' || kpi.status == 'SSESendForEvidence'"
+                                                                class="form-control" />
+                                                            <p class="invalid-msg "
+                                                                *ngIf="isFormSubmitted && kpiList[i].ratingID === '1' && !kpiList[i].comment">
+                                                                Comment is required
+                                                            </p> -->
+                                                                    <!-- <div style="white-space: pre-wrap">
+                                                                        &nbsp;{{kpi.comment}}
+                                                                    </div> -->
+
+                                                                    <!-- <textarea name="evidenceDescription"
+                                                                        placeholder="Type here" cols="10" rows="15"
+                                                                        class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.comment}}</textarea> -->
+
+
+                                                                </td>
+
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                    </table>
+
+
+                                                    <!-- COMMENTS CAPTURED BY THE DISTRICT -->
+                                                    <hr *ngIf="isSSEExists" />
+                                                    <table *ngIf="isSSEExists" class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="header-label"
+                                                                    style="color:black; font-size:12px;">Business Unit
+                                                                    Comment
+                                                                </th>
+                                                                <th class="header-label"
+                                                                    style="color:black; font-size:12px;">Circuit Manager
+                                                                    Comment
+                                                                </th>
+
+                                                                <th class="header-label"
+                                                                    style="color:black; font-size:12px;">District
+                                                                    Director Comment
+                                                                </th>
+
+                                                            </tr>
+
+                                                        </thead>
+                                                        <!--   SCHOOL USER FORM     -->
+                                                        <tbody *ngIf="officeLevel === 'School'">
+
+                                                            <!-- <tr *ngFor="let kpi of kpiList; let i = index; trackBy: customQuantity" -->
+                                                            <tr>
+                                                                <td>
+
+                                                                    <textarea name="kpiComment" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.comment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="kpiComment" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.managerComment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="kpiComment" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.directorComment}}</textarea>
+
+                                                                </td>
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   BUSINESS UNIT HEAD USER FORM     -->
+                                                        <tbody
+                                                            *ngIf="isBUHead(userRole) && officeLevel=='District' && isSSEExists">
+
+                                                            <tr>
+                                                                <td>
+
+                                                                    <textarea name="comment" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        *ngIf="kpi.status != 'SSELogged' && kpi.status != 'SSESendForEvidence' &&
+                                                                        kpi.status != 'SendForEvidence' && kpi.status != 'SSESendForBUComment' || showComment(assignedTo, 'BU')"
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;">{{kpi.comment}}</textarea>
+
+
+                                                                    <textarea name="comment" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        minlength="50"
+                                                                        *ngIf="kpi.status == 'SSELogged' || kpi.status == 'SSESendForEvidence' ||
+                                                                        kpi.status == 'SendForEvidence' || kpi.status == 'SSESendForBUComment'"
+                                                                        (input)="updateComment('district', $event, i)">{{kpi.comment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+
+                                                                    <textarea name="managerComment" placeholder=""
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.managerComment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="directorComment" placeholder=""
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.directorComment}}</textarea>
+
+                                                                </td>
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   CIRCUIT MANAGER USER FORM     -->
+                                                        <tbody
+                                                            *ngIf="isCircuitManager(userRole) && officeLevel=='District' && isSSEExists">
+
+                                                            <tr>
+                                                                <td>
+
+                                                                    <textarea name="kpiComment" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.comment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="managerComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="kpi.status != 'SSEBUApproved' && kpi.status != 'SSESendForBUComment' ||
+                                                                        showComment(assignedTo, 'manager') ">{{kpi.managerComment}}</textarea>
+
+
+                                                                    <textarea name="managerComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" minlength="50"
+                                                                        *ngIf="kpi.status == 'SSEBUApproved' || kpi.status == 'SSESendForBUComment' "
+                                                                        (input)="updateComment('circuit', $event, i)">{{kpi.managerComment}}</textarea>
+
+
+                                                                </td>
+                                                                <td>
+
+
+                                                                    <textarea name="directorComment" placeholder=""
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.directorComment}}</textarea>
+
+                                                                </td>
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   DISTRICT DIRECTOR USER FORM    -->
+                                                        <tbody
+                                                            *ngIf="userRole=='Director' && officeLevel=='District' && isSSEExists">
+
+                                                            <tr>
+                                                                <td>
+
+                                                                    <textarea name="kpiComment" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.comment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="managerComment" placeholder=""
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.managerComment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="kpiComment" placeholder="Type here"
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="kpi.status != 'SSEApproved' && kpi.status != 'SSESendForCircuitComment'
+                                                                        || showComment(assignedTo, 'director')">{{kpi.directorComment}}</textarea>
+
+
+                                                                    <textarea name="directorComment"
+                                                                        placeholder="Type here" cols="10" rows="10"
+                                                                        class="form-control" minlength="50"
+                                                                        *ngIf="kpi.status == 'SSEApproved' || kpi.status == 'SSESendForCircuitComment' "
+                                                                        (input)="updateComment('director', $event, i)">{{kpi.directorComment}}</textarea>
+
+                                                                </td>
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                        <!--   HEAD OFFICE USER FORM     -->
+                                                        <tbody *ngIf="officeLevel=='Head Office' && isSSEExists">
+
+                                                            <tr>
+                                                                <td>
+
+
+                                                                    <textarea name="kpiComment" placeholder="" cols="10"
+                                                                        rows="10" class="form-control" readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.comment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="managerComment" placeholder=""
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.managerComment}}</textarea>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <textarea name="directorComment" placeholder=""
+                                                                        cols="10" rows="10" class="form-control"
+                                                                        readonly
+                                                                        style="background-color: whitesmoke!important; border-color: whitesmoke!important;"
+                                                                        *ngIf="isSSEExists">{{kpi.directorComment}}</textarea>
+
+                                                                </td>
+
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </ng-template>
+                                            </ngb-panel>
+                                        </ngb-accordion>
+
+
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+
+
+                        </ng-template>
+                    </ngb-panel>
+
+                </ngb-accordion>
+
+
+
+            </form>
+
+
+            <div *ngIf="isPageLoading" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-footer row">
+            <div class="col-md-6">
+
+                <!-- SCHOOL CAPTURES SSE FIRST TIME -->
+                <div *ngIf="!isSSEExists  && officeLevel == 'School'  && kpiList.length > 0 && assignedTo == 'School'">
+                    <button class="btn btn-primary mt-2 " (click)="SubmitSSE()" [disabled]="isLoading"><span
+                            class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="isLoading"></span> Submit</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-primary mt-2 " (click)="SaveSSE()" [disabled]="isLoading"><span
+                            class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="isLoading"></span> Save</button>
+                    &nbsp;&nbsp;
+
+                </div>
+
+                <!-- DISTRICT DIRECTOR SUBMIT SSE -->
+                <div
+                    *ngIf="assignedTo == 'Director' && isSSEExists && assignedTo != 'Complete' && officeLevel == 'District' && userRole == 'Director' && kpiList.length > 0">
+                    <button class="btn btn-primary mt-2 " (click)="sendBack('director')"
+                        *ngIf="assignedTo != 'Complete' && assignedTo != 'School' && assignedTo != 'District'"
+                        [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true" *ngIf="isLoading"></span> Send Back To Circuit Manager</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-primary mt-2 " (click)="DistrictApproveSSE()" [disabled]="isLoading"
+                        *ngIf="assignedTo == 'Director'"><span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true" *ngIf="isLoading"></span> Publish</button>
+
+                </div>
+
+                <!-- CIRCUIT MANAGER SUBMIT SSE -->
+                <div
+                    *ngIf="assignedTo == 'Manager' && isSSEExists && assignedTo != 'Complete' && officeLevel == 'District' && kpiList.length > 0 && isCircuitManager(userRole)">
+                    <button class="btn btn-primary mt-2 " (click)="sendBack('manager')"
+                        *ngIf="assignedTo != 'Complete' && assignedTo != 'School' && assignedTo != 'Director'"
+                        [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true" *ngIf="isLoading"></span> Send Back To BU Head</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-success mt-2 " *ngIf="assignedTo == 'Manager'"
+                        (click)="CircuitManagerApproveSSE()" [disabled]="isLoading"><span
+                            class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="isLoading"></span> Verify</button>
+
+                </div>
+
+                <!-- BUSINESS UNIT SUBMIT SSE -->
+                <div
+                    *ngIf="assignedTo == 'District' && isSSEExists && assignedTo != 'Complete' && officeLevel == 'District' && kpiList.length > 0 && isBUHead(userRole)">
+                    <button class="btn btn-primary mt-2 " (click)="sendBack('BU')"
+                        *ngIf="assignedTo != 'Complete' && assignedTo != 'Director' && assignedTo != 'Manager'"
+                        [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true" *ngIf="isLoading"></span>Send Back To School</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-success mt-2 " *ngIf="assignedTo == 'District' " (click)="BUApproveSSE()"
+                        [disabled]="isLoading"><span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true" *ngIf="isLoading"></span>Verify</button>
+
+                </div>
+
+                <!-- SCHOOL SUBMIT UPDATED SSE -->
+                <div *ngIf="isSSEExists && officeLevel == 'School' && kpiList.length > 0 && assignedTo == 'School'">
+                    <button class="btn btn-primary mt-2 " (click)="SubmitExistingSSE()" [disabled]="isLoading"><span
+                            class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="isLoading"></span> Submit Update</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-primary mt-2 " (click)="SaveSSE()" [disabled]="isLoading"><span
+                            class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="isLoading"></span> Save</button>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div> <!-- col -->

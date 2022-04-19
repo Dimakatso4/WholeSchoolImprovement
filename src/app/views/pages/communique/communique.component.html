@@ -1,0 +1,59 @@
+
+
+<div class="row w-100 mx-0 auth-page">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="left: 0; top: 0; width: 100%">
+       <div class="container-fluid">
+         <a class="navbar-brand" href="#">
+           <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 160px; height: auto;">
+         </a>
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+             <li class="nav-item">
+               <a class="nav-link active" aria-current="page" href="#">Home</a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="#">About</a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="#">Contact</a>
+             </li>
+           </ul>
+         </div>
+       </div>
+     </nav> 
+     <div class="col-md-12 mx-auto">
+       <div class="card">
+         <div class="row">
+           <div class="col-md-5 col-lg-6 pr-md-0">
+             <div class="auth-left-wrapper"
+               style="background-image: url(../../../../assets/images/img-homepage-1.jpg); background-position: -150px 50%; background-repeat: no-repeat;">
+             </div>
+           </div>
+           <div class="col-md-7 col-lg-6">
+             <div class="auth-form-wrapper px-4 py-5">
+               <button *ngIf="multipleRoles" (click)="goBack()" type="button" class="close text-danger" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+               <a href="#" class="noble-ui-logo d-block m-2">
+                 <img src="../../../../assets/images/DepartmentEducationLogo.png" style="width: 225px; height: auto">
+               </a>
+               <h5  class="text-muted font-weight-normal mb-4 login-text">Please Read the following
+                 details below about your account status.
+               </h5>
+               <span class="text-muted font-weight-normal mb-4 login-text"> Dear {{role}} {{Name}} this account is Deactivated you can't access our system at moment.</span>
+           
+               <span  class="text-muted font-weight-normal mb-4 login-text"> If this Information is not correct please contact our Office for futher details</span>
+              
+                
+               
+   
+             </div>
+           </div>
+         </div><!-- row -->
+       </div><!-- Card -->
+     </div><!-- Col-8 -->
+   </div>
